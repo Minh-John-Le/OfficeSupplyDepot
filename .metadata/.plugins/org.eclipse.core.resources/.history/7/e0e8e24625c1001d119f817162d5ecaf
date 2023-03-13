@@ -1,0 +1,75 @@
+package DAO;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class StoreDao {
+    private Connection connection;
+
+    public StoreDao(Connection connection) {
+        this.connection = connection;
+    }
+
+    public Store getStoreByUsernameAndPassword(String username, String password) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Store store = null;
+
+        try {
+            ps = connection.prepareStatement("SELECT * FROM store WHERE username=? AND password=?");
+            ps.setString(1, username);
+            ps.setString(2, password);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                store = new Store();
+                store.setId(rs.getInt("id"));
+                store.setStoreName(rs.getString("store_name"));
+                store.setUsername(rs.getString("username"));
+                store.setPassword(rs.getString("password"));
+                store.setEmail(rs.getString("email"));
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+
+        return store;
+    }
+
+    public boolean insertStore(Store store) throws SQLException {
+        PreparedStatement ps = null;
+        boolean success = false;
+
+        try {
+            ps = connection.prepareStatement("INSERT INTO store (store_name, username, password, email) VALUES (?, ?, ?, ?)");
+            ps.setString(1, store.getStoreName());
+            ps.setString(2, store.getUsername());
+            ps.setString(3, store.getPassword());
+            ps.setString(4, store.getEmail());
+            int rows = ps.executeUpdate();
+
+            if (rows > 0) {
+                success = true;
+            }
+        } finally {
+            if (ps != null) {
+                ps.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+
+        return success;
+    }
+}

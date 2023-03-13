@@ -1,0 +1,45 @@
+package Controller;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/signup")
+public class CustomerSignUpServlet extends HttpServlet {
+    
+    private CustomerDAO customerDAO; // assuming this has been initialized elsewhere
+    
+    public void init() throws ServletException {
+        customerDAO = new CustomerDAO();
+    }
+    
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        
+        Customer customer = new Customer();
+        customer.setUsername(username);
+        customer.setPassword(password);
+        customer.setCustomerName(name);
+        customer.setEmail(email);
+        
+        try {
+            customerDAO.addCustomer(customer);
+            response.sendRedirect("login.html"); // redirect to login page
+        } catch (Exception e) {
+            // handle exception
+        } finally {
+            customerDAO.closeConnection();
+        }
+    }
+    
+    public void destroy() {
+        customerDAO = null;
+    }
+
+}
