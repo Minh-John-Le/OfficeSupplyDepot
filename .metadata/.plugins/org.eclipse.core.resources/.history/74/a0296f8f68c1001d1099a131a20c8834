@@ -15,32 +15,20 @@
 			<button>Search</button>
 		</div>
 		<div class="login-signup">
-			<a href="#">Login</a> | <a href="#">Sign up</a>
+			<a href="#">Login</a> or <a href="#">Sign up</a>
 		</div>
 	</div>
 	<div class="item-container">
 		<div class="item-box">
 			<img src="https://dummyimage.com/200x200/000/fff&text=Paperclips">
 			<h3>Paper Clip</h3>
-			<p>Rating 5/5</p>
-			<p>$10.99</p>
-		</div>
-		<div class="item-box">
-			<img src="https://dummyimage.com/200x200/000/fff&text=Paperclips">
-			<h3>Paper Clip</h3>
-			<p>Rating 5/5</p>
-			<p>$10.99</p>
-		</div>
-		<div class="item-box">
-			<img src="https://dummyimage.com/200x200/000/fff&text=Paperclips">
-			<h3>Paper Clip</h3>
-			<p>Rating 5/5</p>
-			<p>$10.99</p>
-		</div>
-		<div class="item-box">
-			<img src="https://dummyimage.com/200x200/000/fff&text=Paperclips">
-			<h3>Paper Clip Clip Clip Clip Clip Clip Clip Clip Clip</h3>
-			<p>Rating 5/5</p>
+			<div class="rating">
+				<span class="fa fa-star checked"></span>
+				<span class="fa fa-star checked"></span>
+				<span class="fa fa-star checked"></span>
+				<span class="fa fa-star"></span>
+				<span class="fa fa-star"></span>
+			</div>
 			<p>$10.99</p>
 		</div>
 	</div>

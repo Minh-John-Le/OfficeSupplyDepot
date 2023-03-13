@@ -37,12 +37,6 @@
 			<p>Rating 5/5</p>
 			<p>$10.99</p>
 		</div>
-		<div class="item-box">
-			<img src="https://dummyimage.com/200x200/000/fff&text=Paperclips">
-			<h3>Paper Clip Clip Clip Clip Clip Clip Clip Clip Clip</h3>
-			<p>Rating 5/5</p>
-			<p>$10.99</p>
-		</div>
 	</div>
 </body>
 </html>

@@ -1,60 +1,71 @@
-/* Style the header */
+/* Global Styles */
+body {
+	margin: 0;
+	padding: 0;
+}
+
+/* Header Styles */
 .header {
 	background-color: #232f3e;
-	height: 80px;
+	color: #fff;
+	display: flex;
+	align-items: center;
 	padding: 10px;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	color: white;
 }
-
-/* Style the logo */
-.logo h1 {
-	font-size: 30px;
-	margin: 0;
+.logo img {
+	height: 30px;
 }
-
-/* Style the search bar */
-.search form {
-	display: flex;
-	align-items: center;
-}
-
-.search input[type=text] {
+.search input[type="text"] {
+	padding: 5px;
+	border: none;
+	border-radius: 3px;
 	width: 400px;
-	padding: 10px;
-	border: none;
-	border-radius: 5px 0 0 5px;
 }
-
-.search button[type=submit] {
-	background-color: #febd69;
-	color: white;
-	padding: 10px;
+.search button {
+	background-color: #ff9900;
+	color: #fff;
 	border: none;
-	border-radius: 0 5px 5px 0;
+	border-radius: 3px;
+	padding: 5px 10px;
+	margin-left: 5px;
 	cursor: pointer;
 }
-
-/* Style the login and sign up links */
+.login-signup {
+	margin-left: auto;
+}
 .login-signup a {
-	margin-left: 20px;
-	color: white;
+	color: #fff;
 	text-decoration: none;
+	margin-left: 10px;
 }
 
-/* Style the content */
-.content {
-	margin-top: 50px;
-	/* Add your styles here */
+/* Item Box Styles */
+.item-container {
+	display: flex;
+	flex-wrap: wrap;
+	padding: 20px;
 }
-
-/* Style the footer */
-.footer {
-	background-color: #232f3e;
-	height: 50px;
+.item-box {
+	width: 350px;
+	margin: 10px;
 	padding: 10px;
-	color: white;
-	/* Add your styles here */
+	background-color: #fff;
+	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+.item-box img {
+	width: 100%;
+}
+.item-box h3 {
+	margin: 10px 0;
+}
+.rating {
+	color: #ff9900;
+	margin: 10px 0;
+}
+.checked {
+	color: #ff9900;
+}
+.item-box p {
+	font-weight: bold;
+	margin: 10px 0;
 }
