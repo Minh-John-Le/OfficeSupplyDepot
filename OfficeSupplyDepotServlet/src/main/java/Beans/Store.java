@@ -7,15 +7,6 @@ public class Store {
     private String email;
     private String password;
 
-    
-    public Store(int id, String storeName, String username, String password, String email)
-    {
-    	this.id = id;
-    	this.storeName = storeName;
-    	this.username = username;
-    	this.password = password;
-    	this.email = email;
-    }
     public int getId() {
         return id;
     }

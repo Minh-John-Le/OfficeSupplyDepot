@@ -1,0 +1,125 @@
+package DAO;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import Beans.Store;
+
+import java.sql.*;
+import java.util.*;
+
+public class StoreDAO {
+    
+    private String url ="";
+    private String mySQLUser = "";
+    private String mySQLPass = "";
+    
+    public StoreDAO(String url, String user, String password) 
+    {
+    	this.url = url;
+    	this.mySQLUser = user;
+    	this.mySQLPass = password;
+    }
+    
+    public void addStore(Store store)  {
+    	Connection connection;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+			String query = "INSERT INTO store (store_name, username, password, email) VALUES (?, ?, ?, ?)";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setString(1, store.getStoreName());
+	        statement.setString(2, store.getUsername());
+	        statement.setString(3, store.getPassword());
+	        statement.setString(4, store.getEmail());
+	        statement.executeUpdate();
+	        statement.close();
+	        connection.close();
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+       
+    }
+    
+    public void deleteStore(int storeId) {
+    	
+    	Connection connection;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+		 	String query = "DELETE FROM store WHERE id = ?";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setInt(1, storeId);
+	        statement.executeUpdate();
+	        statement.close();
+	        connection.close();
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+       
+    }
+    
+    public void updateStore(Store store) {
+    
+    	Connection connection;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+			String query = "UPDATE store SET store_name=?, username=?, password=?, email=? WHERE id=?";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setString(1, store.getStoreName());
+	        statement.setString(2, store.getUsername());
+	        statement.setString(3, store.getPassword());
+	        statement.setString(4, store.getEmail());
+	        statement.setInt(5, store.getId());
+	        statement.executeUpdate();
+	        statement.close();
+	        connection.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    public void addStore(Store store) throws SQLException {
+        String query = "INSERT INTO stores(store_name, username, password, email) VALUES(?,?,?,?)";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, store.getStoreName());
+            pstmt.setString(2, store.getUsername());
+            pstmt.setString(3, store.getPassword());
+            pstmt.setString(4, store.getEmail());
+            pstmt.executeUpdate();
+        }
+    }
+    
+    public void updateStore(Store store) throws SQLException {
+        String query = "UPDATE stores SET store_name=?, username=?, password=?, email=? WHERE id=?";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, store.getStoreName());
+            pstmt.setString(2, store.getUsername());
+            pstmt.setString(3, store.getPassword());
+            pstmt.setString(4, store.getEmail());
+            pstmt.setInt(5, store.getId());
+            pstmt.executeUpdate();
+        }
+    }
+    
+    public void deleteStore(int id) throws SQLException {
+        String query = "DELETE FROM stores WHERE id=?";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        }
+    }
+    
+    public void closeConnection() throws SQLException {
+        conn.close();
+    }
+}

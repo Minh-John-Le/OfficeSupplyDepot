@@ -120,6 +120,36 @@ public class CustomerDAO {
         return null;
     }
     
+    public Customer getCustomerByUsername(String username) {
+        Connection connection;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+            String query = "SELECT * FROM customer WHERE username = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+            Customer customer = null;
+            if (resultSet.next()) {
+                customer = new Customer();
+                customer.setId(resultSet.getInt("id"));
+                customer.setCustomerName(resultSet.getString("customer_name"));
+                customer.setUsername(resultSet.getString("username"));
+                customer.setPassword(resultSet.getString("password"));
+                customer.setEmail(resultSet.getString("email"));
+            }
+            resultSet.close();
+            statement.close();
+            connection.close();
+            return customer;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
     public List<Customer> getAllCustomers() {
     	
     	Connection connection;

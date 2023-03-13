@@ -25,5 +25,22 @@
 			<input type="submit" value="Sign Up">
 		</form>
 	</div>
+	
+	<%
+      	List errList = (List) request.getAttribute("errlist");      		
+      	if(errList != null)
+      	{
+      		for(Iterator it = errList.iterator(); it.hasNext();)
+      		{
+      			String error = (String) it.next();
+      			%>
+	 			<font color ="red">
+	 			<li> <%=error%> </li>
+	 			</font>
+	 			<%
+      		}
+     	}
+    %>
+      
 </body>
 </html>

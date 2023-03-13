@@ -2,3 +2,6 @@
 1678657081597	Rename type 'User'
 1678658273715	Move 'db.properties' to 'class'
 1678658314154	Rename resource 'class'
+1678683751953	Move 'Login.html' to 'webapp'
+1678685987654	Rename resource 'SignUp.html'
+1678687108832	Rename resource 'Login.html'

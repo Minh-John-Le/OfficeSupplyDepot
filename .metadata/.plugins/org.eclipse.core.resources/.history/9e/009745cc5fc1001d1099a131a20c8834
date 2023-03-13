@@ -1,0 +1,7 @@
+package Setting;
+
+public class Settings {
+    public static Customer customer;
+    public static Store store;
+    public static boolean isCustomer;
+}
