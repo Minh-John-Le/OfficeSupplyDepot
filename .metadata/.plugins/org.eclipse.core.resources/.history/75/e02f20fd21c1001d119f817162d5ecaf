@@ -1,4 +1,0 @@
-db.driver=com.mysql.jdbc.Driver
-db.url=officesupplydepot.czvlg1rnh8uk.us-west-1.rds.amazonaws.com:3306/mydatabase
-db.username=admin
-db.password=!Changeme123
