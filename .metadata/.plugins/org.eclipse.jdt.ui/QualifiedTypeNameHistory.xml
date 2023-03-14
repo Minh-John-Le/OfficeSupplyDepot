@@ -3,8 +3,14 @@
     <fullyQualifiedTypeName name="java.io.PrintWriter"/>
     <fullyQualifiedTypeName name="javax.servlet.annotation.WebServlet"/>
     <fullyQualifiedTypeName name="javax.servlet.ServletContext"/>
-    <fullyQualifiedTypeName name="Beans.Store"/>
     <fullyQualifiedTypeName name="DAO.CustomerDAO"/>
-    <fullyQualifiedTypeName name="Beans.Customer"/>
     <fullyQualifiedTypeName name="java.sql.DriverManager"/>
+    <fullyQualifiedTypeName name="DAO.StoreDAO"/>
+    <fullyQualifiedTypeName name="Beans.Customer"/>
+    <fullyQualifiedTypeName name="Beans.Store"/>
+    <fullyQualifiedTypeName name="javax.servlet.RequestDispatcher"/>
+    <fullyQualifiedTypeName name="java.util.LinkedList"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="Setting.Settings"/>
+    <fullyQualifiedTypeName name="Utilities.Settings"/>
 </qualifiedTypeNameHistroy>

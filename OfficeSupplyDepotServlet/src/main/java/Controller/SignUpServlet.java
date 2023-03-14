@@ -2,7 +2,6 @@ package Controller;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -19,7 +18,7 @@ import Beans.Customer;
 import Beans.Store;
 import DAO.CustomerDAO;
 import DAO.StoreDAO;
-import Setting.Settings;
+import Utilities.Settings;
 
 @WebServlet("/signup")
 public class SignUpServlet extends HttpServlet {    
@@ -72,13 +71,17 @@ public class SignUpServlet extends HttpServlet {
 	        if(existingCustomer != null)
 	        {
 	        	errList.add("Username: " + Settings.customer.getUsername() + " already exist!");  	
-	        	request.setAttribute("errlist", errList);
-				RequestDispatcher requestDispatcher = request.getRequestDispatcher("SignUp.jsp");
-				requestDispatcher.forward(request, response);
-				return;
-	        }
 	        
-	        customerDAO.addCustomer(customer);
+	        }
+	        if(password.equals(""))
+        	{
+	        	errList.add("Password cannot be empty!"); 
+        	}
+	        
+	        if(!errList.isEmpty())
+	        {
+	        	customerDAO.addCustomer(customer);	
+	        }
         }
         else if (account_type.equals("store")) // Sign Up by store
         {
@@ -95,17 +98,31 @@ public class SignUpServlet extends HttpServlet {
 	        if(existingStore != null)
 	        {
 	        	errList.add("Username: " + Settings.store.getUsername() + " already exist!");   	
-	        	request.setAttribute("errlist", errList);
-				RequestDispatcher requestDispatcher = request.getRequestDispatcher("SignUp.jsp");
-				requestDispatcher.forward(request, response);
-				return;
+	        }
+	        if(password.equals(""))
+	        {
+	        	errList.add("Password cannot be empty!"); 
 	        }
 	        
-	        storeDAO.addStore(store);
+	        
+	        if(!errList.isEmpty())
+	        {
+	        	storeDAO.addStore(store);
+	        }
         }
         
+        request.setAttribute("errlist", errList);
+        
+        if(!errList.isEmpty()) { //has some error
+			request.setAttribute("errlist", errList);
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("SignUp.jsp");
+			requestDispatcher.forward(request, response);
+			return;
+		}
+        
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("Login.jsp");
-		requestDispatcher.forward(request, response);
+        requestDispatcher.forward(request, response);
+        return;
         
     }
     

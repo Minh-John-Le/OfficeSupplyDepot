@@ -1,3 +1,6 @@
+<%@page import = "java.util.List" %>
+<%@page import = "java.util.Iterator" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,12 +16,29 @@
 			<label for="password">Password:</label>
 			<input type="password" id="password" name="password" placeholder="Enter your password">
 			<label for="type">Login as:</label>
-			<select id="type" name="type">
+			<select id="account-type" name="account-type">
 				<option value="customer">Customer</option>
 				<option value="store">Store</option>
 			</select>
 			<input type="submit" value="Login">
 		</form>
+		
+		<%
+      	List errList = (List) request.getAttribute("errlist");      		
+      	if(errList != null)
+      	{
+      		for(Iterator it = errList.iterator(); it.hasNext();)
+      		{
+      			String error = (String) it.next();
+      			%>
+	 			<font color ="red">
+	 			<li> <%=error%> </li>
+	 			</font>
+	 			<%
+      		}
+     	}
+    	%>
 	</div>
+	
 </body>
 </html>

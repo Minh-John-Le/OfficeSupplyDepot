@@ -1,5 +1,6 @@
 <%@page import = "java.util.List" %>
 <%@page import = "java.util.Iterator" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,9 +27,7 @@
 			</select><br>
 			<input type="submit" value="Sign Up">
 		</form>
-	</div>
-	
-	<%
+		<%
       	List errList = (List) request.getAttribute("errlist");      		
       	if(errList != null)
       	{
@@ -42,7 +41,10 @@
 	 			<%
       		}
      	}
-    %>
+   		%>
+	</div>
+	
+
       
 </body>
 </html>
