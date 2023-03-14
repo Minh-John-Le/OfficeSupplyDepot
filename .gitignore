@@ -21,3 +21,6 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# file to ignore if you want to use git to track your eclipse workspace metadata directory.
+.metadata/

@@ -30,7 +30,7 @@
 			{
 		%>
 			<div class="login-signup">
-				<a href="#">Account</a> | <a href="#">Order</a>| <a href="#">Cart</a>
+				<a href="#">Account</a> | <a href="#">Order</a> | <a href="#">Cart</a>
 			</div>
 		<%
 			}
