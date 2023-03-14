@@ -28,7 +28,7 @@ public class StoreDAO {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-			String query = "INSERT INTO store (store_name, username, password, email) VALUES (?, ?, ?, ?)";
+			String query = "INSERT INTO Stores (StoreName, Username, Password, Email) VALUES (?, ?, ?, ?)";
 	        PreparedStatement statement = connection.prepareStatement(query);
 	        statement.setString(1, store.getStoreName());
 	        statement.setString(2, store.getUsername());
@@ -50,7 +50,7 @@ public class StoreDAO {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-		 	String query = "DELETE FROM store WHERE id = ?";
+		 	String query = "DELETE FROM Stores WHERE Id = ?";
 	        PreparedStatement statement = connection.prepareStatement(query);
 	        statement.setInt(1, storeId);
 	        statement.executeUpdate();
@@ -68,18 +68,18 @@ public class StoreDAO {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-			String query = "SELECT * FROM store WHERE id = ?";
+			String query = "SELECT * FROM Stores WHERE Id = ?";
 	        PreparedStatement statement = connection.prepareStatement(query);
 	        statement.setInt(1, storeId);
 	        ResultSet resultSet = statement.executeQuery();
 	        Store store = null;
 	        if(resultSet.next()) {
 	            store = new Store();
-	            store.setId(resultSet.getInt("id"));
-	            store.setStoreName(resultSet.getString("store_name"));
-	            store.setUsername(resultSet.getString("username"));
-	            store.setPassword(resultSet.getString("password"));
-	            store.setEmail(resultSet.getString("email"));
+	            store.setId(resultSet.getInt("Id"));
+	            store.setStoreName(resultSet.getString("StoreName"));
+	            store.setUsername(resultSet.getString("Username"));
+	            store.setPassword(resultSet.getString("Password"));
+	            store.setEmail(resultSet.getString("Email"));
 	        }
 	        resultSet.close();
 	        statement.close();
@@ -100,18 +100,18 @@ public class StoreDAO {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-            String query = "SELECT * FROM store WHERE username = ?";
+            String query = "SELECT * FROM Stores WHERE Username = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
             Store store = null;
             if (resultSet.next()) {
                 store = new Store();
-                store.setId(resultSet.getInt("id"));
-                store.setStoreName(resultSet.getString("store_name"));
-                store.setUsername(resultSet.getString("username"));
-                store.setPassword(resultSet.getString("password"));
-                store.setEmail(resultSet.getString("email"));
+                store.setId(resultSet.getInt("Id"));
+                store.setStoreName(resultSet.getString("StoreName"));
+                store.setUsername(resultSet.getString("Username"));
+                store.setPassword(resultSet.getString("Password"));
+                store.setEmail(resultSet.getString("Email"));
             }
             resultSet.close();
             statement.close();
@@ -132,17 +132,17 @@ public class StoreDAO {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-			String query = "SELECT * FROM store";
+			String query = "SELECT * FROM Stores";
 	        PreparedStatement statement = connection.prepareStatement(query);
 	        ResultSet resultSet = statement.executeQuery();
 	        List<Store> stores = new ArrayList<>();
 	        while(resultSet.next()) {
 	            Store store = new Store();
 	            store.setId(resultSet.getInt("id"));
-	            store.setStoreName(resultSet.getString("store_name"));
-	            store.setUsername(resultSet.getString("username"));
-	            store.setPassword(resultSet.getString("password"));
-	            store.setEmail(resultSet.getString("email"));
+	            store.setStoreName(resultSet.getString("StoreName"));
+	            store.setUsername(resultSet.getString("Username"));
+	            store.setPassword(resultSet.getString("Password"));
+	            store.setEmail(resultSet.getString("Email"));
 	            stores.add(store);
 	        }
 	        resultSet.close();

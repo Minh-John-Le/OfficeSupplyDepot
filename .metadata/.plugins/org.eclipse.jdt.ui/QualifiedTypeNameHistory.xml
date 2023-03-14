@@ -13,4 +13,5 @@
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="Setting.Settings"/>
     <fullyQualifiedTypeName name="Utilities.Settings"/>
+    <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
 </qualifiedTypeNameHistroy>

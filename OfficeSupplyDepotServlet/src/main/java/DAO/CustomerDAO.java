@@ -28,7 +28,7 @@ public class CustomerDAO {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-			String query = "INSERT INTO customer (customer_name, username, password, email) VALUES (?, ?, ?, ?)";
+			String query = "INSERT INTO Customers (CustomerName, Username, Password, Email) VALUES (?, ?, ?, ?)";
 	        PreparedStatement statement = connection.prepareStatement(query);
 	        statement.setString(1, customer.getCustomerName());
 	        statement.setString(2, customer.getUsername());
@@ -50,7 +50,7 @@ public class CustomerDAO {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-		 	String query = "DELETE FROM customer WHERE id = ?";
+		 	String query = "DELETE FROM Customers WHERE Id = ?";
 	        PreparedStatement statement = connection.prepareStatement(query);
 	        statement.setInt(1, customerId);
 	        statement.executeUpdate();
@@ -69,7 +69,7 @@ public class CustomerDAO {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-			String query = "UPDATE customer SET customer_name=?, username=?, password=?, email=? WHERE id=?";
+			String query = "UPDATE Customers SET CustomerName=?, Username=?, Password=?, Email=? WHERE Id=?";
 	        PreparedStatement statement = connection.prepareStatement(query);
 	        statement.setString(1, customer.getCustomerName());
 	        statement.setString(2, customer.getUsername());
@@ -93,18 +93,18 @@ public class CustomerDAO {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-			String query = "SELECT * FROM customer WHERE id = ?";
+			String query = "SELECT * FROM Customers WHERE Id = ?";
 	        PreparedStatement statement = connection.prepareStatement(query);
 	        statement.setInt(1, customerId);
 	        ResultSet resultSet = statement.executeQuery();
 	        Customer customer = null;
 	        if(resultSet.next()) {
 	            customer = new Customer();
-	            customer.setId(resultSet.getInt("id"));
-	            customer.setCustomerName(resultSet.getString("customer_name"));
-	            customer.setUsername(resultSet.getString("username"));
-	            customer.setPassword(resultSet.getString("password"));
-	            customer.setEmail(resultSet.getString("email"));
+	            customer.setId(resultSet.getInt("Id"));
+	            customer.setCustomerName(resultSet.getString("CustomerName"));
+	            customer.setUsername(resultSet.getString("Username"));
+	            customer.setPassword(resultSet.getString("Password"));
+	            customer.setEmail(resultSet.getString("Email"));
 	        }
 	        resultSet.close();
 	        statement.close();
@@ -125,18 +125,18 @@ public class CustomerDAO {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-            String query = "SELECT * FROM customer WHERE username = ?";
+            String query = "SELECT * FROM Customers WHERE Username = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
             Customer customer = null;
             if (resultSet.next()) {
                 customer = new Customer();
-                customer.setId(resultSet.getInt("id"));
-                customer.setCustomerName(resultSet.getString("customer_name"));
-                customer.setUsername(resultSet.getString("username"));
-                customer.setPassword(resultSet.getString("password"));
-                customer.setEmail(resultSet.getString("email"));
+                customer.setId(resultSet.getInt("Id"));
+                customer.setCustomerName(resultSet.getString("CustomerName"));
+                customer.setUsername(resultSet.getString("Username"));
+                customer.setPassword(resultSet.getString("Password"));
+                customer.setEmail(resultSet.getString("Email"));
             }
             resultSet.close();
             statement.close();
@@ -156,17 +156,17 @@ public class CustomerDAO {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-			String query = "SELECT * FROM customer";
+			String query = "SELECT * FROM Customers";
 	        PreparedStatement statement = connection.prepareStatement(query);
 	        ResultSet resultSet = statement.executeQuery();
 	        List<Customer> customers = new ArrayList<>();
 	        while(resultSet.next()) {
 	            Customer customer = new Customer();
-	            customer.setId(resultSet.getInt("id"));
-	            customer.setCustomerName(resultSet.getString("customer_name"));
-	            customer.setUsername(resultSet.getString("username"));
-	            customer.setPassword(resultSet.getString("password"));
-	            customer.setEmail(resultSet.getString("email"));
+	            customer.setId(resultSet.getInt("Id"));
+	            customer.setCustomerName(resultSet.getString("CustomerName"));
+	            customer.setUsername(resultSet.getString("Username"));
+	            customer.setPassword(resultSet.getString("Password"));
+	            customer.setEmail(resultSet.getString("Email"));
 	            customers.add(customer);
 	        }
 	        resultSet.close();

@@ -120,3 +120,14 @@
 127.0.0.1 - - [13/Mar/2023:17:39:33 -0700] "POST /OfficeSupplyDepotServlet/signup HTTP/1.1" 200 1106
 127.0.0.1 - - [13/Mar/2023:17:39:54 -0700] "POST /OfficeSupplyDepotServlet/signup HTTP/1.1" 200 1015
 127.0.0.1 - - [13/Mar/2023:17:40:07 -0700] "POST /OfficeSupplyDepotServlet/signup HTTP/1.1" 200 1107
+127.0.0.1 - - [13/Mar/2023:17:40:55 -0700] "POST /OfficeSupplyDepotServlet/signup HTTP/1.1" 200 754
+127.0.0.1 - - [13/Mar/2023:19:17:31 -0700] "GET / HTTP/1.1" 404 1076
+127.0.0.1 - - [13/Mar/2023:19:17:43 -0700] "GET /OfficeSupplyDepotServlet/MainPage.jsp HTTP/1.1" 200 1224
+127.0.0.1 - - [13/Mar/2023:19:17:43 -0700] "GET /OfficeSupplyDepotServlet/MainPage.css HTTP/1.1" 304 -
+127.0.0.1 - - [13/Mar/2023:19:17:43 -0700] "GET /OfficeSupplyDepotServlet/my-logo.png HTTP/1.1" 404 1112
+127.0.0.1 - - [13/Mar/2023:19:17:46 -0700] "GET /OfficeSupplyDepotServlet/SignUp.jsp HTTP/1.1" 200 929
+127.0.0.1 - - [13/Mar/2023:19:17:55 -0700] "POST /OfficeSupplyDepotServlet/signup HTTP/1.1" 200 754
+127.0.0.1 - - [13/Mar/2023:19:17:55 -0700] "GET /OfficeSupplyDepotServlet/Login.css HTTP/1.1" 304 -
+127.0.0.1 - - [13/Mar/2023:19:18:54 -0700] "POST /OfficeSupplyDepotServlet/login HTTP/1.1" 200 838
+127.0.0.1 - - [13/Mar/2023:19:19:01 -0700] "POST /OfficeSupplyDepotServlet/login HTTP/1.1" 200 1229
+127.0.0.1 - - [13/Mar/2023:19:19:01 -0700] "GET /OfficeSupplyDepotServlet/my-logo.png HTTP/1.1" 404 1112
