@@ -117,3 +117,6 @@
 127.0.0.1 - - [13/Mar/2023:17:38:09 -0700] "GET /OfficeSupplyDepotServlet/SignUp.jsp HTTP/1.1" 200 929
 127.0.0.1 - - [13/Mar/2023:17:38:11 -0700] "POST /OfficeSupplyDepotServlet/signup HTTP/1.1" 200 1122
 127.0.0.1 - - [13/Mar/2023:17:38:24 -0700] "POST /OfficeSupplyDepotServlet/signup HTTP/1.1" 200 1015
+127.0.0.1 - - [13/Mar/2023:17:39:33 -0700] "POST /OfficeSupplyDepotServlet/signup HTTP/1.1" 200 1106
+127.0.0.1 - - [13/Mar/2023:17:39:54 -0700] "POST /OfficeSupplyDepotServlet/signup HTTP/1.1" 200 1015
+127.0.0.1 - - [13/Mar/2023:17:40:07 -0700] "POST /OfficeSupplyDepotServlet/signup HTTP/1.1" 200 1107

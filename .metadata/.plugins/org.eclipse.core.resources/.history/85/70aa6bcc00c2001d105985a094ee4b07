@@ -78,7 +78,7 @@ public class SignUpServlet extends HttpServlet {
 	        	errList.add("Password cannot be empty!"); 
         	}
 	        
-	        if(errList.isEmpty())
+	        if(!errList.isEmpty())
 	        {
 	        	customerDAO.addCustomer(customer);	
 	        }
@@ -105,7 +105,7 @@ public class SignUpServlet extends HttpServlet {
 	        }
 	        
 	        
-	        if(errList.isEmpty())
+	        if(!errList.isEmpty())
 	        {
 	        	storeDAO.addStore(store);
 	        }
