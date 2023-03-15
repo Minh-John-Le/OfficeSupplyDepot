@@ -33,7 +33,7 @@
 					username = loginCustomer.getUsername();
 		%>
 			<div class="info-section">
-				<a href="#"><%=username%></a> | <a href="#">Order</a> | <a href="#">Cart</a>
+				<a href="AccountPage.jsp"><%=username%></a> | <a href="#">Order</a> | <a href="#">Cart</a>
 			</div>
 		<%
 			}
@@ -43,7 +43,7 @@
 		%>
 		
 			<div class="info-section">
-				<a href="#"><%=username%></a> | <a href="#">Order</a> | <a href="#">Inventory</a>
+				<a href="AccountPage.jsp"><%=username%></a> | <a href="#">Order</a> | <a href="#">Inventory</a>
 			</div>
 		<%
 			}

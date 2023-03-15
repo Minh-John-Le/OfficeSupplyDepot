@@ -6,6 +6,7 @@ public class Customer {
     private String username;
     private String email;
     private String password;
+    private String address = "";
 
     public int getId() {
         return id;
@@ -45,6 +46,14 @@ public class Customer {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
 

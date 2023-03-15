@@ -1,10 +1,6 @@
 package DAO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
+import Beans.Customer;
 import Beans.Store;
 
 import java.sql.*;
@@ -28,12 +24,13 @@ public class StoreDAO {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-			String query = "INSERT INTO Stores (StoreName, Username, Password, Email) VALUES (?, ?, ?, ?)";
+			String query = "INSERT INTO Stores (StoreName, Username, Password, Email, Address) VALUES (?, ?, ?, ?, ?)";
 	        PreparedStatement statement = connection.prepareStatement(query);
 	        statement.setString(1, store.getStoreName());
 	        statement.setString(2, store.getUsername());
 	        statement.setString(3, store.getPassword());
 	        statement.setString(4, store.getEmail());
+	        statement.setString(5, store.getAddress());
 	        statement.executeUpdate();
 	        statement.close();
 	        connection.close();
@@ -80,6 +77,7 @@ public class StoreDAO {
 	            store.setUsername(resultSet.getString("Username"));
 	            store.setPassword(resultSet.getString("Password"));
 	            store.setEmail(resultSet.getString("Email"));
+	            store.setAddress(resultSet.getString("Address"));
 	        }
 	        resultSet.close();
 	        statement.close();
@@ -112,6 +110,7 @@ public class StoreDAO {
                 store.setUsername(resultSet.getString("Username"));
                 store.setPassword(resultSet.getString("Password"));
                 store.setEmail(resultSet.getString("Email"));
+                store.setAddress(resultSet.getString("Address"));
             }
             resultSet.close();
             statement.close();
@@ -125,6 +124,31 @@ public class StoreDAO {
         return null;
     }
 
+    public void updateStore(Store store) {
+        
+    	Connection connection;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+			String query = "UPDATE Stores SET StoreName=?, Username=?, Password=?, Email=?, Address=? WHERE Id=?";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setString(1, store.getStoreName());
+	        statement.setString(2, store.getUsername());
+	        statement.setString(3, store.getPassword());
+	        statement.setString(4, store.getEmail());
+	        statement.setString(5, store.getAddress());
+	        statement.setInt(6, store.getId());
+	        statement.executeUpdate();
+	        statement.close();
+	        connection.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
     
     public List<Store> getAllStores() {
     	
@@ -143,6 +167,7 @@ public class StoreDAO {
 	            store.setUsername(resultSet.getString("Username"));
 	            store.setPassword(resultSet.getString("Password"));
 	            store.setEmail(resultSet.getString("Email"));
+	            store.setAddress(resultSet.getString("Address"));
 	            stores.add(store);
 	        }
 	        resultSet.close();

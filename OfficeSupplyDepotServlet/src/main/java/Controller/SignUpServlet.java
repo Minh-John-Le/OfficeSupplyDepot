@@ -22,13 +22,14 @@ import Utilities.Settings;
 
 @WebServlet("/signup")
 public class SignUpServlet extends HttpServlet {    
-    public void init() throws ServletException {
+    private static final long serialVersionUID = 1L;
+
+	public void init() throws ServletException {
     	
     }
     
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	List<String> errList = new LinkedList<String>();
-    	
     	ServletContext context = getServletContext();
         
         // Get the input stream for the properties file

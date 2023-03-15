@@ -28,12 +28,13 @@ public class CustomerDAO {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-			String query = "INSERT INTO Customers (CustomerName, Username, Password, Email) VALUES (?, ?, ?, ?)";
+			String query = "INSERT INTO Customers (CustomerName, Username, Password, Email, Address) VALUES (?, ?, ?, ?, ?)";
 	        PreparedStatement statement = connection.prepareStatement(query);
 	        statement.setString(1, customer.getCustomerName());
 	        statement.setString(2, customer.getUsername());
 	        statement.setString(3, customer.getPassword());
 	        statement.setString(4, customer.getEmail());
+	        statement.setString(5, customer.getAddress());
 	        statement.executeUpdate();
 	        statement.close();
 	        connection.close();
@@ -69,13 +70,14 @@ public class CustomerDAO {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-			String query = "UPDATE Customers SET CustomerName=?, Username=?, Password=?, Email=? WHERE Id=?";
+			String query = "UPDATE Customers SET CustomerName=?, Username=?, Password=?, Email=?, Address=? WHERE Id=?";
 	        PreparedStatement statement = connection.prepareStatement(query);
 	        statement.setString(1, customer.getCustomerName());
 	        statement.setString(2, customer.getUsername());
 	        statement.setString(3, customer.getPassword());
 	        statement.setString(4, customer.getEmail());
-	        statement.setInt(5, customer.getId());
+	        statement.setString(5, customer.getAddress());
+	        statement.setInt(6, customer.getId());
 	        statement.executeUpdate();
 	        statement.close();
 	        connection.close();
@@ -105,6 +107,7 @@ public class CustomerDAO {
 	            customer.setUsername(resultSet.getString("Username"));
 	            customer.setPassword(resultSet.getString("Password"));
 	            customer.setEmail(resultSet.getString("Email"));
+	            customer.setAddress(resultSet.getString("Address"));
 	        }
 	        resultSet.close();
 	        statement.close();
@@ -137,6 +140,7 @@ public class CustomerDAO {
                 customer.setUsername(resultSet.getString("Username"));
                 customer.setPassword(resultSet.getString("Password"));
                 customer.setEmail(resultSet.getString("Email"));
+                customer.setAddress(resultSet.getString("Address"));
             }
             resultSet.close();
             statement.close();
@@ -167,6 +171,7 @@ public class CustomerDAO {
 	            customer.setUsername(resultSet.getString("Username"));
 	            customer.setPassword(resultSet.getString("Password"));
 	            customer.setEmail(resultSet.getString("Email"));
+	            customer.setAddress(resultSet.getString("Address"));
 	            customers.add(customer);
 	        }
 	        resultSet.close();
