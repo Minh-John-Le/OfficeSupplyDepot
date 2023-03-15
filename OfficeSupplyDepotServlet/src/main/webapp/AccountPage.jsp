@@ -42,15 +42,43 @@
 		}
 	%>
 	<form action = "account" method="post"> 
-		<div class="header">
-			<div class="home-link">
-				<a href="MainPage.jsp"> Office Supply Depot </a>	
-			</div>
+	<div class="header">
+		<div class="home-link">
+			<a href="MainPage.jsp"> Office Supply Depot </a>	
+		</div>
+		<%
+			if (loginCustomer == null && loginStore == null)
+			{
+		%>
 			<div class="info-section">
 				<a href="Login.jsp">Login</a> | <a href="SignUp.jsp">Sign up</a>
 			</div>
-		</div>
-		<!-- --------------------------------- -->
+		<%
+			}
+			else if (loginCustomer != null)
+			{
+	
+				displayName = loginCustomer.getCustomerName();
+		%>
+			<div class="info-section">
+				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="#">Order</a> | <a href="#">Cart</a>
+			</div>
+		<%
+			}
+			else if (loginStore != null)
+			{
+				displayName = loginStore.getStoreName();
+		%>
+		
+			<div class="info-section">
+				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="#">Order</a> | <a href="#">Inventory</a>
+			</div>
+		<%
+			}
+		%>
+		
+	</div>
+<!-- --------------------------------- -->
 	  <div class="container" >
 	    <div class="account-info">
 	      <h2>Account Information</h2>
