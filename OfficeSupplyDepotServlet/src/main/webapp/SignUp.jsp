@@ -9,6 +9,15 @@
 	<link rel="stylesheet" href="SignUp.css">
 </head>
 <body>
+	<div class="header">
+		<div class="home-link">
+			<a href="MainPage.jsp"> Office Supply Depot </a>	
+		</div>
+		
+		<div class="info-section">
+			<a href="Login.jsp">Login</a> | <a href="SignUp.jsp">Sign up</a>
+		</div>
+	</div>
 	<div class="container">
 		<h1>Sign Up</h1>
 		<form id="Sign-up-form" action = "signup" method="post">

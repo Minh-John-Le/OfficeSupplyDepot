@@ -1,3 +1,34 @@
+/* Header Styles */
+.header {
+	background-color: #232f3e;
+	color: #fff;
+	display: flex;
+	align-items: center;
+	padding: 10px;
+}
+.logo img {
+	height: 30px;
+}
+
+.home-link {
+  margin-right: 10px;
+}
+.home-link a
+{
+	color: #fff;
+	text-decoration: none;
+	margin-left: 10px;
+}
+
+.info-section {
+	margin-left: auto;
+}
+.info-section a {
+	color: #fff;
+	text-decoration: none;
+	margin-left: 10px;
+}
+
 /* Account Page Styles */
 .container {
   max-width: 800px;

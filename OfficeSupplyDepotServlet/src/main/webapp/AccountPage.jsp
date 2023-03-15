@@ -42,6 +42,15 @@
 		}
 	%>
 	<form action = "account" method="post"> 
+		<div class="header">
+			<div class="home-link">
+				<a href="MainPage.jsp"> Office Supply Depot </a>	
+			</div>
+			<div class="info-section">
+				<a href="Login.jsp">Login</a> | <a href="SignUp.jsp">Sign up</a>
+			</div>
+		</div>
+		<!-- --------------------------------- -->
 	  <div class="container" >
 	    <div class="account-info">
 	      <h2>Account Information</h2>

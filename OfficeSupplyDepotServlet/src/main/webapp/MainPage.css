@@ -15,6 +15,16 @@ body {
 .logo img {
 	height: 30px;
 }
+
+.home-link {
+  margin-right: 10px;
+}
+.home-link a
+{
+	color: #fff;
+	text-decoration: none;
+	margin-left: 10px;
+}
 .search input[type="text"] {
 	padding: 5px;
 	border: none;

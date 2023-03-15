@@ -8,6 +8,14 @@
 	<link rel="stylesheet" type="text/css" href="Login.css">
 </head>
 <body>
+	<div class="header">
+		<div class="home-link">
+			<a href="MainPage.jsp"> Office Supply Depot </a>	
+		</div>
+		<div class="info-section">
+			<a href="Login.jsp">Login</a> | <a href="SignUp.jsp">Sign up</a>
+		</div>
+	</div>
 	<div class="login-container">
 		<h1>Login</h1>
 		<form action="login" method="post">

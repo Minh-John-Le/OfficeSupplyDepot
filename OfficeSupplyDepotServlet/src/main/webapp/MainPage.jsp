@@ -8,8 +8,8 @@
 </head>
 <body>
 	<div class="header">
-		<div class="logo">
-			<img src="my-logo.png" alt="Office Supply Depot &nbsp &nbsp">
+		<div class="home-link">
+			<a href="MainPage.jsp"> Office Supply Depot </a>	
 		</div>
 		<div class="search">
 			<input type="text" placeholder="Search for items...">
