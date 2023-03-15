@@ -18,19 +18,32 @@
 		<%
 			Customer loginCustomer = (Customer) session.getAttribute("loginCustomer");
 			Store loginStore = (Store) session.getAttribute("loginStore");
+			String username = "";
 			if (loginCustomer == null && loginStore == null)
 			{
 		%>
-			<div class="login-signup">
+			<div class="info-section">
 				<a href="Login.jsp">Login</a> | <a href="SignUp.jsp">Sign up</a>
 			</div>
 		<%
 			}
 			else if (loginCustomer != null)
 			{
+	
+					username = loginCustomer.getUsername();
 		%>
-			<div class="login-signup">
-				<a href="#">Account</a> | <a href="#">Order</a> | <a href="#">Cart</a>
+			<div class="info-section">
+				<a href="#"><%=username%></a> | <a href="#">Order</a> | <a href="#">Cart</a>
+			</div>
+		<%
+			}
+			else if (loginStore != null)
+			{
+				username = loginStore.getUsername();
+		%>
+		
+			<div class="info-section">
+				<a href="#"><%=username%></a> | <a href="#">Order</a> | <a href="#">Inventory</a>
 			</div>
 		<%
 			}

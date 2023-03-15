@@ -25,7 +25,8 @@ import Utilities.Settings;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 	
-	@SuppressWarnings("null")
+	private static final long serialVersionUID = 1L;
+
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		List<String> errList = new LinkedList<String>();

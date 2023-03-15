@@ -19,7 +19,7 @@ body {
 	padding: 5px;
 	border: none;
 	border-radius: 3px;
-	width: 600px;
+	width: 450px;
 }
 .search button {
 	background-color: #ff9900;
@@ -30,10 +30,10 @@ body {
 	margin-left: 5px;
 	cursor: pointer;
 }
-.login-signup {
+.info-section {
 	margin-left: auto;
 }
-.login-signup a {
+.info-section a {
 	color: #fff;
 	text-decoration: none;
 	margin-left: 10px;
