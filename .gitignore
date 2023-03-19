@@ -16,3 +16,12 @@ hs_err_pid*
 
 # file to ignore if you want to use git to track your eclipse workspace metadata directory.
 .metadata/
+
+# Ignore all .jar files except those in the specified directory
+*.jar
+!OfficeSupplyDepotServlet/src/main/webapp/WEB-INF/lib/*.jar
+
+# Ignore finder file for mac
+.DS_Store
+
+
