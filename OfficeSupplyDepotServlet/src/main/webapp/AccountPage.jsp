@@ -10,6 +10,9 @@
 	<%
 		Customer loginCustomer = (Customer) session.getAttribute("loginCustomer");
 		Store loginStore = (Store) session.getAttribute("loginStore");
+		PaymentAccount paymentAccount = (PaymentAccount) session.getAttribute("paymentAccount");
+		BankAccount bankAccount = (BankAccount) session.getAttribute("bankAccount");
+		
 		// information
 		String username = "";
 		String email = "";
@@ -19,11 +22,9 @@
 		
 		// account
 		String accountName = "";
-		String accountNumber = "";
+		int accountNumber = -1;
 		String expDate = "";
-	%>
-
-	<%
+		
 		if (loginCustomer != null)
 		{
 			username = loginCustomer.getUsername();
@@ -39,6 +40,19 @@
 			password = loginStore.getPassword();
 			displayName = loginStore.getStoreName();
 			address = loginStore.getAddress();
+		}
+	
+		if (paymentAccount != null)
+		{
+			accountName = paymentAccount.getName();
+			accountNumber = paymentAccount.getCardNumber();
+			expDate = paymentAccount.getExpireDate();
+		}
+		else if (bankAccount != null)
+		{
+			accountName = bankAccount.getName();
+			accountNumber = bankAccount.getBankAccountNumber();
+			expDate = bankAccount.getExpireDate();
 		}
 	%>
 	<form action = "account" method="post"> 
@@ -99,7 +113,7 @@
 	      </div>
 	      <div class="form-row">
 	        <label for="password">Password:</label>
-	        <input type="password" id="password" name="password" value=<%=password%>>
+	        <input type="password" id="password" name="password" value="<%=password%>">
 	      </div>
 	      <div class="form-row">
 	        <label for="address">Address:</label>
@@ -111,15 +125,15 @@
 	      <h2>Bank Account Information</h2>
 	      <div class="form-row">
 	        <label for="name">Name on Account:</label>
-	        <input type="text" id="name" name="name" value="">
+	        <input type="text" id="account-name" name="account-name" value="<%=accountName%>">
 	      </div>
 	      <div class="form-row">
 	        <label for="account-number">Account Number:</label>
-	        <input type="text" id="account-number" name="account-number" value="">
+	        <input type="text" id="account-number" name="account-number" value="<%=accountNumber%>">
 	      </div>
 	      <div class="form-row">
 	        <label for="exp">Expiration Date:</label>
-	        <input type="text" id="exp" name="exp" value="" placeholder="MM/YY">
+	        <input type="text" id="exp" name="exp" value="<%=expDate%>" placeholder="MM/YY">
 	      </div>
 	    </div>
 	    <div class="buttons">

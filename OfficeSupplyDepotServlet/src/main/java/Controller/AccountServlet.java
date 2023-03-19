@@ -15,9 +15,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import Beans.BankAccount;
 import Beans.Customer;
+import Beans.PaymentAccount;
 import Beans.Store;
+import DAO.BankAccountDAO;
 import DAO.CustomerDAO;
+import DAO.PaymentAccountDAO;
 import DAO.StoreDAO;
 import Utilities.Settings;
 
@@ -32,7 +36,9 @@ public class AccountServlet extends HttpServlet {
 	    	String clickButton = request.getParameter("button");
 	    	Customer loginCustomer =  (Customer) session.getAttribute("loginCustomer");
 	    	Store loginStore = (Store) session.getAttribute("loginStore");;
-	        
+	    	PaymentAccount paymentAccount = (PaymentAccount) session.getAttribute("paymentAccount");
+	    	BankAccount bankAccount = (BankAccount) session.getAttribute("bankAccount");
+	    	
 	        // Get the input stream for the properties file
 	        InputStream input = context.getResourceAsStream("/WEB-INF/classes/db.properties");
 	        
@@ -56,6 +62,9 @@ public class AccountServlet extends HttpServlet {
 	        String name = request.getParameter("display-name");
 	        String email = request.getParameter("email");
 	        String address = request.getParameter("address");
+	        String accountName = request.getParameter("account-name");
+	        String accountNumber = request.getParameter("account-number");
+	        String expDate = request.getParameter("exp");
 	        boolean isCustomer = (boolean) session.getAttribute("isCustomer");
 
 	        if (clickButton != null)
@@ -65,7 +74,7 @@ public class AccountServlet extends HttpServlet {
 			        if (loginCustomer != null)
 			        {
 			        	CustomerDAO customerDAO = new CustomerDAO(url,mySQLuser, mySQLpassword);
-				    
+			        	
 			        	loginCustomer.setUsername(username);
 			        	loginCustomer.setPassword(password);
 			        	loginCustomer.setCustomerName(name);
@@ -84,8 +93,28 @@ public class AccountServlet extends HttpServlet {
 			            storeDAO.updateStore(loginStore);
 			        }
 			        
+			        if (paymentAccount != null)
+			        {
+			        	PaymentAccountDAO paymentAccountDAO = new PaymentAccountDAO(url,mySQLuser, mySQLpassword);
+			        	paymentAccount.setName(accountName);
+			        	paymentAccount.setCardNumber(Integer.parseInt(accountNumber));
+			        	paymentAccount.setExpireDate(expDate);
+			        	paymentAccountDAO.updatePaymentAccount(paymentAccount);
+			        }
+			        else if (bankAccount != null)
+			        {
+			        	BankAccountDAO bankAccountDAO = new BankAccountDAO(url,mySQLuser, mySQLpassword);
+			        	bankAccount.setName(accountName);
+			        	bankAccount.setBankAccountNumber(Integer.parseInt(accountNumber));
+			        	bankAccount.setExpireDate(expDate);
+			        	bankAccountDAO.updateBankAccount(bankAccount);
+			        }
+			    
+			        
 			        session.setAttribute("loginCustomer", loginCustomer);
 			        session.setAttribute("loginStore", loginStore);
+			        session.setAttribute("paymentAccount", paymentAccount);
+			        session.setAttribute("bankAccount", bankAccount);
 			        RequestDispatcher requestDispatcher = request.getRequestDispatcher("AccountPage.jsp");
 			        requestDispatcher.forward(request, response);
 			        return;
@@ -94,6 +123,8 @@ public class AccountServlet extends HttpServlet {
 	        	{
 	        		session.setAttribute("loginCustomer", null);
 			        session.setAttribute("loginStore", null);
+			        session.setAttribute("paymentAccount", null);
+			        session.setAttribute("bankAccount", null);
 			        RequestDispatcher requestDispatcher = request.getRequestDispatcher("MainPage.jsp");
 			        requestDispatcher.forward(request, response);
 			        return;
