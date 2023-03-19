@@ -33,7 +33,7 @@
 				displayName = loginCustomer.getCustomerName();
 		%>
 			<div class="info-section">
-				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="#">Order</a> | <a href="#">Cart</a>
+				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="upload.html">Order</a> | <a href="#">Cart</a>
 			</div>
 		<%
 			}
@@ -52,19 +52,19 @@
 	</div>
 	<div class="item-container">
 		<div class="item-box">
-			<img src="https://dummyimage.com/200x200/000/fff&text=Paperclips">
+			<img src="Resources/rick-sanchez.jpg">
 			<h3>Paper Clip</h3>
 			<p>Rating 5/5</p>
 			<p>$10.99</p>
 		</div>
 		<div class="item-box">
-			<img src="https://dummyimage.com/200x200/000/fff&text=Paperclips">
+			<img src="Resources/Rick2.jpg">
 			<h3>Paper Clip</h3>
 			<p>Rating 5/5</p>
 			<p>$10.99</p>
 		</div>
 		<div class="item-box">
-			<img src="https://dummyimage.com/200x200/000/fff&text=Paperclips">
+			<img src="Resources/Rick1.jpg">
 			<h3>Paper Clip</h3>
 			<p>Rating 5/5</p>
 			<p>$10.99</p>
