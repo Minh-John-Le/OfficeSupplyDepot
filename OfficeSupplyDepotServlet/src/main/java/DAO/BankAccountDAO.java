@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import Beans.BankAccount;
+
 public class BankAccountDAO {
 
     private String url ="";
@@ -30,6 +32,26 @@ public class BankAccountDAO {
             statement.setString(2, account.getName());
             statement.setString(3, account.getExpireDate());
             statement.setInt(4, account.getBankAccountNumber());
+            statement.executeUpdate();
+            statement.close();
+            connection.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void updateBankAccount(BankAccount account) {
+        Connection connection;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+            String query = "UPDATE BankAccounts SET Store_ID = ?, Name = ?, Expire_Date = ?, Bank_Account_Number = ? WHERE Id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, account.getStoreId());
+            statement.setString(2, account.getName());
+            statement.setString(3, account.getExpireDate());
+            statement.setInt(4, account.getBankAccountNumber());
+            statement.setInt(5, account.getId());
             statement.executeUpdate();
             statement.close();
             connection.close();
@@ -63,6 +85,34 @@ public class BankAccountDAO {
         }
         return account;
     }
+    
+    public BankAccount searchByStoreId(int storeId) {
+        Connection connection;
+        BankAccount account = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+            String query = "SELECT * FROM BankAccounts WHERE Store_ID = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, storeId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                int id = rs.getInt("Id");
+                String name = rs.getString("Name");
+                String expireDate = rs.getString("Expire_Date");
+                int bankAccountNumber = rs.getInt("Bank_Account_Number");
+                account = new BankAccount(id, storeId, name, expireDate, bankAccountNumber);
+            }
+            rs.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return account;
+    }
+
+
 
     public BankAccount searchByBankAccountNumber(int bankAccountNumber) {
         Connection connection;

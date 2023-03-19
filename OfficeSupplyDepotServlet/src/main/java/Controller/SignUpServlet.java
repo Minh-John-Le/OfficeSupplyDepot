@@ -14,9 +14,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import Beans.BankAccount;
 import Beans.Customer;
+import Beans.PaymentAccount;
 import Beans.Store;
+import DAO.BankAccountDAO;
 import DAO.CustomerDAO;
+import DAO.PaymentAccountDAO;
 import DAO.StoreDAO;
 import Utilities.Settings;
 
@@ -60,11 +64,14 @@ public class SignUpServlet extends HttpServlet {
         if (account_type.equals("customer"))
         {
         	CustomerDAO customerDAO = new CustomerDAO(url,mySQLuser, mySQLpassword);
+        	PaymentAccountDAO paymentAccountDAO = new PaymentAccountDAO(url,mySQLuser, mySQLpassword);
 	        Customer customer = new Customer();
 	        customer.setUsername(username);
 	        customer.setPassword(password);
 	        customer.setCustomerName(name);
 	        customer.setEmail(email);
+	        
+	        PaymentAccount paymentAccount = new PaymentAccount(-1, -1, "","", -1);
 	        
 	        // checking for existing customer
 	        Customer existingCustomer = customerDAO.getCustomerByUsername(customer.getUsername());
@@ -82,17 +89,25 @@ public class SignUpServlet extends HttpServlet {
 	        if(errList.isEmpty())
 	        {
 	        	customerDAO.addCustomer(customer);	
+	        	customer = customerDAO.getCustomerByUsername(customer.getUsername());
+	        	// add customer account as well
+	        	paymentAccount.setCustomerId(customer.getId());
+	        	paymentAccountDAO.addPaymentAccount(paymentAccount);
 	        }
         }
         else if (account_type.equals("store")) // Sign Up by store
         {
         	StoreDAO storeDAO = new StoreDAO(url,mySQLuser, mySQLpassword);
+        	BankAccountDAO bankAccountDAO = new BankAccountDAO(url,mySQLuser, mySQLpassword);
+        	
         	Store store = new Store();
         	store.setUsername(username);
         	store.setPassword(password);
             store.setStoreName(name);
             store.setEmail(email);
         
+            
+            BankAccount bankAccount = new BankAccount(-1, -1, "","", -1);
          // checking for existing customer
 	        Store existingStore = storeDAO.getStoreByUsername(store.getUsername());
 	        Settings.store = store;
@@ -109,6 +124,10 @@ public class SignUpServlet extends HttpServlet {
 	        if(errList.isEmpty())
 	        {
 	        	storeDAO.addStore(store);
+	        	store = storeDAO.getStoreByUsername(store.getUsername());
+	        	// add customer account as well
+	        	bankAccount.setStoreId(store.getId());
+	        	bankAccountDAO.addBankAccount(bankAccount);      	
 	        }
         }
         
