@@ -15,9 +15,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import Beans.BankAccount;
 import Beans.Customer;
+import Beans.PaymentAccount;
 import Beans.Store;
+import DAO.BankAccountDAO;
 import DAO.CustomerDAO;
+import DAO.PaymentAccountDAO;
 import DAO.StoreDAO;
 import Utilities.Settings;
 
@@ -33,6 +37,8 @@ public class LoginServlet extends HttpServlet {
     	boolean isCustomer = false;
     	Customer loginCustomer = null;
     	Store loginStore = null;
+    	PaymentAccount paymentAccount = null;
+    	BankAccount bankAccount = null;
     	
     	ServletContext context = getServletContext();
         
@@ -61,7 +67,10 @@ public class LoginServlet extends HttpServlet {
         if (account_type.equals("customer"))
         {
         	CustomerDAO customerDAO = new CustomerDAO(url,mySQLuser, mySQLpassword);
+        	PaymentAccountDAO paymentAccountDAO = new PaymentAccountDAO(url,mySQLuser, mySQLpassword);
         	loginCustomer = customerDAO.getCustomerByUsername(username);
+        	
+        	
         	if(loginCustomer == null)
         	{
         		errList.add("username does not exist");
@@ -72,14 +81,19 @@ public class LoginServlet extends HttpServlet {
         		{
         			errList.add("Wrong password!");
         		}
+        		
+        		paymentAccount = paymentAccountDAO.searchByCustomerId(loginCustomer.getId());
         	}
+        	
+        	
         	isCustomer = true;
 	        
         }
         else if (account_type.equals("store")) // Sign Up by store
         {
         	StoreDAO storeDAO = new StoreDAO(url,mySQLuser, mySQLpassword);
-        	
+        	BankAccountDAO bankAccountDAO = new BankAccountDAO(url,mySQLuser, mySQLpassword);
+
         	loginStore = storeDAO.getStoreByUsername(username);
         	if(loginStore == null)
         	{
@@ -91,6 +105,8 @@ public class LoginServlet extends HttpServlet {
         		{
         			errList.add("Wrong password!");
         		}
+        		
+        		bankAccount = bankAccountDAO.searchByStoreId(loginStore.getId());
         	}
         	isCustomer = false;
        
@@ -106,6 +122,9 @@ public class LoginServlet extends HttpServlet {
 		session .setAttribute("isCustomer", isCustomer);
         session.setAttribute("loginCustomer", loginCustomer);
         session.setAttribute("loginStore", loginStore);
+        session.setAttribute("bankAccount", bankAccount);
+        session.setAttribute("paymentAccount", paymentAccount);
+        
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("MainPage.jsp");
 		requestDispatcher.forward(request, response);
 		return;

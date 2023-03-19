@@ -24,4 +24,4 @@ hs_err_pid*
 # Ignore finder file for mac
 .DS_Store
 
-
+.gitignore
