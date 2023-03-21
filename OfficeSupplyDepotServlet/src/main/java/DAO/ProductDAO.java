@@ -42,7 +42,9 @@ public class ProductDAO{
 	        statement.close();
 	        connection.close();
 		}
-		
+		catch(SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 		
 		
 	}
