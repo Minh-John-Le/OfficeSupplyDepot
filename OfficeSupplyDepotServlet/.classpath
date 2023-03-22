@@ -12,8 +12,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="/home/shadowsong/Documents/GitHub/OfficeSupplyDepot/OfficeSupplyDepotServlet/src/main/webapp/WEB-INF/lib/aws-mysql-jdbc-1.1.4.jar"/>
-	<classpathentry kind="lib" path="/home/shadowsong/Documents/GitHub/OfficeSupplyDepot/OfficeSupplyDepotServlet/src/main/webapp/WEB-INF/lib/mysql-connector-j-8.0.32.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/mysql-connector-j-8.0.32.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
