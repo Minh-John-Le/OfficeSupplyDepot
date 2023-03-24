@@ -17,11 +17,11 @@ import javax.servlet.http.HttpServletResponse;
 import Beans.BankAccount;
 import Beans.Customer;
 import Beans.PaymentAccount;
-import Beans.Store;
+import Beans.OSDAdmin;
 import DAO.BankAccountDAO;
 import DAO.CustomerDAO;
 import DAO.PaymentAccountDAO;
-import DAO.StoreDAO;
+import DAO.OSDAdminDAO;
 import Utilities.Settings;
 
 @WebServlet("/signup")
@@ -95,41 +95,7 @@ public class SignUpServlet extends HttpServlet {
 	        	paymentAccountDAO.addPaymentAccount(paymentAccount);
 	        }
         }
-        else if (account_type.equals("store")) // Sign Up by store
-        {
-        	StoreDAO storeDAO = new StoreDAO(url,mySQLuser, mySQLpassword);
-        	BankAccountDAO bankAccountDAO = new BankAccountDAO(url,mySQLuser, mySQLpassword);
-        	
-        	Store store = new Store();
-        	store.setUsername(username);
-        	store.setPassword(password);
-            store.setStoreName(name);
-            store.setEmail(email);
         
-            
-            BankAccount bankAccount = new BankAccount(-1, -1, "","", -1);
-         // checking for existing customer
-	        Store existingStore = storeDAO.getStoreByUsername(store.getUsername());
-	        Settings.store = store;
-	        if(existingStore != null)
-	        {
-	        	errList.add("Username: " + Settings.store.getUsername() + " already exist!");   	
-	        }
-	        if(password.equals(""))
-	        {
-	        	errList.add("Password cannot be empty!"); 
-	        }
-	        
-	        
-	        if(errList.isEmpty())
-	        {
-	        	storeDAO.addStore(store);
-	        	store = storeDAO.getStoreByUsername(store.getUsername());
-	        	// add customer account as well
-	        	bankAccount.setStoreId(store.getId());
-	        	bankAccountDAO.addBankAccount(bankAccount);      	
-	        }
-        }
         
         request.setAttribute("errlist", errList);
         

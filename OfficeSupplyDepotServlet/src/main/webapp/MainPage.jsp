@@ -17,9 +17,9 @@
 		</div>
 		<%
 			Customer loginCustomer = (Customer) session.getAttribute("loginCustomer");
-			Store loginStore = (Store) session.getAttribute("loginStore");
+			OSDAdmin loginAdmin = (OSDAdmin) session.getAttribute("loginAdmin");
 			String displayName = "";
-			if (loginCustomer == null && loginStore == null)
+			if (loginCustomer == null && loginAdmin == null)
 			{
 		%>
 			<div class="info-section">
@@ -37,9 +37,9 @@
 			</div>
 		<%
 			}
-			else if (loginStore != null)
+			else if (loginAdmin != null)
 			{
-				displayName = loginStore.getStoreName();
+				displayName = loginAdmin.getAdminName();
 		%>
 		
 			<div class="info-section">

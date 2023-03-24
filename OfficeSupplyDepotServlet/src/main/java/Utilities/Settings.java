@@ -1,10 +1,10 @@
 package Utilities;
 
 import Beans.Customer;
-import Beans.Store;
+import Beans.OSDAdmin;
 
 public class Settings {
     public static Customer customer;
-    public static Store store;
+    public static OSDAdmin store;
     public static boolean isCustomer;
 }

@@ -1,36 +1,35 @@
 package DAO;
 
 import Beans.Customer;
-import Beans.Store;
+import Beans.OSDAdmin;
 
 import java.sql.*;
 import java.util.*;
 
-public class StoreDAO {
+public class OSDAdminDAO {
     
     private String url ="";
     private String mySQLUser = "";
     private String mySQLPass = "";
     
-    public StoreDAO(String url, String user, String password) 
+    public OSDAdminDAO(String url, String user, String password) 
     {
     	this.url = url;
     	this.mySQLUser = user;
     	this.mySQLPass = password;
     }
     
-    public void addStore(Store store)  {
+    public void addAdmin(OSDAdmin admin)  {
     	Connection connection;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-			String query = "INSERT INTO Stores (StoreName, Username, Password, Email, Address) VALUES (?, ?, ?, ?, ?)";
+			String query = "INSERT INTO OSDAdmins (AdminName, Username, Password, Email) VALUES (?, ?, ?, ?)";
 	        PreparedStatement statement = connection.prepareStatement(query);
-	        statement.setString(1, store.getStoreName());
-	        statement.setString(2, store.getUsername());
-	        statement.setString(3, store.getPassword());
-	        statement.setString(4, store.getEmail());
-	        statement.setString(5, store.getAddress());
+	        statement.setString(1, admin.getAdminName());
+	        statement.setString(2, admin.getUsername());
+	        statement.setString(3, admin.getPassword());
+	        statement.setString(4, admin.getEmail());
 	        statement.executeUpdate();
 	        statement.close();
 	        connection.close();
@@ -41,15 +40,15 @@ public class StoreDAO {
        
     }
     
-    public void deleteStore(int storeId) {
+    public void deleteAdmin(int adminID) {
     	
     	Connection connection;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-		 	String query = "DELETE FROM Stores WHERE Id = ?";
+		 	String query = "DELETE FROM OSDAdmins WHERE Id = ?";
 	        PreparedStatement statement = connection.prepareStatement(query);
-	        statement.setInt(1, storeId);
+	        statement.setInt(1, adminID);
 	        statement.executeUpdate();
 	        statement.close();
 	        connection.close();
@@ -60,29 +59,28 @@ public class StoreDAO {
        
     }
     
-    public Store getStoreById(int storeId) {
+    public OSDAdmin getAdminById(int adminId) {
     	Connection connection;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-			String query = "SELECT * FROM Stores WHERE Id = ?";
+			String query = "SELECT * FROM OSDAdmins WHERE Id = ?";
 	        PreparedStatement statement = connection.prepareStatement(query);
-	        statement.setInt(1, storeId);
+	        statement.setInt(1, adminId);
 	        ResultSet resultSet = statement.executeQuery();
-	        Store store = null;
+	        OSDAdmin admin = null;
 	        if(resultSet.next()) {
-	            store = new Store();
-	            store.setId(resultSet.getInt("Id"));
-	            store.setStoreName(resultSet.getString("StoreName"));
-	            store.setUsername(resultSet.getString("Username"));
-	            store.setPassword(resultSet.getString("Password"));
-	            store.setEmail(resultSet.getString("Email"));
-	            store.setAddress(resultSet.getString("Address"));
+	        	admin = new OSDAdmin();
+	        	admin.setId(resultSet.getInt("Id"));
+	        	admin.setAdminName(resultSet.getString("AdminName"));
+	        	admin.setUsername(resultSet.getString("Username"));
+	            admin.setPassword(resultSet.getString("Password"));
+	            admin.setEmail(resultSet.getString("Email"));;
 	        }
 	        resultSet.close();
 	        statement.close();
 	        connection.close();
-	        return store;
+	        return admin;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -93,29 +91,28 @@ public class StoreDAO {
         return null;
     }
     
-    public Store getStoreByUsername(String username) {
+    public OSDAdmin getAdminByUsername(String username) {
         Connection connection;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-            String query = "SELECT * FROM Stores WHERE Username = ?";
+            String query = "SELECT * FROM OSDAdmins WHERE Username = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
-            Store store = null;
+            OSDAdmin admin = null;
             if (resultSet.next()) {
-                store = new Store();
-                store.setId(resultSet.getInt("Id"));
-                store.setStoreName(resultSet.getString("StoreName"));
-                store.setUsername(resultSet.getString("Username"));
-                store.setPassword(resultSet.getString("Password"));
-                store.setEmail(resultSet.getString("Email"));
-                store.setAddress(resultSet.getString("Address"));
+            	admin = new OSDAdmin();
+            	admin.setId(resultSet.getInt("Id"));
+            	admin.setAdminName(resultSet.getString("AdminName"));
+            	admin.setUsername(resultSet.getString("Username"));
+            	admin.setPassword(resultSet.getString("Password"));
+            	admin.setEmail(resultSet.getString("Email"));
             }
             resultSet.close();
             statement.close();
             connection.close();
-            return store;
+            return admin;
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -124,20 +121,19 @@ public class StoreDAO {
         return null;
     }
 
-    public void updateStore(Store store) {
+    public void updateAdmin(OSDAdmin admin) {
         
     	Connection connection;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-			String query = "UPDATE Stores SET StoreName=?, Username=?, Password=?, Email=?, Address=? WHERE Id=?";
+			String query = "UPDATE OSDAdmins SET AdminName=?, Username=?, Password=?, Email=? WHERE Id=?";
 	        PreparedStatement statement = connection.prepareStatement(query);
-	        statement.setString(1, store.getStoreName());
-	        statement.setString(2, store.getUsername());
-	        statement.setString(3, store.getPassword());
-	        statement.setString(4, store.getEmail());
-	        statement.setString(5, store.getAddress());
-	        statement.setInt(6, store.getId());
+	        statement.setString(1, admin.getAdminName());
+	        statement.setString(2, admin.getUsername());
+	        statement.setString(3, admin.getPassword());
+	        statement.setString(4, admin.getEmail());
+	        statement.setInt(5, admin.getId());
 	        statement.executeUpdate();
 	        statement.close();
 	        connection.close();
@@ -150,30 +146,29 @@ public class StoreDAO {
 		}
     }
     
-    public List<Store> getAllStores() {
+    public List<OSDAdmin> getAllAdmins() {
     	
     	Connection connection;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-			String query = "SELECT * FROM Stores";
+			String query = "SELECT * FROM OSDAdmins";
 	        PreparedStatement statement = connection.prepareStatement(query);
 	        ResultSet resultSet = statement.executeQuery();
-	        List<Store> stores = new ArrayList<>();
+	        List<OSDAdmin> admins = new ArrayList<>();
 	        while(resultSet.next()) {
-	            Store store = new Store();
-	            store.setId(resultSet.getInt("id"));
-	            store.setStoreName(resultSet.getString("StoreName"));
-	            store.setUsername(resultSet.getString("Username"));
-	            store.setPassword(resultSet.getString("Password"));
-	            store.setEmail(resultSet.getString("Email"));
-	            store.setAddress(resultSet.getString("Address"));
-	            stores.add(store);
+	            OSDAdmin admin = new OSDAdmin();
+	            admin.setId(resultSet.getInt("id"));
+	            admin.setAdminName(resultSet.getString("AdminName"));
+	            admin.setUsername(resultSet.getString("Username"));
+	            admin.setPassword(resultSet.getString("Password"));
+	            admin.setEmail(resultSet.getString("Email"));
+	            admins.add(admin);
 	        }
 	        resultSet.close();
 	        statement.close();
 	        connection.close();
-	        return stores;
+	        return admins;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -16,9 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import Beans.Customer;
-import Beans.Store;
+import Beans.OSDAdmin;
 import DAO.CustomerDAO;
-import DAO.StoreDAO;
+import DAO.OSDAdminDAO;
 import Utilities.Settings;
 
 
@@ -32,7 +32,7 @@ public class MainPageServlet extends HttpServlet {
 		List<String> errList = new LinkedList<String>();
     	boolean isCustomer = false;
     	Customer loginCustomer = null;
-    	Store loginStore = null;
+    	OSDAdmin loginStore = null;
     	
     	ServletContext context = getServletContext();
         

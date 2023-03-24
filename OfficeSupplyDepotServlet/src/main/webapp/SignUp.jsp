@@ -31,8 +31,7 @@
 			<input type="password" id="password" name="password"><br>
 			<label for="account-type">Account Type:</label>
 			<select id="account-type" name="account-type">
-				<option value="customer">Customer</option>
-				<option value="store">Store</option>		
+				<option value="customer">Customer</option>		
 			</select><br>
 			<input type="submit" value="Sign Up">
 		</form>

@@ -1,12 +1,11 @@
 package Beans;
 
-public class Store {
+public class OSDAdmin {
     private int id;
-    private String storeName;
+    private String adminName;
     private String username;
     private String email;
     private String password;
-    private String address = "";
 
     public int getId() {
         return id;
@@ -16,12 +15,12 @@ public class Store {
         this.id = id;
     }
 
-    public String getStoreName() {
-        return storeName;
+    public String getAdminName() {
+        return adminName;
     }
 
-    public void setStoreName(String storeName) {
-        this.storeName = storeName;
+    public void setAdminName(String adminName) {
+        this.adminName = adminName;
     }
     
     public String getUsername() {
@@ -48,11 +47,5 @@ public class Store {
         this.password = password;
     }
     
-    public String getAddress() {
-        return address;
-    }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
 }

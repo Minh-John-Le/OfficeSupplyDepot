@@ -8,52 +8,44 @@
 </head>
 <body>
 	<%
-		Customer loginCustomer = (Customer) session.getAttribute("loginCustomer");
-		Store loginStore = (Store) session.getAttribute("loginStore");
-		PaymentAccount paymentAccount = (PaymentAccount) session.getAttribute("paymentAccount");
-		BankAccount bankAccount = (BankAccount) session.getAttribute("bankAccount");
+			Customer loginCustomer = (Customer) session.getAttribute("loginCustomer");
+			OSDAdmin loginAdmin = (OSDAdmin) session.getAttribute("loginAdmin");
+			PaymentAccount paymentAccount = (PaymentAccount) session.getAttribute("paymentAccount");
+			
+			// information
+			String username = "";
+			String email = "";
+			String password = "";
+			String displayName = "";
+			String address = "";
+			
+			// account
+			String accountName = "";
+			int accountNumber = -1;
+			String expDate = "";
+			
+			if (loginCustomer != null)
+			{
+				username = loginCustomer.getUsername();
+				email = loginCustomer.getEmail();
+				password = loginCustomer.getPassword();
+				displayName = loginCustomer.getCustomerName();
+				address = loginCustomer.getAddress();
+			}
+			else if (loginAdmin != null)
+			{
+				username = loginAdmin.getUsername();
+				email = loginAdmin.getEmail();
+				password = loginAdmin.getPassword();
+				displayName = loginAdmin.getAdminName();
+			}
 		
-		// information
-		String username = "";
-		String email = "";
-		String password = "";
-		String displayName = "";
-		String address = "";
-		
-		// account
-		String accountName = "";
-		int accountNumber = -1;
-		String expDate = "";
-		
-		if (loginCustomer != null)
-		{
-			username = loginCustomer.getUsername();
-			email = loginCustomer.getEmail();
-			password = loginCustomer.getPassword();
-			displayName = loginCustomer.getCustomerName();
-			address = loginCustomer.getAddress();
-		}
-		else if (loginStore != null)
-		{
-			username = loginStore.getUsername();
-			email = loginStore.getEmail();
-			password = loginStore.getPassword();
-			displayName = loginStore.getStoreName();
-			address = loginStore.getAddress();
-		}
-	
-		if (paymentAccount != null)
-		{
-			accountName = paymentAccount.getName();
-			accountNumber = paymentAccount.getCardNumber();
-			expDate = paymentAccount.getExpireDate();
-		}
-		else if (bankAccount != null)
-		{
-			accountName = bankAccount.getName();
-			accountNumber = bankAccount.getBankAccountNumber();
-			expDate = bankAccount.getExpireDate();
-		}
+			if (paymentAccount != null)
+			{
+				accountName = paymentAccount.getName();
+				accountNumber = paymentAccount.getCardNumber();
+				expDate = paymentAccount.getExpireDate();
+			}
 	%>
 	<form action = "account" method="post"> 
 	<div class="header">
@@ -61,7 +53,7 @@
 			<a href="MainPage.jsp"> Office Supply Depot </a>	
 		</div>
 		<%
-			if (loginCustomer == null && loginStore == null)
+			if (loginCustomer == null && loginAdmin == null)
 			{
 		%>
 			<div class="info-section">
@@ -79,9 +71,9 @@
 			</div>
 		<%
 			}
-			else if (loginStore != null)
+			else if (loginAdmin != null)
 			{
-				displayName = loginStore.getStoreName();
+				displayName = loginAdmin.getAdminName();
 		%>
 		
 			<div class="info-section">
@@ -115,12 +107,16 @@
 	        <label for="password">Password:</label>
 	        <input type="password" id="password" name="password" value="<%=password%>">
 	      </div>
+	      
+	      <% if (loginCustomer != null) {%>
 	      <div class="form-row">
 	        <label for="address">Address:</label>
 	        <textarea id="address" name="address"><%=address%></textarea>
 	      </div>
+	      <%} %>
 	    </div>
 	    <!----------------------------------------->
+	    <% if (loginCustomer != null) {%>
 	    <div class="bank-account">
 	      <h2>Bank Account Information</h2>
 	      <div class="form-row">
@@ -136,6 +132,7 @@
 	        <input type="text" id="exp" name="exp" value="<%=expDate%>" placeholder="MM/YY">
 	      </div>
 	    </div>
+	    <%} %>
 	    <div class="buttons">
 	      <button type = "submit" class="update-btn" value="update-btn" name = "button" >Update</button>
 	      <button type = "submit" class="logout-btn" value="logout-btn" name = "button">Log Out</button>

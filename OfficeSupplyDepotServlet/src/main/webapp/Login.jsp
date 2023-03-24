@@ -26,7 +26,7 @@
 			<label for="type">Login as:</label>
 			<select id="account-type" name="account-type">
 				<option value="customer">Customer</option>
-				<option value="store">Store</option>
+				<option value="admin">Admin</option>
 			</select>
 			<input type="submit" value="Login">
 		</form>
