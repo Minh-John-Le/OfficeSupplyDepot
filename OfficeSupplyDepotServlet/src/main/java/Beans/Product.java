@@ -2,7 +2,6 @@ package Beans;
 import java.math.BigDecimal;
 public class Product{
 	private int id;
-	private int store_id;
 	private int warehouse_id;
 	private String name;
 	private int stock;
@@ -17,12 +16,7 @@ public class Product{
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getStore_id() {
-		return store_id;
-	}
-	public void setStore_id(int store_id) {
-		this.store_id = store_id;
-	}
+
 	public int getWarehouse_id() {
 		return warehouse_id;
 	}

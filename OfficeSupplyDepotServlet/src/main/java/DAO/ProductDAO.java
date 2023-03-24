@@ -25,12 +25,12 @@ public class ProductDAO{
 	}
 		
 	
-	private void addProduct(Product product ) {
+	public void addProduct(Product product) {
 		Connection connection;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-			String query = "INSERT INTO Products (Name, Stock, Weight, Description, Price, ImageURL) VALUES (?, ?, ?, ?, ?,?)";
+			String query = "INSERT INTO Products (Name, Stock, Weight, Description, Price, ImageURL, Warehouse_ID) VALUES (?, ?, ?, ?, ?, ?, ?)";
 	        PreparedStatement statement = connection.prepareStatement(query);
 	        statement.setString(1, product.getName());
 	        statement.setInt(2, product.getStock());
@@ -38,18 +38,17 @@ public class ProductDAO{
 	        statement.setString(4, product.getDescription());
 	        statement.setBigDecimal(5, product.getPrice());
 	        statement.setString(6, product.getImageURL());
+	        statement.setInt(7, product.getWarehouse_id());
 	        statement.executeUpdate();
 	        statement.close();
 	        connection.close();
 		}
 		catch(SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
-		}
-		
-		
+		}	
 	}
 	
-	private void deleteProduct(int productId) {
+	public void deleteProduct(int productId) {
 
     	Connection connection;
 		try {
@@ -69,12 +68,12 @@ public class ProductDAO{
 		return;
 	}
 	
-	private void updateProduct(Product product) {
+	public void updateProduct(Product product) {
 		Connection connection;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-			String query = "UPDATE Products SET Name=?, Stock=?, Weight=?, Description=?, Price=?, ImageURL=?, WHERE Id=?";
+			String query = "UPDATE Products SET Name=?, Stock=?, Weight=?, Description=?, Price=?, ImageURL=?, Warehouse_ID = ? WHERE Id=?";
 	        PreparedStatement statement = connection.prepareStatement(query);
 	        statement.setString(1, product.getName());
 	        statement.setInt(2, product.getStock());
@@ -82,7 +81,8 @@ public class ProductDAO{
 	        statement.setString(4, product.getDescription());
 	        statement.setBigDecimal(5, product.getPrice());
 	        statement.setString(6, product.getImageURL());
-	        statement.setInt(7,product.getId());
+	        statement.setInt(7, product.getWarehouse_id());
+	        statement.setInt(8,product.getId());
 	        statement.executeUpdate();
 	        statement.close();
 	        connection.close();
