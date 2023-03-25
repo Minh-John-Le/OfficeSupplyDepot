@@ -43,7 +43,7 @@
 		%>
 		
 			<div class="info-section">
-				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="#">Order</a> | <a href="#">Inventory</a>
+				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="#">Order</a> | <a href="AddProductPage.jsp">Inventory</a>
 			</div>
 		<%
 			}
@@ -52,13 +52,13 @@
 	</div>
 	<div class="item-container">
 		<div class="item-box">
-			<img src="Resources/rick-sanchez.jpg">
+			<img src="/home/shadowsong/Documents/GitHub/OfficeSupplyDepot/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/OfficeSupplyDepotServlet//Resources/15.png">
 			<h3>Paper Clip</h3>
 			<p>Rating 5/5</p>
 			<p>$10.99</p>
 		</div>
 		<div class="item-box">
-			<img src="Resources/Rick2.jpg">
+			<img src="/home/shadowsong/Documents/GitHub/OfficeSupplyDepot/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/OfficeSupplyDepotServlet//Resources/15.png">
 			<h3>Paper Clip</h3>
 			<p>Rating 5/5</p>
 			<p>$10.99</p>

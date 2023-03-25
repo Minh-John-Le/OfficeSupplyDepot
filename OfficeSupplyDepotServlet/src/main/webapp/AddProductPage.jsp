@@ -1,3 +1,4 @@
+<%@page import = "Beans.*" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,17 +7,47 @@
     <link rel="stylesheet" href="AddProductPage.css">
 </head>
 <body>
-	<div class="header">
-		<div class="home-link">
-			<a href="MainPage.jsp"> Office Supply Depot </a>
+	<%
+
+	OSDAdmin loginAdmin = (OSDAdmin) session.getAttribute("loginAdmin");
+	
+	// information
+	String username = "";
+	String email = "";
+	String password = "";
+	String displayName = "";
+
+	
+	if (loginAdmin != null)
+	{
+		username = loginAdmin.getUsername();
+		email = loginAdmin.getEmail();
+		password = loginAdmin.getPassword();
+		displayName = loginAdmin.getAdminName();
+	}
+
+	%>
+	<form action = "addproduct" method="post" enctype="multipart/form-data"> 
+		<div class="header">
+			<div class="home-link">
+				<a href="MainPage.jsp"> Office Supply Depot </a>	
+			</div>
+			<%
+				if (loginAdmin != null)
+				{
+					displayName = loginAdmin.getAdminName();
+			%>
+				<div class="info-section">
+					<a href="AccountPage.jsp"><%=displayName%></a> | <a href="#">Order</a> | <a href="#">Inventory</a>
+				</div>
+			<%
+				}
+			%>
+			
 		</div>
-    <div class="info-section">
-				<a href="AccountPage.jsp">Minh Le</a> | <a href="#">Order</a> | <a href="#">Cart</a>
-		</div>
-  </div>
-    <div class="container">
-        <h1>Add Product</h1>
-        <form action="AddProductServlet" method="post" enctype="multipart/form-data">
+		<!-- ----------------------------------------------------------------------------- -->
+	    <div class="container">
+        	<h1>Add Product</h1>
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" required>
@@ -46,13 +77,14 @@
             </div>
             <div class="form-group">
                 <label for="image">Image:</label>
-                <input type="file" id="image" name="image">
+                <input type="file" id="file" name="file">
             </div>
             <div class="form-group">
-                <button type="submit">Add Product</button>
-                <button type="button" onclick="MainPage.jsp'">Cancel</button>
+                <button type="submit" value="Add Product" name = "button">Add Product</button>
+                <button type="button" onclick="window.location.href = 'MainPage.jsp';">Cancel</button>
             </div>
-        </form>
-    </div>
+	        
+	    </div>
+    </form>
 </body>
 </html>

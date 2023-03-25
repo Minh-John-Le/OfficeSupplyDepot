@@ -96,5 +96,38 @@ public class ProductDAO{
 		return;
 	}
 	
+	public Product getProductByName(String productName) {
+	    Connection connection;
+	    try {
+	        Class.forName("com.mysql.cj.jdbc.Driver");
+	        connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+	        String query = "SELECT * FROM Products WHERE Name = ?";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setString(1, productName);
+	        ResultSet resultSet = statement.executeQuery();
+	        Product product = null;
+	        if (resultSet.next()) {
+	            product = new Product();
+	            product.setId(resultSet.getInt("Id"));
+	            product.setName(resultSet.getString("Name"));
+	            product.setStock(resultSet.getInt("Stock"));
+	            product.setWeight(resultSet.getBigDecimal("Weight"));
+	            product.setDescription(resultSet.getString("Description"));
+	            product.setPrice(resultSet.getBigDecimal("Price"));
+	            product.setImageURL(resultSet.getString("ImageURL"));
+	            product.setWarehouse_id(resultSet.getInt("Warehouse_ID"));
+	        }
+	        resultSet.close();
+	        statement.close();
+	        connection.close();
+	        return product;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } catch (ClassNotFoundException e) {
+	        e.printStackTrace();
+	    }
+	    return null;
+	}
+
 	
 }
