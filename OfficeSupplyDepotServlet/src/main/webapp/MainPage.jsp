@@ -1,4 +1,9 @@
+<%@page import = "java.util.List" %>
+<%@page import = "java.util.Iterator" %>
+<%@page import = "java.util.LinkedList" %>
 <%@page import = "Beans.*" %>
+<%@page import = "java.math.BigDecimal" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,13 +12,14 @@
 	<link rel="stylesheet" href="MainPage.css">
 </head>
 <body>
+	<form action = "mainpage" method="post"> 
 	<div class="header">
 		<div class="home-link">
 			<a href="MainPage.jsp"> Office Supply Depot </a>	
 		</div>
 		<div class="search">
-			<input type="text" placeholder="Search for items...">
-			<button>Search</button>
+			<input type="text" placeholder="Search for items..." name = "search text">
+			<button name = "button" value = "search">Search</button>
 		</div>
 		<%
 			Customer loginCustomer = (Customer) session.getAttribute("loginCustomer");
@@ -51,63 +57,43 @@
 		
 	</div>
 	<div class="item-container">
+	
+	<%
+      	LinkedList<Product> searchProductList = (LinkedList<Product>) session.getAttribute("searchProductList");      		
+      	if(searchProductList != null)
+      	{
+      		for(int i = 0 ; i < searchProductList.size(); i++)
+      		{
+      			String imageUrl = searchProductList.get(i).getImageURL();
+      			String productname = searchProductList.get(i).getName();
+      			int stock = searchProductList.get(i).getStock();
+      			BigDecimal weight = searchProductList.get(i).getWeight();
+      			BigDecimal price = searchProductList.get(i).getPrice();
+      			String description = searchProductList.get(i).getDescription();
+      			int productId = searchProductList.get(i).getId();	
+      			
+    %>
+    				
 		<div class="item-wrapper">
 			<div class="item-image">
-				<img src="https://dummyimage.com/200x200/000/fff&text=Paperclips">
+				<img src="<%=imageUrl%>">
 			</div>
 			<div class="item-details">
-				<h3>Paper Clip</h3>
-				<p><b>Stock:</b> 100</p>
-				<p><b>Weight:</b> 100 lbs</p> 
-				<p><b>Price:</b> $10.99</p>
+				<h3><%=productname%></h3>
+				<p><b>Stock:</b> <%=stock%></p>
+				<p><b>Weight:</b> <%=weight%> lbs</p> 
+				<p><b>Price:</b> $<%=price%></p>
 				<p><b>Descrition:</b></p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sagittis eros eu tellus posuere, vitae sollicitudin elit euismod. Quisque eget leo nulla. Fusce non arcu quis lectus mollis porttitor vel quis nibh. In faucibus blandit lectus sed laoreet.</p>
-				<button class="add-to-cart-button" value="1" name = "Add To Cart">Add To Cart</button>
+				<p><%=description%></p>
+				<button class="add-to-cart-button" value="<%=productId%>" name = "Add To Cart">Add To Cart</button>
 			</div>	
 		</div>
-		<div class="item-wrapper">
-			<div class="item-image">
-				<img src="https://dummyimage.com/200x200/000/fff&text=Paperclips">
-			</div>
-			<div class="item-details">
-				<h3>Paper Clip</h3>
-				<p><b>Stock:</b> 100</p>
-				<p><b>Weight:</b> 100 lbs</p> 
-				<p><b>Price:</b> $10.99</p>
-				<p><b>Descrition:</b></p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sagittis eros eu tellus posuere, vitae sollicitudin elit euismod. Quisque eget leo nulla. Fusce non arcu quis lectus mollis porttitor vel quis nibh. In faucibus blandit lectus sed laoreet.</p>
-				<button class="add-to-cart-button" value="2" name = "Add To Cart">Add To Cart</button>
-			</div>	
-		</div>
-		<div class="item-wrapper">
-			<div class="item-image">
-				<img src="https://dummyimage.com/200x200/000/fff&text=Paperclips">
-			</div>
-			<div class="item-details">
-				<h3>Paper Clip</h3>
-				<p><b>Stock:</b> 100</p>
-				<p><b>Weight:</b> 100 lbs</p> 
-				<p><b>Price:</b> $10.99</p>
-				<p><b>Descrition:</b></p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sagittis eros eu tellus posuere, vitae sollicitudin elit euismod. Quisque eget leo nulla. Fusce non arcu quis lectus mollis porttitor vel quis nibh. In faucibus blandit lectus sed laoreet.</p>
-				<button class="add-to-cart-button" value="3" name = "Add To Cart">Add To Cart</button>
-			</div>	
-		</div>
-		<div class="item-wrapper">
-			<div class="item-image">
-				<img src="https://dummyimage.com/200x200/000/fff&text=Paperclips">
-			</div>
-			<div class="item-details">
-				<h3>Paper Clip</h3>
-				<p><b>Stock:</b> 100</p>
-				<p><b>Weight:</b> 100 lbs</p> 
-				<p><b>Price:</b> $10.99</p>
-				<p><b>Descrition:</b></p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sagittis eros eu tellus posuere, vitae sollicitudin elit euismod. Quisque eget leo nulla. Fusce non arcu quis lectus mollis porttitor vel quis nibh. In faucibus blandit lectus sed laoreet.</p>
-				<button class="add-to-cart-button" value="4" name = "Add To Cart">Add To Cart</button>
-			</div>	
-		</div>
+	<%
+			}
+      	} 
+    %>
+ 
 	</div>
-
+	</form>
 </body>
 </html>

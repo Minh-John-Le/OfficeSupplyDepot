@@ -111,8 +111,8 @@ public class AddProductPageServlet extends HttpServlet {
         	    // Create a file object for the uploaded file
         	    File file = new File(savePath + File.separator + fileName);
         	    
-        	    imageUrl = savePath + File.separator + fileName;
-        	    //imageUrl = "Resources/" + fileName;
+        	    //imageUrl = savePath + File.separator + fileName;
+        	    imageUrl = SAVE_DIR + File.separator + fileName;
         	    product.setImageURL(imageUrl);
         	    
         	    

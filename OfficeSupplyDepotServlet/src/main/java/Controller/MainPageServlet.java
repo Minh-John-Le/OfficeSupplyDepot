@@ -17,8 +17,10 @@ import javax.servlet.http.HttpSession;
 
 import Beans.Customer;
 import Beans.OSDAdmin;
+import Beans.Product;
 import DAO.CustomerDAO;
 import DAO.OSDAdminDAO;
+import DAO.ProductDAO;
 import Utilities.Settings;
 
 
@@ -30,9 +32,7 @@ public class MainPageServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		List<String> errList = new LinkedList<String>();
-    	boolean isCustomer = false;
-    	Customer loginCustomer = null;
-    	OSDAdmin loginStore = null;
+		List<Product> searchProductList = new LinkedList<Product>();
     	
     	ServletContext context = getServletContext();
         
@@ -49,17 +49,25 @@ public class MainPageServlet extends HttpServlet {
 		}
     	String url = props.getProperty("db.url");
         String mySQLuser = props.getProperty("db.username");
+        String mySQLpassword = props.getProperty("db.password");
         
     	//=============================================
         // Front end input receive
-    	String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String account_type = request.getParameter("account-type");
+    	String button = request.getParameter("button");
+        String addToCartButton = request.getParameter("Add To Cart");
+        String searchText = request.getParameter("search text");
 
         
-		session .setAttribute("isCustomer", isCustomer);
-        session.setAttribute("loginCustomer", loginCustomer);
-        session.setAttribute("loginStore", loginStore);
+        if (button!= null)
+        {
+        	if (button.equals("search"))
+        	{
+        		ProductDAO productDAO = new ProductDAO(url, mySQLuser, mySQLpassword);
+        		searchProductList = productDAO.searchProductsByName(searchText);
+        		session.setAttribute("searchProductList", searchProductList);
+        	}
+        }
+  
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("MainPage.jsp");
 		requestDispatcher.forward(request, response);
 		return;
