@@ -51,30 +51,63 @@
 		
 	</div>
 	<div class="item-container">
-		<div class="item-box">
-			<img src="/home/shadowsong/Documents/GitHub/OfficeSupplyDepot/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/OfficeSupplyDepotServlet//Resources/15.png">
-			<h3>Paper Clip</h3>
-			<p>Rating 5/5</p>
-			<p>$10.99</p>
+		<div class="item-wrapper">
+			<div class="item-image">
+				<img src="https://dummyimage.com/200x200/000/fff&text=Paperclips">
+			</div>
+			<div class="item-details">
+				<h3>Paper Clip</h3>
+				<p><b>Stock:</b> 100</p>
+				<p><b>Weight:</b> 100 lbs</p> 
+				<p><b>Price:</b> $10.99</p>
+				<p><b>Descrition:</b></p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sagittis eros eu tellus posuere, vitae sollicitudin elit euismod. Quisque eget leo nulla. Fusce non arcu quis lectus mollis porttitor vel quis nibh. In faucibus blandit lectus sed laoreet.</p>
+				<button class="add-to-cart-button">Add to Cart</button>
+			</div>	
 		</div>
-		<div class="item-box">
-			<img src="/home/shadowsong/Documents/GitHub/OfficeSupplyDepot/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/OfficeSupplyDepotServlet//Resources/15.png">
-			<h3>Paper Clip</h3>
-			<p>Rating 5/5</p>
-			<p>$10.99</p>
+		<div class="item-wrapper">
+			<div class="item-image">
+				<img src="https://dummyimage.com/200x200/000/fff&text=Paperclips">
+			</div>
+			<div class="item-details">
+				<h3>Paper Clip</h3>
+				<p><b>Stock:</b> 100</p>
+				<p><b>Weight:</b> 100 lbs</p> 
+				<p><b>Price:</b> $10.99</p>
+				<p><b>Descrition:</b></p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sagittis eros eu tellus posuere, vitae sollicitudin elit euismod. Quisque eget leo nulla. Fusce non arcu quis lectus mollis porttitor vel quis nibh. In faucibus blandit lectus sed laoreet.</p>
+				<button class="add-to-cart-button">Add to Cart</button>
+			</div>	
 		</div>
-		<div class="item-box">
-			<img src="Resources/Rick1.jpg">
-			<h3>Paper Clip</h3>
-			<p>Rating 5/5</p>
-			<p>$10.99</p>
+		<div class="item-wrapper">
+			<div class="item-image">
+				<img src="https://dummyimage.com/200x200/000/fff&text=Paperclips">
+			</div>
+			<div class="item-details">
+				<h3>Paper Clip</h3>
+				<p><b>Stock:</b> 100</p>
+				<p><b>Weight:</b> 100 lbs</p> 
+				<p><b>Price:</b> $10.99</p>
+				<p><b>Descrition:</b></p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sagittis eros eu tellus posuere, vitae sollicitudin elit euismod. Quisque eget leo nulla. Fusce non arcu quis lectus mollis porttitor vel quis nibh. In faucibus blandit lectus sed laoreet.</p>
+				<button class="add-to-cart-button">Add to Cart</button>
+			</div>	
 		</div>
-		<div class="item-box">
-			<img src="https://dummyimage.com/200x200/000/fff&text=Paperclips">
-			<h3>Paper Clip</h3>
-			<p>Rating 5/5</p>
-			<p>$10.99</p>
+		<div class="item-wrapper">
+			<div class="item-image">
+				<img src="https://dummyimage.com/200x200/000/fff&text=Paperclips">
+			</div>
+			<div class="item-details">
+				<h3>Paper Clip</h3>
+				<p><b>Stock:</b> 100</p>
+				<p><b>Weight:</b> 100 lbs</p> 
+				<p><b>Price:</b> $10.99</p>
+				<p><b>Descrition:</b></p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sagittis eros eu tellus posuere, vitae sollicitudin elit euismod. Quisque eget leo nulla. Fusce non arcu quis lectus mollis porttitor vel quis nibh. In faucibus blandit lectus sed laoreet.</p>
+				<button class="add-to-cart-button">Add to Cart</button>
+			</div>	
 		</div>
 	</div>
+
 </body>
 </html>
