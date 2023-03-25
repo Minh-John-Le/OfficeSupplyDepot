@@ -62,7 +62,7 @@
 				<p><b>Price:</b> $10.99</p>
 				<p><b>Descrition:</b></p>
 				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sagittis eros eu tellus posuere, vitae sollicitudin elit euismod. Quisque eget leo nulla. Fusce non arcu quis lectus mollis porttitor vel quis nibh. In faucibus blandit lectus sed laoreet.</p>
-				<button class="add-to-cart-button">Add to Cart</button>
+				<button class="add-to-cart-button" value="1" name = "Add To Cart">Add To Cart</button>
 			</div>	
 		</div>
 		<div class="item-wrapper">
@@ -76,7 +76,7 @@
 				<p><b>Price:</b> $10.99</p>
 				<p><b>Descrition:</b></p>
 				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sagittis eros eu tellus posuere, vitae sollicitudin elit euismod. Quisque eget leo nulla. Fusce non arcu quis lectus mollis porttitor vel quis nibh. In faucibus blandit lectus sed laoreet.</p>
-				<button class="add-to-cart-button">Add to Cart</button>
+				<button class="add-to-cart-button" value="2" name = "Add To Cart">Add To Cart</button>
 			</div>	
 		</div>
 		<div class="item-wrapper">
@@ -90,7 +90,7 @@
 				<p><b>Price:</b> $10.99</p>
 				<p><b>Descrition:</b></p>
 				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sagittis eros eu tellus posuere, vitae sollicitudin elit euismod. Quisque eget leo nulla. Fusce non arcu quis lectus mollis porttitor vel quis nibh. In faucibus blandit lectus sed laoreet.</p>
-				<button class="add-to-cart-button">Add to Cart</button>
+				<button class="add-to-cart-button" value="3" name = "Add To Cart">Add To Cart</button>
 			</div>	
 		</div>
 		<div class="item-wrapper">
@@ -104,7 +104,7 @@
 				<p><b>Price:</b> $10.99</p>
 				<p><b>Descrition:</b></p>
 				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sagittis eros eu tellus posuere, vitae sollicitudin elit euismod. Quisque eget leo nulla. Fusce non arcu quis lectus mollis porttitor vel quis nibh. In faucibus blandit lectus sed laoreet.</p>
-				<button class="add-to-cart-button">Add to Cart</button>
+				<button class="add-to-cart-button" value="4" name = "Add To Cart">Add To Cart</button>
 			</div>	
 		</div>
 	</div>
