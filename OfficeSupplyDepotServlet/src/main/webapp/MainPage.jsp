@@ -83,8 +83,10 @@
 				<p><b>Stock:</b> <%=stock%></p>
 				<p><b>Weight:</b> <%=weight%> lbs</p> 
 				<p><b>Price:</b> $<%=price%></p>
-				<p><b>Descrition:</b></p>
+				<p><b>Description:</b></p>
 				<p><%=description%></p>
+				<br>
+				<br>
 				<button class="add-to-cart-button" value="<%=productId%>" name = "Add To Cart">Add To Cart</button>
 			</div>	
 		</div>
