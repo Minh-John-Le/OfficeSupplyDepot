@@ -65,6 +65,8 @@ public class AddProductPageServlet extends HttpServlet {
         String description = request.getParameter("description");
         String price = request.getParameter("price");
         String clickButton = request.getParameter("button");
+        String barcode = request.getParameter("barcode");
+        String category = request.getParameter("category");
         String imageUrl ="";
         
         //=============================================
@@ -95,9 +97,11 @@ public class AddProductPageServlet extends HttpServlet {
         		product.setWeight(new BigDecimal(weight));
         		product.setDescription(description);
         		product.setPrice(new BigDecimal(price));
+        		product.setBarcode(barcode);
+        		product.setCategory(category);
         		
         		productDAO.addProduct(product);
-        		product = productDAO.getProductByName(product.getName());
+        		product = productDAO.getProductByBarcode(product.getBarcode());
         		
         		
         		//========================================================================

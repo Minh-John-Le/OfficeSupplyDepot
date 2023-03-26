@@ -17,6 +17,15 @@
 		<div class="home-link">
 			<a href="MainPage.jsp"> Office Supply Depot </a>	
 		</div>
+		<div class="form-group">
+            <select id="category" name="category" required>
+            	<option value="All">All</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Craft Supplies">Craft Supplies</option>
+                <option value="Office Furniture">Office Furniture</option>
+                <option value="Essentials">Essentials</option>
+            </select>
+        </div>
 		<div class="search">
 			<input type="text" placeholder="Search for items..." name = "search text">
 			<button name = "button" value = "search">Search</button>

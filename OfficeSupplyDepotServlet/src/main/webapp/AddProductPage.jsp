@@ -53,6 +53,19 @@
                 <input type="text" id="name" name="name" required>
             </div>
             <div class="form-group">
+                <label for="name">Barcode:</label>
+                <input type="text" id="barcode" name="barcode" required>
+            </div>
+            <div class="form-group">
+                <label for="category">Category:</label>
+                <select id="category" name="category" required>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Craft Supplies">Craft Supplies</option>
+                    <option value="Office Furniture">Office Furniture</option>
+                    <option value="Essentials">Essentials</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label for="warehouse">Warehouse:</label>
                 <select id="warehouse" name="warehouse" required>
                     <option value="1">Warehouse 1</option>

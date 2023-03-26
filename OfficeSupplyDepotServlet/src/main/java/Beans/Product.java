@@ -9,6 +9,8 @@ public class Product{
 	private String description;
 	private BigDecimal price;
 	private String imageURL;
+	private String category;
+	private String barcode;
 	
 	public int getId() {
 		return id;
@@ -58,6 +60,18 @@ public class Product{
 	}
 	public void setImageURL(String imageURL) {
 		this.imageURL = imageURL;
+	}
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	public String getBarcode() {
+		return barcode;
+	}
+	public void setBarcode(String barcode) {
+		this.barcode = barcode;
 	}
 }
 	

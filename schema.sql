@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS OSDAdmins (
 );
 
 CREATE TABLE IF NOT EXISTS Warehouses (
-  Id int NOT NULL AUTO_INCREMENT,
+  Id int NOT NULL,
   Name varchar(255) DEFAULT NULL,
   Address text,
   PRIMARY KEY (Id)
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS PaymentAccounts (
 );
 
 CREATE TABLE IF NOT EXISTS ShipMethods (
-  Id int NOT NULL AUTO_INCREMENT,
+  Id int NOT NULL,
   Name varchar(255) DEFAULT NULL,
   Price decimal(10,2) DEFAULT NULL,
   Speed int DEFAULT NULL,
@@ -67,6 +67,8 @@ CREATE TABLE IF NOT EXISTS Products (
   Description text,
   Price decimal(10,2) DEFAULT NULL,
   ImageURL VARCHAR(255),
+  Category varchar(255),
+  Barcode varchar(255) UNIQUE NOT NULL,
   PRIMARY KEY (Id),
   FOREIGN KEY (Warehouse_ID) REFERENCES Warehouses (Id)
 );

@@ -56,14 +56,23 @@ public class MainPageServlet extends HttpServlet {
     	String button = request.getParameter("button");
         String addToCartButton = request.getParameter("Add To Cart");
         String searchText = request.getParameter("search text");
-
+        String category = request.getParameter("category");
         
         if (button!= null)
         {
         	if (button.equals("search"))
         	{
         		ProductDAO productDAO = new ProductDAO(url, mySQLuser, mySQLpassword);
-        		searchProductList = productDAO.searchProductsByName(searchText);
+        		
+        		if (category.equals("All"))
+        		{
+        			searchProductList = productDAO.searchProductsByName(searchText);
+        		}
+        		else 
+        		{
+        			searchProductList = productDAO.searchProductsByNameAndCategory(searchText, category);
+        		}
+        		
         		session.setAttribute("searchProductList", searchProductList);
         	}
         }
