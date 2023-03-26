@@ -130,6 +130,6 @@ select:focus {
 img {
   width: 2in;
   height: 2in;
-  object-fit: cover;
+  object-fit: scale-down;
 }
 

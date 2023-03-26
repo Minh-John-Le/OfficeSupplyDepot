@@ -138,7 +138,7 @@ public class ProductDAO{
 	        connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
 	        String query = "SELECT * FROM Products WHERE Name LIKE ?";
 	        PreparedStatement statement = connection.prepareStatement(query);
-	        statement.setString(1, searchTerm + "%");
+	        statement.setString(1, "%" + searchTerm + "%");
 	        ResultSet resultSet = statement.executeQuery();
 	        while (resultSet.next()) {
 	            Product product = new Product();
@@ -174,7 +174,7 @@ public class ProductDAO{
 	        connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
 	        String query = "SELECT * FROM Products WHERE Name LIKE ? AND Category = ?";
 	        PreparedStatement statement = connection.prepareStatement(query);
-	        statement.setString(1, searchTerm + "%");
+	        statement.setString(1, "%" + searchTerm + "%");
 	        statement.setString(2, category);
 	        ResultSet resultSet = statement.executeQuery();
 	        while (resultSet.next()) {

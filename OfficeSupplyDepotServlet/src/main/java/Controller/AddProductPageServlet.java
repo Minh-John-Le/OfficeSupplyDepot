@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -131,6 +132,8 @@ public class AddProductPageServlet extends HttpServlet {
         	    // Update imageUrl
         	    productDAO.updateProduct(product);
         	    
+        	    RequestDispatcher requestDispatcher = request.getRequestDispatcher("AddProductPage.jsp");
+		        requestDispatcher.forward(request, response);
         	    return;
         	}	
         }
