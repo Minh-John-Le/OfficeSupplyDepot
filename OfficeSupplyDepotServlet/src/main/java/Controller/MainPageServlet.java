@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import Beans.CartItem;
 import Beans.Customer;
 import Beans.OSDAdmin;
 import Beans.Product;
@@ -33,6 +34,12 @@ public class MainPageServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		List<String> errList = new LinkedList<String>();
 		List<Product> searchProductList = new LinkedList<Product>();
+		List<CartItem> cartItemList = (List<CartItem>) session.getAttribute("cartItemList");
+		
+    	if (cartItemList == null)
+    	{
+    		cartItemList = new LinkedList<CartItem>();
+    	}
     	
     	ServletContext context = getServletContext();
         
@@ -58,7 +65,7 @@ public class MainPageServlet extends HttpServlet {
         String searchText = request.getParameter("search text");
         String category = request.getParameter("category");
         
-        if (button!= null)
+        if (button != null)
         {
         	if (button.equals("search"))
         	{
@@ -74,12 +81,19 @@ public class MainPageServlet extends HttpServlet {
         		}
         		
         		session.setAttribute("searchProductList", searchProductList);
+        		
+        		RequestDispatcher requestDispatcher = request.getRequestDispatcher("MainPage.jsp");
+        		requestDispatcher.forward(request, response);
+        		return;
         	}
         }
   
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("MainPage.jsp");
-		requestDispatcher.forward(request, response);
-		return;
+        if (addToCartButton != null)
+        {
+        	
+        }
     }
+	
+	
 
 }
