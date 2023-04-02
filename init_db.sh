@@ -2,46 +2,64 @@
 
 # Initialize MySQL database.
 # ADD this file into the container via Dockerfile.
+# Assuming you specify a VOLUME ["/var/lib/mysql"] or `-v /var/lib/mysql` on the `docker run` command…
+# Once built, do e.g. `docker run your_image /path/to/docker-mysql-initialize.sh`
+# Again, make sure MySQL is persisting data outside the container for this to have any effect.
 
-# Make sure if any errors, exit immediately
 set -e
-# Make sure to show any errors that do occur in depth.
 set -x
 
-CONTAINER_NAME="office_supply_depot"
-IMAGE_NAME="mysql:latest"
-MYSQL_DATABASE="OfficeSupplyDepotDatabase"
-DOCKER_VOLUME="$(pwd)/mysql_docker"
-SCHEMA_FILE="$(pwd)/schema.sql"
-
-DB_PROPERTIES_FILE=$(pwd)/OfficeSupplyDepotServlet/src/main/webapp/WEB-INF/classes/db.properties
-
-# initialze the mysql database container. Runs in detatched mode, this way it runs in the background and can close terminal.
-docker run --name $CONTAINER_NAME \
--e MYSQL_ROOT_PASSWORD=$DB_PASSWORD \
--e MYSQL_USER=$DB_USERNAME \
--e MYSQL_PASSWORD=$DB_PASSWO	RD \
--e MYSQL_DATABASE=$MYSQL_DATABASE \
--v $(pwd)/mysql_docker:/var/lib/mysql \
--d mysql:latest &
-
-wait
-# copy over the schema file to the container var/lib/mysql folder
-docker cp $(pwd)/schema.sql
-#docker cp $SCHEMA_FILE $CONTAINER_NAME:/var/lib/mysql/
-
-docker exec office_supply_depot test -f /var/lib/mysql/schema.sql
-if [ $? -eq 0 ]; then
-    echo "File /var/lib/mysql/schema.sql exists in container office_supply_depot"
-else
-    echo "File /var/lib/mysql/schema.sql does not exist in container office_supply_depot"
-fi
+DB_PROPERTIES_FILE=/tmp/db.properties
 
 
+function set_db_env_variables() {
+    # Read the db.properties file and extract the values
+    db_driver=$(grep '^db.driver=' ${DB_PROPERTIES_FILE} | cut -d '=' -f 2)
+    db_url=$(grep '^db.url=' ${DB_PROPERTIES_FILE} | cut -d '=' -f 2)
+    db_username=$(grep '^db.username=' ${DB_PROPERTIES_FILE} | cut -d '=' -f 2)
+    db_password=$(grep '^db.password=' ${DB_PROPERTIES_FILE} | cut -d '=' -f 2)
+    # Set variables
 
-# Grant all privileges to username user from any host with the specified username and password
-docker exec -d $CONTAINER_NAME mysql -uroot -p${DB_PASSWORD} -e "GRANT ALL ON *.* TO '${DB_USERNAME}'@'%' IDENTIFIED BY '${DB_PASSWORD}' WITH GRANT OPTION"
+    # Set the environmental variables
+    export DB_DRIVER=$db_driver
+    export DB_URL=$db_url
+    export DB_USERNAME=$db_username
+    export DB_PASSWORD=$db_password
+}
+set_db_env_variables
 
-# Create the mysql database from the added schema file.
-docker exec -i $CONTAINER_NAME mysql -uroot -p$MYSQL_ROOT_PASSWORD < /var/lib/mysql/schema.sql
 
+SCHEMA_FILE=/tmp/schema.sql
+
+
+mysql_install_db
+
+# Start the MySQL daemon in the background.
+/usr/sbin/mysqld &
+mysql_pid=$!
+
+# Wait uintil the mysql admin is started
+until mysqladmin ping >/dev/null 2>&1; do
+  echo -n "."; sleep 0.2
+done
+
+# Permit root login with username and password from outside container.
+mysql -uroot -p${DB_PASSWORD} -e "GRANT ALL ON *.* TO '${DB_USERNAME}'@'%' IDENTIFIED BY '${DB_PASSWORD}' WITH GRANT OPTION"
+
+
+# create the default database from the ADDed file.
+mysql < $SCHEMA_FILE
+
+# Tell the MySQL daemon to shutdown.
+mysqladmin shutdown
+
+# Wait for the MySQL daemon to exit.
+wait $mysql_pid
+
+# create a tar file with the database as it currently exists
+tar czvf default_mysql.tar.gz /var/	lib/mysql
+
+# the tarfile contains the initialized state of the database.
+# when the container is started, if the database is empty (/var/lib/mysql)
+# then it is unpacked from default_mysql.tar.gz from
+# the ENTRYPOINT /tmp/run_db script
