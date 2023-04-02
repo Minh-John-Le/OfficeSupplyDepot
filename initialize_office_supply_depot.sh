@@ -9,24 +9,46 @@
 set -e
 set -x
 
+DB_PROPERTIES_FILE=/tmp/db.properties
+
+
+function set_db_env_variables() {
+    # Read the db.properties file and extract the values
+    db_driver=$(grep '^db.driver=' ${DB_PROPERTIES_FILE} | cut -d '=' -f 2)
+    db_url=$(grep '^db.url=' ${DB_PROPERTIES_FILE} | cut -d '=' -f 2)
+    db_username=$(grep '^db.username=' ${DB_PROPERTIES_FILE} | cut -d '=' -f 2)
+    db_password=$(grep '^db.password=' ${DB_PROPERTIES_FILE} | cut -d '=' -f 2)
+    # Set variables
+
+    # Set the environmental variables
+    export DB_DRIVER=$db_driver
+    export DB_URL=$db_url
+    export DB_USERNAME=$db_username
+    export DB_PASSWORD=$db_password
+}
+set_db_env_variables
+
+
+SCHEMA_FILE=/tmp/schema.sql
+
+
 mysql_install_db
 
 # Start the MySQL daemon in the background.
 /usr/sbin/mysqld &
 mysql_pid=$!
 
+# Wait uintil the mysql admin is started
 until mysqladmin ping >/dev/null 2>&1; do
   echo -n "."; sleep 0.2
 done
 
-# Permit root login without password from outside container.
-#mysql -e "GRANT ALL ON *.* TO root@'%' IDENTIFIED BY '' WITH GRANT OPTION"
+# Permit root login with username and password from outside container.
 mysql -uroot -p${DB_PASSWORD} -e "GRANT ALL ON *.* TO '${DB_USERNAME}'@'%' IDENTIFIED BY '${DB_PASSWORD}' WITH GRANT OPTION"
 
 
-
 # create the default database from the ADDed file.
-mysql < /tmp/schema.sql
+mysql < $SCHEMA_FILE
 
 # Tell the MySQL daemon to shutdown.
 mysqladmin shutdown
@@ -35,7 +57,7 @@ mysqladmin shutdown
 wait $mysql_pid
 
 # create a tar file with the database as it currently exists
-tar czvf default_mysql.tar.gz /var/lib/mysql
+tar czvf default_mysql.tar.gz /var/	lib/mysql
 
 # the tarfile contains the initialized state of the database.
 # when the container is started, if the database is empty (/var/lib/mysql)
