@@ -12,7 +12,7 @@ ADD run_db.sh init_db.sh schema.sql OfficeSupplyDepotServlet/src/main/webapp/WEB
 # database from schema.sql, then
 # stop mysqld, and finally copy the /var/lib/mysql directory
 # to default_mysql_db.tar.gz
-RUN /tmp/init_db
+RUN /tmp/init_db.sh
 
 # run_db starts mysqld, but first it checks
 # to see if the /var/lib/mysql directory is empty, if
