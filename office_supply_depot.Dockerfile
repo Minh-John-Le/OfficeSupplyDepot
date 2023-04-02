@@ -1,11 +1,15 @@
 FROM mysql
-MAINTAINER  (me) <email>
+LABEL maintainer="David Warshawsky <davidawarshawsky@gmail.com>"
 
-# Copy the database schema to the /data directory
-ADD files/run_db files/init_db files/epcis_schema.sql /tmp/
+
+# Set the Docker volume to $(pwd)/mysql_docker
+VOLUME ["$(pwd)/mysql_docker"]
+
+# Copy the database schema and run and init scripts to the /tmp/ directory
+ADD run_db.sh init_db.sh schema.sql OfficeSupplyDepotServlet/src/main/webapp/WEB-INF/classes/db.properties /tmp/
 
 # init_db will create the default
-# database from epcis_schema.sql, then
+# database from schema.sql, then
 # stop mysqld, and finally copy the /var/lib/mysql directory
 # to default_mysql_db.tar.gz
 RUN /tmp/init_db
@@ -15,4 +19,6 @@ RUN /tmp/init_db
 # it is it is seeded with default_mysql_db.tar.gz before
 # the mysql is fired up
 
-ENTRYPOINT "/tmp/run_db"
+
+# Set the entrypoint to run the initialization script
+ENTRYPOINT ["/bin/bash", "/tmp/run_db.sh"]

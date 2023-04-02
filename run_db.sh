@@ -24,9 +24,9 @@ set_db_env_variables
 
 CONTAINER_NAME="office_supply_depot"
 IMAGE_NAME="mysql:latest"
-MYSQL_DATABASE="OfficeSupplyDepotDatabase"
+MYSQL_DATABASE=OfficeSupplyDepotDatabase
 DOCKER_VOLUME="$(pwd)/mysql_docker"
-SCHEMA_FILE="$(pwd)/schema.sql"
+SCHEMA_FILE=$(pwd)/schema.sql
 
 MYSQL_USER=$DB_USERNAME
 MYSQL_PASSWORD=$DB_PASSWORD
