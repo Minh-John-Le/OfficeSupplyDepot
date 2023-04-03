@@ -85,37 +85,7 @@ h1 {
 	margin-left: -50px;
 }
 
-form {
-	display: flex;
-	flex-direction: column;
-}
 
-label {
-	margin-top: 10px;
-}
-
-input[type="text"],
-input[type="password"],
-select {
-	padding: 10px;
-	border-radius: 5px;
-	border: none;
-	margin-top: 5px;
-}
-
-input[type="submit"] {
-	background-color: #4CAF50;
-	color: #fff;
-	padding: 10px;
-	border-radius: 5px;
-	border: none;
-	margin-top: 20px;
-	cursor: pointer;
-}
-
-input[type="submit"]:hover {
-	background-color: #3e8e41;
-}
 
 .cart-table{
 	max-width: 70%;
@@ -180,6 +150,16 @@ p{
 	margin-left: 25px;
 	cursor: pointer;
 }
+.checkout:hover{
+	background-color: #ca8430;
+}
+.checkout:focus{
+	background-color: #faa33c;
+}
+.checkout:active{
+	background-color: #ffa63d;
+}
+
 .remove{
 	background-color:#f44336;
 	color: #fff;
@@ -190,6 +170,16 @@ p{
 	padding: 5px 10px;
 	margin-left: 5px;
 	cursor: pointer;
+}
+
+.remove:hover{
+	background-color: #b64235;
+}
+.remove:focus{
+	background-color: #ed6654;
+}
+.remove:active{
+	background-color: #df604f;
 }
 
 .checkout-table{

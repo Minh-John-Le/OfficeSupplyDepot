@@ -11,6 +11,19 @@
 		<div class="home-link">
 			<a href="MainPage.jsp"> Office Supply Depot </a>	
 		</div>
+		<div class="form-group">
+            <select id="category" name="category" required>
+            	<option value="All">All</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Craft Supplies">Craft Supplies</option>
+                <option value="Office Furniture">Office Furniture</option>
+                <option value="Essentials">Essentials</option>
+            </select>
+        </div>
+		<div class="search">
+			<input type="text" placeholder="Search for items..." name = "search text">
+			<button name = "button" value = "search">Search</button>
+		</div>
 		<%
 			Customer loginCustomer = (Customer) session.getAttribute("loginCustomer");
 			OSDAdmin loginAdmin = (OSDAdmin) session.getAttribute("loginAdmin");
@@ -29,7 +42,7 @@
 				displayName = loginCustomer.getCustomerName();
 		%>
 			<div class="info-section">
-				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="upload.html">Order</a> | <a href="#">Cart</a>
+				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="upload.html">Order</a> | <a href="CartPage.jsp#">Cart</a>
 			</div>
 		<%
 			}
