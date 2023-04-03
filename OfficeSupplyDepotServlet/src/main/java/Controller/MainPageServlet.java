@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 import Beans.CartItem;
 import Beans.Customer;
 import Beans.OSDAdmin;
@@ -90,7 +91,22 @@ public class MainPageServlet extends HttpServlet {
   
         if (addToCartButton != null)
         {
-        	
+        	response.sendRedirect("CartPage.jsp");
+        	ProductDAO productDAO = new ProductDAO(url, mySQLuser, mySQLpassword);
+        	CartItem ci = new CartItem();
+        	ci.setQuantity(1);
+        	//I got the product using barcode instead of ID because I didn't know
+        	//if we could search by ID yet.
+        	ci.setProduct(productDAO.getProductByBarcode(addToCartButton));
+        	for (CartItem c: cartItemList){
+        		if (c.getProduct() == ci.getProduct()){
+        			c.setQuantity(c.getQuantity()+1);
+        		}
+        		else {
+        			cartItemList.add(ci);
+        		}
+        	}
+        	session.setAttribute("cartItemList", cartItemList);
         }
     }
 	
