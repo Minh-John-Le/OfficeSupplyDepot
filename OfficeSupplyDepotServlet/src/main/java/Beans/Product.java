@@ -73,5 +73,21 @@ public class Product{
 	public void setBarcode(String barcode) {
 		this.barcode = barcode;
 	}
+	public Product deepCopy() 
+	{
+	    Product copyProduct = new Product();
+	    copyProduct.setId(this.id);
+	    copyProduct.setWarehouse_id(this.warehouse_id);
+	    copyProduct.setName(this.name);
+	    copyProduct.setStock(this.stock);
+	    copyProduct.setWeight(this.weight);
+	    copyProduct.setDescription(this.description);
+	    copyProduct.setPrice(this.price);
+	    copyProduct.setImageURL(this.imageURL);
+	    copyProduct.setCategory(this.category);
+	    copyProduct.setBarcode(this.barcode);
+	    return copyProduct;
+	}
+	
 }
 	

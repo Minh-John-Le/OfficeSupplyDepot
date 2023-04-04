@@ -48,7 +48,7 @@
 				displayName = loginCustomer.getCustomerName();
 		%>
 			<div class="info-section">
-				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="upload.html">Order</a> | <a href="#">Cart</a>
+				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="upload.html">Order</a> | <a href="CartPage.jsp#">Cart</a>
 			</div>
 		<%
 			}
@@ -79,7 +79,10 @@
       			BigDecimal weight = searchProductList.get(i).getWeight();
       			BigDecimal price = searchProductList.get(i).getPrice();
       			String description = searchProductList.get(i).getDescription();
-      			int productId = searchProductList.get(i).getId();	
+      			int productId = searchProductList.get(i).getId();
+      			
+      			//Temporary, so I can use in the MainPage.servlet to get product in cart
+      			String productBarcode = searchProductList.get(i).getBarcode();
       			
     %>
     				
@@ -96,7 +99,10 @@
 				<p><%=description%></p>
 				<br>
 				<br>
-				<button class="add-to-cart-button" value="<%=productId%>" name = "Add To Cart">Add To Cart</button>
+				<!-- Original -->
+				<%-- <button class="add-to-cart-button" value="<%=productID%>" name = "Add To Cart">Add To Cart</button> --%>
+				<!-- Barcode version -->
+				<button class="add-to-cart-button" value="<%=productBarcode%>" name = "Add To Cart">Add To Cart</button>
 			</div>	
 		</div>
 	<%
