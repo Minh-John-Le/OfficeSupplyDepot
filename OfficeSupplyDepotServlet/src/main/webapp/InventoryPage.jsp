@@ -9,27 +9,15 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Office Supply Depot</title>
-	<link rel="stylesheet" href="MainPage.css">
+	<link rel="stylesheet" href="InventoryPage.css">
 </head>
 <body>
-	<form action = "mainpage" method="post"> 
+	<form action = "inventory" method="post"> 
 	<div class="header">
 		<div class="home-link">
 			<a href="MainPage.jsp"> Office Supply Depot </a>	
 		</div>
-		<div class="form-group">
-            <select id="category" name="category" required>
-            	<option value="All">All</option>
-                <option value="Electronics">Electronics</option>
-                <option value="Craft Supplies">Craft Supplies</option>
-                <option value="Office Furniture">Office Furniture</option>
-                <option value="Essentials">Essentials</option>
-            </select>
-        </div>
-		<div class="search">
-			<input type="text" placeholder="Search for items..." name = "search text">
-			<button name = "button" value = "search">Search</button>
-		</div>
+		
 		<%
 			Customer loginCustomer = (Customer) session.getAttribute("loginCustomer");
 			OSDAdmin loginAdmin = (OSDAdmin) session.getAttribute("loginAdmin");
@@ -65,6 +53,23 @@
 		%>
 		
 	</div>
+	    
+       <div class="search">
+       	<select id="category" name="category" required>
+       	<option value="All">All</option>
+           <option value="Electronics">Electronics</option>
+           <option value="Craft Supplies">Craft Supplies</option>
+           <option value="Office Furniture">Office Furniture</option>
+           <option value="Essentials">Essentials</option>
+       </select>
+           
+		<input type="text" placeholder="Search for items..." name = "search text">
+		<button name = "button" value = "search">Search</button>
+		<button name = "button" value = "add item">Add Item</button>
+	</div>
+		
+   
+		
 	<div class="item-container">
 	
 	<%
@@ -102,14 +107,7 @@
 				<!-- Original -->
 				<%-- <button class="add-to-cart-button" value="<%=productID%>" name = "Add To Cart">Add To Cart</button> --%>
 				<!-- Barcode version -->
-				<%
-				if (loginCustomer != null)
-				{
-				%>
-				<button class="add-to-cart-button" value="<%=productBarcode%>" name = "Add To Cart">Add To Cart</button>
-				<%
-				}
-				%>
+				<button class="add-to-cart-button" value="<%=productBarcode%>" name = "Update">Update</button>
 			</div>	
 		</div>
 	<%

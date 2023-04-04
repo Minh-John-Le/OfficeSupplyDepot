@@ -1,0 +1,138 @@
+/* Global Styles */
+body {
+	margin: 0;
+	padding: 0;
+}
+
+/* Header Styles */
+.header {
+	background-color: #232f3e;
+	color: #fff;
+	display: flex;
+	align-items: center;
+	padding: 10px;
+}
+.logo img {
+	height: 30px;
+}
+
+.home-link {
+  margin-right: 10px;
+}
+.home-link a
+{
+	color: #fff;
+	text-decoration: none;
+	margin-left: 10px;
+}
+.search input[type="text"] {
+	padding: 5px;
+	border: none;
+	border-radius: 3px;
+	width: 450px;
+	border: 1px solid black;
+}
+.search button {
+	background-color: #ff9900;
+	color: #fff;
+	border: none;
+	border-radius: 3px;
+	padding: 5px 10px;
+	margin-left: 5px;
+	cursor: pointer;
+}
+
+select {
+  background-color: #fff;
+  border: none;
+  border-radius: 3px;
+  color: #000;
+  font-size: 16px;
+  padding: 5px;
+  margin-right: 10px;
+  width: 150px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 1px solid black;
+}
+
+select option {
+  background-color: #fff;
+  color: #000;
+}
+
+select:focus {
+  outline: none;
+  box-shadow: 0 0 5px #FF9900;
+}
+
+.info-section {
+	margin-left: auto;
+}
+.info-section a {
+	color: #fff;
+	text-decoration: none;
+	margin-left: 10px;
+}
+
+/* Item Box Styles */
+.item-container {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-gap: 20px;
+}
+
+
+.item-image {
+	margin-right: 20px;
+}
+
+.item-details {
+	flex: 1;
+}
+
+.item-details h3 {
+	margin: 0 0 10px;
+}
+
+.item-details p {
+	margin: 0;
+	position: relative;
+}
+
+.item-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.add-to-cart-button {
+  background-color: #FF9900;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s ease-in-out;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+.add-to-cart-button:hover {
+  background-color: #FFB347;
+}
+
+img {
+  width: 2in;
+  height: 2in;
+  object-fit: scale-down;
+}
+
+
