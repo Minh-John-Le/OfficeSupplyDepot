@@ -1,6 +1,7 @@
 package Controller;
 
 import java.io.IOException;
+
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
@@ -99,7 +100,7 @@ public class MainPageServlet extends HttpServlet {
         	Boolean alreadyInCart = false;
         	ci.setProduct(productDAO.getProductByBarcode(addToCartButton));
         	for (int i = 0; i < cartItemList.size(); i++){
-        		if (cartItemList.get(i).getProduct().getBarcode() == ci.getProduct().getBarcode()){
+        		if (cartItemList.get(i).getProduct().getId() == ci.getProduct().getId()){
         			cartItemList.get(i).setQuantity(cartItemList.get(i).getQuantity()+1);
         			alreadyInCart = true;
         		}
@@ -108,6 +109,9 @@ public class MainPageServlet extends HttpServlet {
         		cartItemList.add(ci);
         	}
         	session.setAttribute("cartItemList", cartItemList);
+        	RequestDispatcher requestDispatcher = request.getRequestDispatcher("MainPage.jsp");
+    		requestDispatcher.forward(request, response);
+    		return;
         }
     }
 	

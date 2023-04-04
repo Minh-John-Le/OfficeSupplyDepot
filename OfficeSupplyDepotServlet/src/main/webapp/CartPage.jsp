@@ -64,17 +64,13 @@
 		%>
 		
 	</div>
-	
+
 
 
 <div  class="cart-page">
 
 <div class="cart-container">
 		<h1>Shopping Cart</h1>
-		
-		<%
-		LinkedList<CartItem> cartItemList = (LinkedList<CartItem>) session.getAttribute("cartItemList");
-		%>	
 		
 		<table>
 			<tr>
@@ -84,8 +80,10 @@
 				<th>Price</th>
 			</tr>
 			<%
+			LinkedList<CartItem> cartItemList = (LinkedList<CartItem>) session.getAttribute("cartItemList");
+					
 			if(cartItemList != null)
-      		{
+      		{				
       			for(int i = 0 ; i < cartItemList.size(); i++)
       			{
       			String imageUrl = cartItemList.get(i).getProduct().getImageURL();
@@ -96,10 +94,11 @@
       			String description = cartItemList.get(i).getProduct().getDescription();
       			int productId = cartItemList.get(i).getProduct().getId();
       			%>	
+      			
 			<tr>
 				<td>
 					<div class="item">
-						<img src="https://dummyimage.com/200x200/000/fff&text=Paperclips">
+						<img src="<%=imageUrl%>">
 						<p><%=productname%>
 						
 						Description: <%=description%></p>
