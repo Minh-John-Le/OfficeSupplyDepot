@@ -118,9 +118,6 @@ public class AccountServlet extends HttpServlet {
 	        	}
 	        }
 	        
-	        
-	  
-	        
 	    }
 	    
 	    public void destroy() {

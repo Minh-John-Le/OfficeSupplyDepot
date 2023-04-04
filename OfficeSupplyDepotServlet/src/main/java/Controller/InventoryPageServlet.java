@@ -67,6 +67,8 @@ public class InventoryPageServlet extends HttpServlet {
         String searchText = request.getParameter("search text");
         String category = request.getParameter("category");
         
+        String updateButton = request.getParameter("Update");
+        
         if (button != null)
         {
         	if (button.equals("search"))
@@ -96,6 +98,20 @@ public class InventoryPageServlet extends HttpServlet {
         		return;
         	}
         			
+        }
+        
+        // Update button
+        if (updateButton != null)
+        {
+        	ProductDAO productDAO = new ProductDAO(url, mySQLuser, mySQLpassword);
+        	
+        	Product updateProduct = productDAO.getProductByBarcode(updateButton);
+        	session.setAttribute("updateProduct", updateProduct);
+    		
+    		RequestDispatcher requestDispatcher = request.getRequestDispatcher("UpdateProductPage.jsp");
+    		requestDispatcher.forward(request, response);
+    		return;
+        	
         }
     }
 	

@@ -1,0 +1,134 @@
+/* Header Styles */
+.header {
+	background-color: #232f3e;
+	color: #fff;
+	display: flex;
+	align-items: center;
+	padding: 10px;
+}
+.logo img {
+	height: 30px;
+}
+
+.home-link {
+  margin-right: 10px;
+}
+.home-link a
+{
+	color: #fff;
+	text-decoration: none;
+	margin-left: 10px;
+}
+
+.info-section {
+	margin-left: auto;
+}
+.info-section a {
+	color: #fff;
+	text-decoration: none;
+	margin-left: 10px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #f7f7f7;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  width: 600px;
+  margin: 50px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  transition: border-color 0.3s ease-in-out;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #08aeea;
+}
+
+textarea {
+  height: 150px; /* Set the height to 150px for a taller input box */
+}
+
+button[type="submit"],
+button[type="reset"] {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #08aeea;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  cursor: pointer;
+}
+
+button[type="submit"],
+button[type="button"] {
+    display: inline-block;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+button[type="submit"]:hover,
+button[type="button"]:hover {
+    background-color: #0056b3;
+}
+
+button[type="button"] {
+    background-color: #ccc;
+    color: #444;
+    margin-right: 10px;
+}
+
+button[type="button"]:hover {
+    background-color: #aaa;
+}
+
+.item-image {
+	margin-right: 20px;
+}
