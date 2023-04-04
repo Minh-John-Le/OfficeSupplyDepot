@@ -1,6 +1,6 @@
 package Beans;
 
-public class CartItem {
+public class CartItem{
 	private Product product = null;
 	private int quantity = 0;
 	

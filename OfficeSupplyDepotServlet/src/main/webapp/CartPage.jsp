@@ -1,4 +1,9 @@
-<%@page import="Beans.*"%>
+<%@page import = "java.util.List" %>
+<%@page import = "java.util.Iterator" %>
+<%@page import = "java.util.LinkedList" %>
+<%@page import = "Beans.*" %>
+<%@page import = "java.math.BigDecimal" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,11 +64,18 @@
 		%>
 		
 	</div>
+	
+
 
 <div  class="cart-page">
 
 <div class="cart-container">
 		<h1>Shopping Cart</h1>
+		
+		<%
+		LinkedList<CartItem> cartItemList = (LinkedList<CartItem>) session.getAttribute("cartItemList");
+		%>	
+		
 		<table>
 			<tr>
 				<th>Product</th>
@@ -71,63 +83,36 @@
 				<th>Weight</th>
 				<th>Price</th>
 			</tr>
+			<%
+			if(cartItemList != null)
+      		{
+      			for(int i = 0 ; i < cartItemList.size(); i++)
+      			{
+      			String imageUrl = cartItemList.get(i).getProduct().getImageURL();
+      			String productname = cartItemList.get(i).getProduct().getName();
+      			int quantity= cartItemList.get(i).getQuantity();
+      			BigDecimal weight = cartItemList.get(i).getProduct().getWeight();
+      			BigDecimal price = cartItemList.get(i).getProduct().getPrice();
+      			String description = cartItemList.get(i).getProduct().getDescription();
+      			int productId = cartItemList.get(i).getProduct().getId();
+      			%>	
 			<tr>
 				<td>
 					<div class="item">
 						<img src="https://dummyimage.com/200x200/000/fff&text=Paperclips">
-						<p>Paper Clip
+						<p><%=productname%>
 						
-						Description: This is a book</p>
+						Description: <%=description%></p>
 					</div>
-				<td><input type="number" value="1" min="1">
+				<td><input type="number" value="<%=quantity%>" min="1">
 				<button class="remove">Remove</button>
 				</td>
-				<td>10.99</td>
-				<td>10.99</td>
+				<td><%=weight%></td>
+				<td><%=price%></td>
 			</tr>
-			<tr>
-				<td>
-					<div class="item">
-						<img src="https://dummyimage.com/200x200/000/fff&text=Paperclips">
-						<p>Paper Clip
-						
-						Description: This is a book</p>
-					</div>
-				<td><input type="number" value="1" min="1">
-				<button class="remove">Remove</button>
-				</td>
-				<td>10.99</td>
-				<td>10.99</td>
-			</tr>
-			<tr>
-				<td>
-					<div class="item">
-						<img src="https://dummyimage.com/200x200/000/fff&text=Paperclips">
-						<p>Paper Clip
-						
-						Description: This is a book</p>
-					</div>
-				<td><input type="number" value="1" min="1">
-				<button class="remove">Remove</button>
-				</td>
-				<td>10.99</td>
-				<td>10.99</td>
-			</tr>
-			<tr>
-				<td>
-					<div class="item">
-						<img src="https://dummyimage.com/200x200/000/fff&text=Paperclips">
-						<p>Paper Clip
-						
-						Description: This is a book</p>
-					</div>
-				<td><input type="number" value="1" min="1">
-				<button class="remove">Remove</button>
-				</td>
-				<td>10.99</td>
-				<td>10.99</td>
-			</tr>
-	
+        <% }
+         }%>
+         	
 		</table>
 	</div>
 	<div class="checkout-container">

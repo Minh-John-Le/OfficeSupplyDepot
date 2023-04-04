@@ -88,5 +88,6 @@ public class Product{
 	    copyProduct.setBarcode(this.barcode);
 	    return copyProduct;
 	}
+	
 }
 	

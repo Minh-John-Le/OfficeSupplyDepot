@@ -91,20 +91,21 @@ public class MainPageServlet extends HttpServlet {
   
         if (addToCartButton != null)
         {
-        	response.sendRedirect("CartPage.jsp");
         	ProductDAO productDAO = new ProductDAO(url, mySQLuser, mySQLpassword);
         	CartItem ci = new CartItem();
         	ci.setQuantity(1);
         	//I got the product using barcode instead of ID because I didn't know
         	//if we could search by ID yet.
+        	Boolean alreadyInCart = false;
         	ci.setProduct(productDAO.getProductByBarcode(addToCartButton));
-        	for (CartItem c: cartItemList){
-        		if (c.getProduct() == ci.getProduct()){
-        			c.setQuantity(c.getQuantity()+1);
+        	for (int i = 0; i < cartItemList.size(); i++){
+        		if (cartItemList.get(i).getProduct().getBarcode() == ci.getProduct().getBarcode()){
+        			cartItemList.get(i).setQuantity(cartItemList.get(i).getQuantity()+1);
+        			alreadyInCart = true;
         		}
-        		else {
-        			cartItemList.add(ci);
-        		}
+        	}
+        	if (!alreadyInCart) {
+        		cartItemList.add(ci);
         	}
         	session.setAttribute("cartItemList", cartItemList);
         }
