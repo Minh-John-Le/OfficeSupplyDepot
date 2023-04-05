@@ -30,6 +30,9 @@ run: `docker ps -a`.
 - To delete the docker container:
   - first make sure the container is stopped
   - Then: `docker rm osd`
+- When you change schema.sql file in the OfficeSupplyDepot directory
+  - delete the schema.sql file from mysql_database_init_files and then copy the new schema.sql file to the mysql_database_init_files
+  - DO NOT change the name of schema.sql to anything else
 
 TODO:
 1. The mysql_data directory will be used later to store data as long as the schema.sql is the same as before. The mysql_database_init_files will check if the schema.sql file has changed and if so, recreate the database.
