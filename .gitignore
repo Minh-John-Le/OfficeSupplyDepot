@@ -24,4 +24,7 @@ hs_err_pid*
 # Ignore finder file for mac
 .DS_Store
 
-.gitignore
+#Ignore the mysql_docker folder 
+mysql_docker/
+
+#.gitignore

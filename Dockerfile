@@ -1,24 +1,22 @@
-FROM mysql
+FROM mysql:latest
+
 LABEL maintainer="David Warshawsky <davidawarshawsky@gmail.com>"
 
+# RUN chown -R mysql:root /var/lib/mysql/
 
-# Set the Docker volume to $(pwd)/mysql_docker
-VOLUME ["$(pwd)/mysql_docker"]
+ARG MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
 
-# Copy the database schema and run and init scripts to the /tmp/ directory
-ADD run_db.sh init_db.sh schema.sql OfficeSupplyDepotServlet/src/main/webapp/WEB-INF/classes/db.properties /tmp/
+ENV MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
 
-# init_db will create the default
-# database from schema.sql, then
-# stop mysqld, and finally copy the /var/lib/mysql directory
-# to default_mysql_db.tar.gz
-RUN /tmp/init_db.sh
+WORKDIR /app
 
-# run_db starts mysqld, but first it checks
-# to see if the /var/lib/mysql directory is empty, if
-# it is it is seeded with default_mysql_db.tar.gz before
-# the mysql is fired up
+# COPY run_sql.sh /app/
+# RUN chmod +x /app/run_sql.sh
 
 
-# Set the entrypoint to run the initialization script
-ENTRYPOINT ["/bin/bash", "/tmp/run_db.sh"]
+# Copy over properties extract script
+# COPY mysql_database_init_files/schema.sql /docker-entrypoint-initdb.d/
+
+# CMD ["sh", "/app/run_sql.sh"]
+
+EXPOSE $MYSQL_PORT
