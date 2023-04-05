@@ -11,7 +11,7 @@ mapped to the docker container folder `/docker-entrypoint-initdb.d/` which is wh
 -Make sure you have the most recent main branch updated from origin.
 
 - If you are using windows, too bad https://www.youtube.com/watch?v=loDOloG8doY&ab_channel=TechHut
-  - Open up the directory that holds the OfficeSupplyDepot folder.
+  - Open up the directory that holds the `OfficeSupplyDepot` folder.
   - Open up command prompt
   - Type in `wsl.exe --install` and press enter.
   - Restart the computer
@@ -39,9 +39,9 @@ run: `docker ps -a`.
 - To delete the docker container:
   - first make sure the container is stopped
   - Then: `docker rm osd`
-- When you change schema.sql file in the OfficeSupplyDepot directory
-  - delete the schema.sql file from mysql_database_init_files and then copy the new schema.sql file to the mysql_database_init_files
-  - DO NOT change the name of schema.sql to anything else
+- When you change `schema.sql` file in the `OfficeSupplyDepot` directory
+  - delete the `schema.sql` file from mysql_database_init_files and then copy the new schema.sql file to the `mysql_database_init_files`
+  - DO NOT change the name of `schema.sql` to anything else
 
 TODO:
-1. The mysql_data directory will be used later to store data as long as the schema.sql is the same as before. The mysql_database_init_files will check if the schema.sql file has changed and if so, recreate the database.
+1. The `mysql_data` directory will be used later to store data as long as the schema.sql is the same as before. The mysql_database_init_files will check if the `schema.sql` file has changed and if so, recreate the database.
