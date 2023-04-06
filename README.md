@@ -2,6 +2,8 @@
  
 ## Docker container use
 
+First TURN OFF mysql as the default port is 3306 which is needed for the docker container. Run `mysqladmin -u root -p shutdown`
+
 The `setup.sh` file sets the environmental variables from the `.env` file.
 
 The `schema.sql` file is inside the `mysql_database_init_files` folder which is 
