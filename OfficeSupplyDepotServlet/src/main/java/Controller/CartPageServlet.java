@@ -60,6 +60,7 @@ public class CartPageServlet extends HttpServlet {
       
 		LinkedList<CartItem> cartItemList = (LinkedList<CartItem>) session.getAttribute("cartItemList");
 		String removeButton = request.getParameter("remove");
+		String nextButton = request.getParameter("next");
 		if (removeButton != null)
 		{
 			for (int i = 0; i < cartItemList.size(); i++)
@@ -69,8 +70,8 @@ public class CartPageServlet extends HttpServlet {
 					
 					for (int j = 0; j < cartItemList.size(); j++)
 					{
-						String quantity = request.getParameter("quantity_" + cartItemList.get(i).getProduct().getBarcode());
-						cartItemList.get(i).setQuantity(Integer.parseInt(quantity));
+						String quantity = request.getParameter("quantity_" + cartItemList.get(j).getProduct().getBarcode());
+						cartItemList.get(j).setQuantity(Integer.parseInt(quantity));
 
 					}
 					cartItemList.remove(i);
@@ -80,6 +81,20 @@ public class CartPageServlet extends HttpServlet {
 					return;
 				}
 			}
+		}
+		
+		if(nextButton != null)
+		{
+			for (int j = 0; j < cartItemList.size(); j++)
+			{
+				String quantity = request.getParameter("quantity_" + cartItemList.get(j).getProduct().getBarcode());
+				cartItemList.get(j).setQuantity(Integer.parseInt(quantity));
+
+			}
+			session.setAttribute("cartItemList", cartItemList);
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("Checkout.jsp");
+			requestDispatcher.forward(request, response);
+			return;
 		}
 		
         

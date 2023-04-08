@@ -104,7 +104,7 @@
 						
 						Description: <%=description%></p>
 					</div>
-				<td><input type="number" value="<%=quantity%>" min="1">
+				<td><input type="number" name="quantity_<%=barcode%>" value="<%=quantity%>" min="1">
 				<button class="remove" value = <%=barcode%> name = "remove">Remove</button>
 				</td>
 				<td><%=weight%></td>
