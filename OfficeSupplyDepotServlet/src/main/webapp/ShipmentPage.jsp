@@ -16,7 +16,6 @@
 		<div class="home-link">
 			<a href="MainPage.jsp"> Office Supply Depot </a>	
 		</div>
-
 		<%
 			Customer loginCustomer = (Customer) session.getAttribute("loginCustomer");
 			OSDAdmin loginAdmin = (OSDAdmin) session.getAttribute("loginAdmin");
@@ -31,7 +30,6 @@
 			}
 			else if (loginCustomer != null)
 			{
-	
 				displayName = loginCustomer.getCustomerName();
 		%>
 			<div class="info-section">
@@ -42,8 +40,7 @@
 			else if (loginAdmin != null)
 			{
 				displayName = loginAdmin.getAdminName();
-		%>
-		
+		%>	
 			<div class="info-section">
 				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="#">Order</a> | <a href="AddProductPage.jsp">Inventory</a>
 			</div>
@@ -57,7 +54,6 @@
 <form action = "shipmentPage" method="post"> 
 <div  class="cart-page">
 	<%
-		
 		BigDecimal subtotal = (BigDecimal) session.getAttribute("subtotal");
 		BigDecimal weight = (BigDecimal) session.getAttribute("weight");
 		int totalItem = (int) session.getAttribute("totalItem");
@@ -71,11 +67,12 @@
 				String name = availableShipMethodList.get(i).getName();
 				BigDecimal price = availableShipMethodList.get(i).getPrice();
 				int speed = availableShipMethodList.get(i).getSpeed();
+				int Id = availableShipMethodList.get(i).getId();
 				
 	%>
 		  <div class="card">
 		  <div class="card-header">
-		    <input type="checkbox" class="checkbox-class" id="checkbox1">
+		    <input type="checkbox" class="checkbox-class" id="checkbox1" name="myCheckbox" value =<%=Id%>>
 		    <label for="checkbox1"></label>
 		    <h3><%=name%></h3>
 		  </div>
@@ -83,8 +80,7 @@
 		    <p>Price: $<%=price%></p>
 		    <p>Speed: <%=speed %> Days</p>
 		  </div>
-		  </div>
-		
+		  </div>	
 	<%
 			}
 		} 
@@ -100,7 +96,7 @@
 			</tr>
 			<tr class="checkout-table">
 				<td></td>
-				<td><b>Total weight:</b> <br><%=subtotal %> </td>
+				<td><b>Total weight:</b> <br><%=weight %> </td>
 			</tr>
 			<tr>
 				<td></td>
@@ -108,7 +104,7 @@
 			</tr>
 			<tr class="checkout-table">
 				<td></td>
-				<td><b>Subtotal:</b> <br>$<%=weight%></td>
+				<td><b>Subtotal:</b> <br>$<%=subtotal%></td>
 			</tr>
 		</table>
 		
@@ -116,8 +112,7 @@
 	</div>
 	
 </div>
-
 </form>
-	<script src = "ShipmentPage.js"> </script>
+	<script src = "ShipmentPage.js"></script>
 </body>
 </html>

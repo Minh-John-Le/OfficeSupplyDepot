@@ -66,7 +66,8 @@ public class CheckoutUtil {
 				shipMethodListStr += "1,";
 			}
 			shipMethodListStr += "2,";
-			shipMethodListStr += "5";	
+			shipMethodListStr += "5,";	
+			shipMethodListStr += "6";	
 		}
 		else
 		{
@@ -74,8 +75,10 @@ public class CheckoutUtil {
 			{
 				shipMethodListStr += "3,";
 			}
-			shipMethodListStr += "4";
+			shipMethodListStr += "4,";
+			shipMethodListStr += "6";
 		}
+		
 		return shipMethodListStr;
 	}
 
@@ -88,6 +91,12 @@ public class CheckoutUtil {
 			count += currentCartItem.getQuantity();
 		}
 		return count;
+	}
+	
+	public BigDecimal getTotal(BigDecimal subtotal, BigDecimal shippingCost)
+	{
+		BigDecimal total = subtotal.add(shippingCost);
+		return total;
 	}
 
 }

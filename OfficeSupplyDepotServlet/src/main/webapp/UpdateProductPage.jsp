@@ -110,7 +110,7 @@
                 <div class="item-image">
 					<img src="<%=imageURL%>">
 				</div>
-				<input type="checkbox" nid="myCheckbox" name="myCheckbox" value="true"> New Image
+				<input type="checkbox" id="myCheckbox" name="myCheckbox" value="true"> New Image
                 <input type="file" id="file" name="file">
             </div>
             <div class="form-group">
