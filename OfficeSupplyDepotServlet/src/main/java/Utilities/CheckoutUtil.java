@@ -12,8 +12,8 @@ public class CheckoutUtil {
 	
 	public String getAvailableShippingMethod(List<CartItem> cartItemList)
 	{
-		BigDecimal subtotal = getWeight(cartItemList);
-		BigDecimal weight = getSubtotal(cartItemList);
+		BigDecimal  weight = getWeight(cartItemList);
+		BigDecimal subtotal = getSubtotal(cartItemList);
 		return getAvailableShippingMethodHelper(subtotal, weight);
 	}
 	
