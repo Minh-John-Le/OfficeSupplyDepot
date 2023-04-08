@@ -25,12 +25,11 @@ public class ShipMethodDAO {
         this.mySQLPass = password;
     }
 
-    public List<ShipMethod> getAvailableShipMethod(List<Integer> shipMethodList) {
+    public List<ShipMethod> getAvailableShipMethod(String shipMethodListStr) {
         List<ShipMethod> availableShipMethods = new LinkedList<>();
         try (Connection conn = DriverManager.getConnection(url, mySQLUser, mySQLPass)) {
-            String query = "SELECT * FROM ShipMethod WHERE Id IN (?) AND IsActive = 1";
+            String query = "SELECT * FROM ShipMethods WHERE Id IN (" + shipMethodListStr +");";
             PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setArray(1, conn.createArrayOf("INTEGER", shipMethodList.toArray()));
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("Id");

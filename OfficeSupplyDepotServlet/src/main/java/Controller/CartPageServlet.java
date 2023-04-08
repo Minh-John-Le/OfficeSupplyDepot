@@ -2,6 +2,7 @@ package Controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -19,11 +20,13 @@ import Beans.BankAccount;
 import Beans.CartItem;
 import Beans.Customer;
 import Beans.PaymentAccount;
+import Beans.ShipMethod;
 import Beans.OSDAdmin;
 import DAO.BankAccountDAO;
 import DAO.CustomerDAO;
 import DAO.PaymentAccountDAO;
 import DAO.*;
+import Utilities.CheckoutUtil;
 import Utilities.Settings;
 
 
@@ -91,8 +94,25 @@ public class CartPageServlet extends HttpServlet {
 				cartItemList.get(j).setQuantity(Integer.parseInt(quantity));
 
 			}
+			
+			
+			CheckoutUtil checkoutUtil = new CheckoutUtil();
+			ShipMethodDAO shipMethodDAO = new ShipMethodDAO(url, mySQLuser, mySQLpassword);
+			
+			BigDecimal subtotal = checkoutUtil.getSubtotal(cartItemList);
+			BigDecimal weight = checkoutUtil.getWeight(cartItemList);
+			String shipmethodListStr = checkoutUtil.getAvailableShippingMethod(cartItemList);
+			int totalItem = checkoutUtil.getTotalItem(cartItemList);
+			List<ShipMethod> availableShipMethodList = shipMethodDAO.getAvailableShipMethod(shipmethodListStr);
+			
+			
 			session.setAttribute("cartItemList", cartItemList);
-			RequestDispatcher requestDispatcher = request.getRequestDispatcher("Checkout.jsp");
+			session.setAttribute("subtotal", subtotal);
+			session.setAttribute("weight", weight);
+			session.setAttribute("totalItem", totalItem);
+			session.setAttribute("availableShipMethodList", availableShipMethodList);
+			
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("ShipmentPage.jsp");
 			requestDispatcher.forward(request, response);
 			return;
 		}

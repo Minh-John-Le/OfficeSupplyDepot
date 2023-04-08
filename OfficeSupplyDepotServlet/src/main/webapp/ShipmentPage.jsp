@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Shopping Cart</title>
-<link rel="stylesheet" href="CartPage.css">
+<link rel="stylesheet" href="ShipmentPage.css">
 </head>
 <body>
 	<div class="header">
@@ -54,65 +54,53 @@
 	</div>
 
 
-<form action = "cartpage" method="post"> 
+<form action = "shipmentPage" method="post"> 
 <div  class="cart-page">
-
-	<div class="cart-container">
-		<h1>Shopping Cart</h1>
+	<%
 		
-		<table>
-			<tr>
-				<th>Product</th>
-				<th>Quantity</th>
-				<th>Weight</th>
-				<th>Price</th>
-			</tr>
-			<%
-			LinkedList<CartItem> cartItemList = (LinkedList<CartItem>) session.getAttribute("cartItemList");
-					
-			if(cartItemList != null)
-      		{				
-      			for(int i = 0 ; i < cartItemList.size(); i++)
-      			{
-      			String imageUrl = cartItemList.get(i).getProduct().getImageURL();
-      			String productname = cartItemList.get(i).getProduct().getName();
-      			int quantity= cartItemList.get(i).getQuantity();
-      			BigDecimal weight = cartItemList.get(i).getProduct().getWeight();
-      			BigDecimal price = cartItemList.get(i).getProduct().getPrice();
-      			String description = cartItemList.get(i).getProduct().getDescription();
-      			int productId = cartItemList.get(i).getProduct().getId();
-      			String barcode = cartItemList.get(i).getProduct().getBarcode();
-      			%>	
-      			
-			<tr>
-				<td>
-					<div class="item">
-						<img src="<%=imageUrl%>">
-						<p><%=productname%>
-						
-						Description: <%=description%></p>
-					</div>
-				<td><input type="number" name="quantity_<%=barcode%>" value="<%=quantity%>" min="1">
-				<button class="remove" value = <%=barcode%> name = "remove">Remove</button>
-				</td>
-				<td><%=weight%></td>
-				<td><%=price%></td>
-			</tr>
-        <% }
-         }%>
-         	
-		</table>
+		BigDecimal subtotal = (BigDecimal) session.getAttribute("subtotal");
+		BigDecimal weight = (BigDecimal) session.getAttribute("weight");
+		int totalItem = (int) session.getAttribute("totalItem");
+		LinkedList<ShipMethod> availableShipMethodList = (LinkedList<ShipMethod>) session.getAttribute("availableShipMethodList");
+	%>
+	<div class="cart-container">
+	<h1>Shipping Method</h1>	
+	<% if(availableShipMethodList != null) {
+			for (int i = 0; i < availableShipMethodList.size(); i++)
+			{
+				String name = availableShipMethodList.get(i).getName();
+				BigDecimal price = availableShipMethodList.get(i).getPrice();
+				int speed = availableShipMethodList.get(i).getSpeed();
+				
+	%>
+		  <div class="card">
+		  <div class="card-header">
+		    <input type="checkbox" class="checkbox-class" id="checkbox1">
+		    <label for="checkbox1"></label>
+		    <h3><%=name%></h3>
+		  </div>
+		  <div class="card-body">
+		    <p>Price: $<%=price%></p>
+		    <p>Speed: <%=speed %> Days</p>
+		  </div>
+		  </div>
+		
+	<%
+			}
+		} 
+	%>
+	
 	</div>
 	<div class="checkout-container">
 		<h1>Summary</h1>
 		<table>
 			<tr class="checkout-table">
 				<td></td>
-				<td><b>Total items:</b> <br> TBD</td>
+				<td><b>Total items:</b> <br> <%=totalItem%> </td>
 			</tr>
 			<tr class="checkout-table">
 				<td></td>
-				<td><b>Total weight:</b> <br> TBD</td>
+				<td><b>Total weight:</b> <br><%=subtotal %> </td>
 			</tr>
 			<tr>
 				<td></td>
@@ -120,15 +108,16 @@
 			</tr>
 			<tr class="checkout-table">
 				<td></td>
-				<td><b>Subtotal:</b> <br> TBD</td>
+				<td><b>Subtotal:</b> <br>$<%=weight%></td>
 			</tr>
 		</table>
-		<button class="checkout" name ="next" value = "next">Next</button>
+		
+		<button class="checkout">Next</button>
 	</div>
 	
 </div>
 
 </form>
-
+	<script src = "ShipmentPage.js"> </script>
 </body>
 </html>
