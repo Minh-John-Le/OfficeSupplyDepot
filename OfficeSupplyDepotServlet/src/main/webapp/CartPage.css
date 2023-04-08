@@ -160,6 +160,25 @@ p{
 	background-color: #ffa63d;
 }
 
+.next button {
+	background-color: #ff9900;
+	color: #fff;
+	border: none;
+	height: 40px;
+	border-radius: 3px;
+	margin-left: 5px;
+	padding: 5px 10px;
+	cursor: pointer;
+	
+}
+.next
+{
+	float: right; /* sets button to float to the right */
+	height: 30px;
+    padding: 5px 20px 5px 10px; 
+    margin-right: 25px;
+}
+
 .remove{
 	background-color:#f44336;
 	color: #fff;

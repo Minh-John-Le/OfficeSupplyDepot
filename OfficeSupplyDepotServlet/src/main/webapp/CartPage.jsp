@@ -66,10 +66,10 @@
 	</div>
 
 
-
+<form action = "cartpage" method="post"> 
 <div  class="cart-page">
 
-<div class="cart-container">
+	<div class="cart-container">
 		<h1>Shopping Cart</h1>
 		
 		<table>
@@ -93,6 +93,7 @@
       			BigDecimal price = cartItemList.get(i).getProduct().getPrice();
       			String description = cartItemList.get(i).getProduct().getDescription();
       			int productId = cartItemList.get(i).getProduct().getId();
+      			String barcode = cartItemList.get(i).getProduct().getBarcode();
       			%>	
       			
 			<tr>
@@ -104,7 +105,7 @@
 						Description: <%=description%></p>
 					</div>
 				<td><input type="number" value="<%=quantity%>" min="1">
-				<button class="remove">Remove</button>
+				<button class="remove" value = <%=barcode%> name = "remove">Remove</button>
 				</td>
 				<td><%=weight%></td>
 				<td><%=price%></td>
@@ -114,30 +115,12 @@
          	
 		</table>
 	</div>
-	<div class="checkout-container">
-		<h1>Summary</h1>
-		<table>
-			<tr class="checkout-table">
-				<td></td>
-				<td><b>Total items:</b> <br> 1000000 </td>
-			</tr>
-			<tr class="checkout-table">
-				<td></td>
-				<td><b>Total weight:</b> <br>100000 </td>
-			</tr>
-			<tr class="checkout-table">
-				<td></td>
-				<td><b>Shipping</b> <br>TBD</td>
-			</tr>
-			<tr class="checkout-table">
-				<td></td>
-				<td><b>Subtotal:</b> <br>$100.99</td>
-			</tr>
-		</table>
-		<button class="checkout">Checkout</button>
-	</div>
-	</div>
 	
+</div>
+<div class="search">
+	<button class="next" name = "next" value = "next">Next</button>
+</div>
+</form>
 
 </body>
 </html>

@@ -52,6 +52,12 @@ CREATE TABLE IF NOT EXISTS Order_Details (
   Shipmethod_ID int NOT NULL,
   Ship_Address text,
   Total_Weight decimal(10,2) DEFAULT NULL,
+  Payment_Card_Number int NOT NULL,
+  Card_Name varchar(255) NOT NULL,
+  Expire_Date varchar(5) NOT NULL,
+  Delivery_Name varchar(255) NOT NULL,
+  Order_Date varchar(20) NOT NULL,
+  Delivery_Date varchar(20) NOT NULL,
   PRIMARY KEY (Id),
   FOREIGN KEY (Customer_ID) REFERENCES Customers (Id),
   FOREIGN KEY (Payment_Account_ID) REFERENCES PaymentAccounts (Id),
@@ -91,6 +97,13 @@ CREATE TABLE IF NOT EXISTS Reviews (
   PRIMARY KEY (Id),
   FOREIGN KEY (Product_ID) REFERENCES Products (Id),
   FOREIGN KEY (Customer_ID) REFERENCES Customers (Id)
+);
+
+CREATE TABLE IF NOT EXISTS PickupAreas (
+  Id int NOT NULL,
+  Name varchar(255) UNIQUE NOT NULL,
+  Address text,
+  PRIMARY KEY (Id)
 );
 
 CREATE USER 'david'@'localhost' IDENTIFIED BY '!Changme123';
