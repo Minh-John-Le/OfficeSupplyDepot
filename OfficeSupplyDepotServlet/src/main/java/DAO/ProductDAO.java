@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-
+import Beans.CartItem;
 import Beans.Product;
 
 	
@@ -203,5 +203,55 @@ public class ProductDAO{
 	    return null;
 	}
 
-	
+	public List<CartItem> updateProductStockAfterOrder(List<CartItem> cartItemList) {
+	    Connection connection;
+	    try {
+	        Class.forName("com.mysql.cj.jdbc.Driver");
+	        connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+	        connection.setAutoCommit(false);
+
+	        // Update stock for all products in the cartItemList
+	        for (CartItem cartItem : cartItemList) {
+	        	String query = "SELECT Stock FROM Products WHERE Barcode = ?";
+				PreparedStatement statement = connection.prepareStatement(query);
+				statement.setString(1, cartItem.getProduct().getBarcode());
+				ResultSet resultSet = statement.executeQuery();
+				if (resultSet.next()) 
+				{
+					int stock = resultSet.getInt("Stock");
+					cartItem.getProduct().setStock(stock);
+				}
+				statement.close();
+	        }
+	        
+	        for (CartItem cartItem : cartItemList) {
+	            Product product = cartItem.getProduct();
+	            int oldStock = product.getStock();
+	            int newStock = oldStock - cartItem.getQuantity();
+	            
+	            if( newStock < 0)
+	            {
+	            	connection.close();
+	            	return cartItemList;
+	            }
+	            
+	            String query = "UPDATE Products SET Stock=? WHERE Id=?";
+	            PreparedStatement statement = connection.prepareStatement(query);
+	            statement.setInt(1, newStock);
+	            statement.setInt(2, product.getId());
+	            statement.executeUpdate();
+	            statement.close();
+	        }
+	        connection.commit();
+	        connection.close();
+	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } catch (ClassNotFoundException e) {
+	        e.printStackTrace();
+	    }
+	    return null;
+	}
+
+
 }

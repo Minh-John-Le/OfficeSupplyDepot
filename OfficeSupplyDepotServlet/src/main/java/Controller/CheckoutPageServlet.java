@@ -84,7 +84,18 @@ public class CheckoutPageServlet extends HttpServlet {
 		
 		if(checkoutButton != null)
 		{
-
+			
+			ProductDAO productDAO = new ProductDAO(url, mySQLuser, mySQLpassword);
+			
+			LinkedList<CartItem> newcartItem = (LinkedList<CartItem>) productDAO.updateProductStockAfterOrder(cartItemList);
+			
+			if (newcartItem != null)
+			{
+				session.setAttribute("cartItemList", newcartItem);
+				RequestDispatcher requestDispatcher = request.getRequestDispatcher("CheckoutPage.jsp");
+				requestDispatcher.forward(request, response);
+				return;
+			}
 			OrderDetailDAO orderDetailDAO = new OrderDetailDAO(url, mySQLuser, mySQLpassword);
 			OrderPackageDAO orderPackageDAO = new OrderPackageDAO(url, mySQLuser, mySQLpassword);
 			String orderCode = UUID.randomUUID().toString();
