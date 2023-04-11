@@ -72,7 +72,7 @@
 	%>
 		  <div class="card">
 		  <div class="card-header">
-		    <input type="checkbox" class="checkbox-class" id="checkbox1" name="myCheckbox" value =<%=Id%>>
+		    <input type="checkbox" class="checkbox-class" name="myCheckbox" value =<%=Id%>>
 		    <label for="checkbox1"></label>
 		    <h3><%=name%></h3>
 		  </div>
