@@ -80,7 +80,7 @@ public class CheckoutPageServlet extends HttpServlet {
 		ShipMethod shipMethod = (ShipMethod) session.getAttribute("shipMethod");
 		Customer loginCustomer = (Customer) session.getAttribute("loginCustomer");
 		LinkedList<CartItem> cartItemList = (LinkedList<CartItem>) session.getAttribute("cartItemList");
-
+		int totalItem = (int) session.getAttribute("totalItem");
 		
 		if(checkoutButton != null)
 		{
@@ -109,6 +109,7 @@ public class CheckoutPageServlet extends HttpServlet {
 			orderDetail.setOrderCode(orderCode);
 			orderDetail.setOrderDate(orderDayStr);
 			orderDetail.setDeliveryDate(deliveryDayStr);
+			orderDetail.setTotalItem(totalItem);
 			
 			
 			// Add everything to database
@@ -123,6 +124,7 @@ public class CheckoutPageServlet extends HttpServlet {
 			session.setAttribute("subtotal", 0);
 			session.setAttribute("shipMethod", null);
 			session.setAttribute("availableShipMethodList", null);
+			session.setAttribute("totalItem", 0);
 			
 			
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("MainPage.jsp");

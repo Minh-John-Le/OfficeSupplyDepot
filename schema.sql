@@ -59,6 +59,7 @@ CREATE TABLE IF NOT EXISTS OrderDetails (
   Delivery_Name varchar(255) NOT NULL,
   Order_Date varchar(20) NOT NULL,
   Delivery_Date varchar(20) NOT NULL,
+  Total_Item int NOT NULL,
   PRIMARY KEY (Id),
   FOREIGN KEY (Customer_ID) REFERENCES Customers (Id),
   FOREIGN KEY (Shipmethod_ID) REFERENCES ShipMethods (Id)

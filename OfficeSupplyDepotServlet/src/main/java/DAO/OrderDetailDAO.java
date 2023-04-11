@@ -35,7 +35,7 @@ public class OrderDetailDAO {
     public void addOrderDetail(OrderDetail orderDetail) {
         try {
             Connection connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-            String query = "INSERT INTO OrderDetails (Customer_ID, Order_Code, Shipmethod_ID, Ship_Address, Total_Weight, Total_Price, Payment_Card_Number, Card_Name, Expire_Date, Delivery_Name, Order_Date, Delivery_Date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO OrderDetails (Customer_ID, Order_Code, Shipmethod_ID, Ship_Address, Total_Weight, Total_Price, Payment_Card_Number, Card_Name, Expire_Date, Delivery_Name, Order_Date, Delivery_Date, Total_Item) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, orderDetail.getCustomerID());
             statement.setString(2, orderDetail.getOrderCode());
@@ -49,6 +49,7 @@ public class OrderDetailDAO {
             statement.setString(10, orderDetail.getDeliveryName());
             statement.setString(11, orderDetail.getOrderDate());
             statement.setString(12, orderDetail.getDeliveryDate());
+            statement.setInt(13, orderDetail.getTotalItem());
             statement.executeUpdate();
             statement.close();
             connection.close();
@@ -80,6 +81,7 @@ public class OrderDetailDAO {
                 orderDetail.setDeliveryName(resultSet.getString("Delivery_Name"));
                 orderDetail.setOrderDate(resultSet.getString("Order_Date"));
                 orderDetail.setDeliveryDate(resultSet.getString("Delivery_Date"));
+                orderDetail.setTotalItem(resultSet.getInt("Total_Item"));
                 orderDetails.add(orderDetail);
             }
             statement.close();
@@ -114,6 +116,7 @@ public class OrderDetailDAO {
                 orderDetail.setDeliveryName(resultSet.getString("Delivery_Name"));
                 orderDetail.setOrderDate(resultSet.getString("Order_Date"));
                 orderDetail.setDeliveryDate(resultSet.getString("Delivery_Date"));
+                orderDetail.setTotalItem(resultSet.getInt("Total_Item"));
             }
             statement.close();
             resultSet.close();
@@ -147,6 +150,7 @@ public class OrderDetailDAO {
                 orderDetail.setDeliveryName(resultSet.getString("Delivery_Name"));
                 orderDetail.setOrderDate(resultSet.getString("Order_Date"));
                 orderDetail.setDeliveryDate(resultSet.getString("Delivery_Date"));
+                orderDetail.setTotalItem(resultSet.getInt("Total_Item"));
             }
             statement.close();
             resultSet.close();

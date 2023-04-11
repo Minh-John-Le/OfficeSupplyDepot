@@ -16,6 +16,7 @@ public class OrderDetail {
     private String deliveryName;
     private String orderDate;
     private String deliveryDate;
+    private int totalItem;
 
     // Getters and Setters
     public int getId()
@@ -122,5 +123,13 @@ public class OrderDetail {
 
 	public void setOrderCode(String order_Code) {
 		OrderCode = order_Code;
+	}
+
+	public int getTotalItem() {
+		return totalItem;
+	}
+
+	public void setTotalItem(int totalItem) {
+		this.totalItem = totalItem;
 	}
 }
