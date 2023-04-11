@@ -45,13 +45,14 @@ CREATE TABLE IF NOT EXISTS ShipMethods (
   PRIMARY KEY (Id)
 );
 
-CREATE TABLE IF NOT EXISTS Order_Details (
+CREATE TABLE IF NOT EXISTS OrderDetails (
   Id int NOT NULL AUTO_INCREMENT,
   Customer_ID int NOT NULL,
   Payment_Account_ID int NOT NULL,
   Shipmethod_ID int NOT NULL,
   Ship_Address text,
   Total_Weight decimal(10,2) DEFAULT NULL,
+  Total_Price decimal(10,2) DEFAULT NULL,
   Payment_Card_Number int NOT NULL,
   Card_Name varchar(255) NOT NULL,
   Expire_Date varchar(5) NOT NULL,
@@ -79,12 +80,12 @@ CREATE TABLE IF NOT EXISTS Products (
   FOREIGN KEY (Warehouse_ID) REFERENCES Warehouses (Id)
 );
 
-CREATE TABLE IF NOT EXISTS Packages (
+CREATE TABLE IF NOT EXISTS OrderPackages (
   Order_ID int DEFAULT NULL,
   Product_ID int DEFAULT NULL,
   Quantity int NOT NULL,
   FOREIGN KEY (Product_ID) REFERENCES Products (Id),
-  FOREIGN KEY (Order_ID) REFERENCES Order_Details (Id)
+  FOREIGN KEY (Order_ID) REFERENCES OrderDetails (Id)
 );
 
 CREATE TABLE IF NOT EXISTS Reviews (

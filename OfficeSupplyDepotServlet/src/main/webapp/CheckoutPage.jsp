@@ -20,6 +20,7 @@
 			Customer loginCustomer = (Customer) session.getAttribute("loginCustomer");
 			OSDAdmin loginAdmin = (OSDAdmin) session.getAttribute("loginAdmin");
 			String displayName = "";
+			
 			if (loginCustomer == null && loginAdmin == null)
 			{
 		%>
@@ -63,6 +64,18 @@
 		{
 			shipMethodName = shipMethod.getName();
 		}
+		PaymentAccount paymentAccount = (PaymentAccount) session.getAttribute("paymentAccount");
+		String address = loginCustomer.getAddress();
+		String accountName = "";
+		int accountNumber = 0;
+		String expDate ="";
+		
+		if (paymentAccount != null)
+		{
+			accountName = paymentAccount.getName();
+			accountNumber = paymentAccount.getCardNumber();
+			expDate = paymentAccount.getExpireDate();
+		}
 		
 	%>
 	<div class="cart-container">
@@ -71,24 +84,24 @@
 			<h2>Shipping Information</h2>
 			  <div class="form-row">
 		        <label for="ship-name">Name:</label>
-		        <input type="text" id="ship-name" name="ship-name" value="">
+		        <input type="text" id="ship-name" name="ship-name" value="<%=displayName%>">
 		      </div>
 		      <div class="form-row">
 		        <label for="ship-address">Shipping Address:</label>
-		        <input type="text" id="ship-address" name="ship-address" value="">
+		        <input type="text" id="ship-address" name="ship-address" value="<%=address%>">
 		      </div>
 		      <h2>Payment Information</h2>
 		      <div class="form-row">
-		        <label for="name">Name on Card:</label>
-		        <input type="text" id="account-name" name="account-name" value="">
+		        <label for="name">Name On Card:</label>
+		        <input type="text" id="account-name" name="account-name" value="<%=accountName%>">
 		      </div>
 		      <div class="form-row">
 		        <label for="account-number">Card Number:</label>
-		        <input type="text" id="account-number" name="account-number" value="">
+		        <input type="text" id="account-number" name="account-number" value="<%=accountNumber%>">
 		      </div>
 		      <div class="form-row">
 		        <label for="exp">Expiration Date:</label>
-		        <input type="text" id="exp" name="exp" value="" placeholder="MM/YY">
+		        <input type="text" id="exp" name="exp" value="<%=expDate%>" placeholder="MM/YY">
 		      </div>
 		  </div>
 		  
@@ -115,7 +128,7 @@
 			</tr>
 		</table>
 		
-		<button class="checkout">Next</button>
+		<button class="checkout" name = "checkout" value = "checkout">Check Out</button>
 	</div>
 	
 </div>
