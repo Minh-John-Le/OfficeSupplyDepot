@@ -55,7 +55,7 @@
 <form action = "checkoutPage" method="post"> 
 <div  class="cart-page">
 	<%
-		BigDecimal subtotal = (BigDecimal) session.getAttribute("subtotal");
+		BigDecimal totalPrice = (BigDecimal) session.getAttribute("totalPrice");
 		BigDecimal weight = (BigDecimal) session.getAttribute("weight");
 		int totalItem = (int) session.getAttribute("totalItem");
 		ShipMethod shipMethod  = (ShipMethod) session.getAttribute("shipMethod");	
@@ -124,7 +124,7 @@
 			</tr>
 			<tr class="checkout-table">
 				<td></td>
-				<td><b>Subtotal:</b> <br>$<%=subtotal%></td>
+				<td><b>Subtotal:</b> <br>$<%=totalPrice%></td>
 			</tr>
 		</table>
 		

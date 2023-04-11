@@ -47,8 +47,8 @@ CREATE TABLE IF NOT EXISTS ShipMethods (
 
 CREATE TABLE IF NOT EXISTS OrderDetails (
   Id int NOT NULL AUTO_INCREMENT,
+  Order_Code varchar(255) NOT NULL,
   Customer_ID int NOT NULL,
-  Payment_Account_ID int NOT NULL,
   Shipmethod_ID int NOT NULL,
   Ship_Address text,
   Total_Weight decimal(10,2) DEFAULT NULL,
@@ -61,7 +61,6 @@ CREATE TABLE IF NOT EXISTS OrderDetails (
   Delivery_Date varchar(20) NOT NULL,
   PRIMARY KEY (Id),
   FOREIGN KEY (Customer_ID) REFERENCES Customers (Id),
-  FOREIGN KEY (Payment_Account_ID) REFERENCES PaymentAccounts (Id),
   FOREIGN KEY (Shipmethod_ID) REFERENCES ShipMethods (Id)
 );
 

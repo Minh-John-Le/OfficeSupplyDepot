@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 
 public class OrderDetail {
 	private int Id;
+	private String OrderCode;
     private int customerID;
-    private int paymentAccountID;
     private int shipmethodID;
     private String shipAddress;
     private BigDecimal totalWeight;
@@ -34,14 +34,6 @@ public class OrderDetail {
 
     public void setCustomerID(int customerID) {
         this.customerID = customerID;
-    }
-
-    public int getPaymentAccountID() {
-        return paymentAccountID;
-    }
-
-    public void setPaymentAccountID(int paymentAccountID) {
-        this.paymentAccountID = paymentAccountID;
     }
 
     public int getShipmethodID() {
@@ -123,4 +115,12 @@ public class OrderDetail {
     public void setDeliveryDate(String deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
+
+	public String getOrderCode() {
+		return OrderCode;
+	}
+
+	public void setOrderCode(String order_Code) {
+		OrderCode = order_Code;
+	}
 }

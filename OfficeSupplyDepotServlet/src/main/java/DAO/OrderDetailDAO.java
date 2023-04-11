@@ -35,10 +35,10 @@ public class OrderDetailDAO {
     public void addOrderDetail(OrderDetail orderDetail) {
         try {
             Connection connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-            String query = "INSERT INTO OrderDetails (Customer_ID, Payment_Account_ID, Shipmethod_ID, Ship_Address, Total_Weight, Total_Price, Payment_Card_Number, Card_Name, Expire_Date, Delivery_Name, Order_Date, Delivery_Date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO OrderDetails (Customer_ID, Order_Code, Shipmethod_ID, Ship_Address, Total_Weight, Total_Price, Payment_Card_Number, Card_Name, Expire_Date, Delivery_Name, Order_Date, Delivery_Date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, orderDetail.getCustomerID());
-            statement.setInt(2, orderDetail.getPaymentAccountID());
+            statement.setString(2, orderDetail.getOrderCode());
             statement.setInt(3, orderDetail.getShipmethodID());
             statement.setString(4, orderDetail.getShipAddress());
             statement.setBigDecimal(5, orderDetail.getTotalWeight());
@@ -69,7 +69,7 @@ public class OrderDetailDAO {
                 OrderDetail orderDetail = new OrderDetail();
                 orderDetail.setId(resultSet.getInt("Id"));
                 orderDetail.setCustomerID(resultSet.getInt("Customer_ID"));
-                orderDetail.setPaymentAccountID(resultSet.getInt("Payment_Account_ID"));
+                orderDetail.setOrderCode(resultSet.getString("Order_Code"));
                 orderDetail.setShipmethodID(resultSet.getInt("Shipmethod_ID"));
                 orderDetail.setShipAddress(resultSet.getString("Ship_Address"));
                 orderDetail.setTotalWeight(resultSet.getBigDecimal("Total_Weight"));
@@ -103,7 +103,7 @@ public class OrderDetailDAO {
                 orderDetail = new OrderDetail();
                 orderDetail.setId(resultSet.getInt("Id"));
                 orderDetail.setCustomerID(resultSet.getInt("Customer_ID"));
-                orderDetail.setPaymentAccountID(resultSet.getInt("Payment_Account_ID"));
+                orderDetail.setOrderCode(resultSet.getString("Order_Code"));
                 orderDetail.setShipmethodID(resultSet.getInt("Shipmethod_ID"));
                 orderDetail.setShipAddress(resultSet.getString("Ship_Address"));
                 orderDetail.setTotalWeight(resultSet.getBigDecimal("Total_Weight"));

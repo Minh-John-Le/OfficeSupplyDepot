@@ -28,7 +28,7 @@ import Utilities.Settings;
 
 
 @WebServlet("/shipmentPage")
-public class ShipmentPage extends HttpServlet {
+public class ShipmentPageServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -66,7 +66,6 @@ public class ShipmentPage extends HttpServlet {
 			if (shipmentMethodCheckBox != null)
 			{
 				LinkedList<ShipMethod> availableShipMethodList = (LinkedList<ShipMethod>) session.getAttribute("availableShipMethodList");
-				ShipMethodDAO shipMethodDAO = new ShipMethodDAO(url, mySQLuser, mySQLpassword);
 				ShipMethod  shipMethod = new ShipMethod();
 				
 				int shipMethodId = Integer.parseInt(shipmentMethodCheckBox);
@@ -80,7 +79,12 @@ public class ShipmentPage extends HttpServlet {
 					}
 				}
 				
+				BigDecimal subtotal = (BigDecimal) session.getAttribute("subtotal");
+				CheckoutUtil checkoutUtil = new CheckoutUtil();
+				BigDecimal totalPrice = checkoutUtil.getTotal(subtotal,shipMethod.getPrice());
+				
 				session.setAttribute("shipMethod", shipMethod);
+				session.setAttribute("totalPrice", totalPrice);
 				RequestDispatcher requestDispatcher = request.getRequestDispatcher("CheckoutPage.jsp");
 				requestDispatcher.forward(request, response);
 				return;		
