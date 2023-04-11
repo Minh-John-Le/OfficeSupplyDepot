@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Shopping Cart</title>
-<link rel="stylesheet" href="ShipmentPage.css">
+<link rel="stylesheet" href="CheckoutPage.css">
 </head>
 <body>
 	<div class="header">
@@ -51,42 +51,49 @@
 	</div>
 
 
-<form action = "shipmentPage" method="post"> 
+<form action = "checkoutPage" method="post"> 
 <div  class="cart-page">
 	<%
 		BigDecimal subtotal = (BigDecimal) session.getAttribute("subtotal");
 		BigDecimal weight = (BigDecimal) session.getAttribute("weight");
 		int totalItem = (int) session.getAttribute("totalItem");
-		LinkedList<ShipMethod> availableShipMethodList = (LinkedList<ShipMethod>) session.getAttribute("availableShipMethodList");
+		ShipMethod shipMethod  = (ShipMethod) session.getAttribute("shipMethod");	
+		String shipMethodName = "";
+		if (shipMethod != null)
+		{
+			shipMethodName = shipMethod.getName();
+		}
+		
 	%>
 	<div class="cart-container">
-	<h1>Shipping Method</h1>	
-	<% if(availableShipMethodList != null) {
-			for (int i = 0; i < availableShipMethodList.size(); i++)
-			{
-				String name = availableShipMethodList.get(i).getName();
-				BigDecimal price = availableShipMethodList.get(i).getPrice();
-				int speed = availableShipMethodList.get(i).getSpeed();
-				int Id = availableShipMethodList.get(i).getId();
-				
-	%>
-		  <div class="card">
-		  <div class="card-header">
-		    <input type="checkbox" class="checkbox-class" name="myCheckbox" value =<%=Id%>>
-		    <label for="checkbox1"></label>
-		    <h3><%=name%></h3>
+	<h1>Check out Information</h1>	
+		<div class="bank-account">
+			<h2>Shipping Information</h2>
+			  <div class="form-row">
+		        <label for="ship-name">Name:</label>
+		        <input type="text" id="ship-name" name="ship-name" value="">
+		      </div>
+		      <div class="form-row">
+		        <label for="ship-address">Shipping Address:</label>
+		        <input type="text" id="ship-address" name="ship-address" value="">
+		      </div>
+		      <h2>Payment Information</h2>
+		      <div class="form-row">
+		        <label for="name">Name on Card:</label>
+		        <input type="text" id="account-name" name="account-name" value="">
+		      </div>
+		      <div class="form-row">
+		        <label for="account-number">Card Number:</label>
+		        <input type="text" id="account-number" name="account-number" value="">
+		      </div>
+		      <div class="form-row">
+		        <label for="exp">Expiration Date:</label>
+		        <input type="text" id="exp" name="exp" value="" placeholder="MM/YY">
+		      </div>
 		  </div>
-		  <div class="card-body">
-		    <p>Price: $<%=price%></p>
-		    <p>Speed: <%=speed %> Days</p>
-		  </div>
-		  </div>	
-	<%
-			}
-		} 
-	%>
-	
+		  
 	</div>
+	
 	<div class="checkout-container">
 		<h1>Summary</h1>
 		<table>
@@ -96,11 +103,11 @@
 			</tr>
 			<tr class="checkout-table">
 				<td></td>
-				<td><b>Total weight:</b> <br><%=weight %> </td>
+				<td><b>Total weight:</b> <br><%=weight%> </td>
 			</tr>
 			<tr>
 				<td></td>
-				<td><b>Ship Method:</b> <br> TBD</td>
+				<td><b>Ship Method:</b> <br> <%=shipMethodName%></td>
 			</tr>
 			<tr class="checkout-table">
 				<td></td>
@@ -108,11 +115,10 @@
 			</tr>
 		</table>
 		
-		<button class="checkout" name = "next" value ="next" >Next</button>
+		<button class="checkout">Next</button>
 	</div>
 	
 </div>
 </form>
-	<script src = "ShipmentPage.js"></script>
 </body>
 </html>
