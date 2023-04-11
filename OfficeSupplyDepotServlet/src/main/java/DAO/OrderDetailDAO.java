@@ -91,6 +91,39 @@ public class OrderDetailDAO {
         return orderDetails;
     }
     
+    public OrderDetail getOrderDetailByOrderCode(String orderCode) {
+        OrderDetail orderDetail = null;
+        try {
+            Connection connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+            String query = "SELECT * FROM OrderDetails WHERE Order_Code=?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, orderCode);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                orderDetail = new OrderDetail();
+                orderDetail.setId(resultSet.getInt("Id"));
+                orderDetail.setCustomerID(resultSet.getInt("Customer_ID"));
+                orderDetail.setOrderCode(resultSet.getString("Order_Code"));
+                orderDetail.setShipmethodID(resultSet.getInt("Shipmethod_ID"));
+                orderDetail.setShipAddress(resultSet.getString("Ship_Address"));
+                orderDetail.setTotalWeight(resultSet.getBigDecimal("Total_Weight"));
+                orderDetail.setTotalPrice(resultSet.getBigDecimal("Total_Price"));
+                orderDetail.setPaymentCardNumber(resultSet.getInt("Payment_Card_Number"));
+                orderDetail.setCardName(resultSet.getString("Card_Name"));
+                orderDetail.setExpireDate(resultSet.getString("Expire_Date"));
+                orderDetail.setDeliveryName(resultSet.getString("Delivery_Name"));
+                orderDetail.setOrderDate(resultSet.getString("Order_Date"));
+                orderDetail.setDeliveryDate(resultSet.getString("Delivery_Date"));
+            }
+            statement.close();
+            resultSet.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orderDetail;
+    }
+
     public OrderDetail getOrderDetailById(int orderId) {
         OrderDetail orderDetail = null;
         try {

@@ -109,9 +109,23 @@ public class AccountServlet extends HttpServlet {
 	        	}
 	        	else if (clickButton.equals("logout-btn"))
 	        	{
+	        		// reset all attribute
+	        		// Account
 	        		session.setAttribute("loginAdmin", null);
 			        session.setAttribute("loginCustomer", null);
 			        session.setAttribute("paymentAccount", null);
+			       
+			        // Cart 
+			        session.setAttribute("totalPrice", 0);
+					session.setAttribute("weight", 0);
+					session.setAttribute("cartItemList", null);
+					session.setAttribute("subtotal", 0);
+					session.setAttribute("shipMethod", null);
+					session.setAttribute("availableShipMethodList", null);
+					
+					//Main Page
+					session.setAttribute("searchProductList", null);
+					
 			        RequestDispatcher requestDispatcher = request.getRequestDispatcher("MainPage.jsp");
 			        requestDispatcher.forward(request, response);
 			        return;

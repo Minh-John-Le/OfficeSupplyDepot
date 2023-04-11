@@ -30,7 +30,9 @@ import DAO.*;
 import Utilities.CheckoutUtil;
 import Utilities.Settings;
 import java.util.UUID;
-
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @WebServlet("/checkoutPage")
 public class CheckoutPageServlet extends HttpServlet {
@@ -87,6 +89,13 @@ public class CheckoutPageServlet extends HttpServlet {
 			OrderPackageDAO orderPackageDAO = new OrderPackageDAO(url, mySQLuser, mySQLpassword);
 			String orderCode = UUID.randomUUID().toString();
 			
+			LocalDate orderDay = LocalDate.now();
+			int speed = shipMethod.getSpeed();
+			LocalDate deliveryDay = LocalDate.now().plusDays(speed);
+			String orderDayStr = orderDay.toString();
+			String deliveryDayStr = deliveryDay.toString();
+			
+			
 			OrderDetail orderDetail = new OrderDetail();
 			orderDetail.setCardName(cardName);
 			orderDetail.setCustomerID(loginCustomer.getId());
@@ -98,6 +107,22 @@ public class CheckoutPageServlet extends HttpServlet {
 			orderDetail.setTotalPrice(totalPrice);
 			orderDetail.setTotalWeight(weight);
 			orderDetail.setOrderCode(orderCode);
+			orderDetail.setOrderDate(orderDayStr);
+			orderDetail.setDeliveryDate(deliveryDayStr);
+			
+			
+			// Add everything to database
+			orderDetailDAO.addOrderDetail(orderDetail);
+			orderDetail = orderDetailDAO.getOrderDetailByOrderCode(orderCode);			
+			orderPackageDAO.addPackage(cartItemList, orderDetail.getId());
+			
+			// reset all cart value
+			session.setAttribute("totalPrice", 0);
+			session.setAttribute("weight", 0);
+			session.setAttribute("cartItemList", null);
+			session.setAttribute("subtotal", 0);
+			session.setAttribute("shipMethod", null);
+			session.setAttribute("availableShipMethodList", null);
 			
 			
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("MainPage.jsp");

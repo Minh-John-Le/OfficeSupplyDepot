@@ -124,7 +124,7 @@
 			</tr>
 			<tr class="checkout-table">
 				<td></td>
-				<td><b>Subtotal:</b> <br>$<%=totalPrice%></td>
+				<td><b>Total:</b> <br>$<%=totalPrice%></td>
 			</tr>
 		</table>
 		

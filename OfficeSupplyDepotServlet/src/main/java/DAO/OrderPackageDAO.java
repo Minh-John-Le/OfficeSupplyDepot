@@ -26,7 +26,7 @@ public class OrderPackageDAO {
     public void addOrderPackage(OrderPackage pkg) {
         try {
             Connection connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-            String query = "INSERT INTO Packages (Order_ID, Product_ID, Quantity) VALUES (?, ?, ?)";
+            String query = "INSERT INTO OrderPackages (Order_ID, Product_ID, Quantity) VALUES (?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, pkg.getOrderID());
             statement.setInt(2, pkg.getProductID());
@@ -48,7 +48,7 @@ public class OrderPackageDAO {
             connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
 
             // Prepare statement
-            String query = "INSERT INTO Packages (Order_ID, Product_ID, Quantity) VALUES (?, ?, ?)";
+            String query = "INSERT INTO OrderPackages (Order_ID, Product_ID, Quantity) VALUES (?, ?, ?)";
             statement = connection.prepareStatement(query);
 
             // Iterate through cart items and add to batch
@@ -77,7 +77,7 @@ public class OrderPackageDAO {
         List<OrderPackage> packages = new LinkedList<>();
         try {
             Connection connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-            String query = "SELECT * FROM Packages WHERE Order_ID=?";
+            String query = "SELECT * FROM OrderPackages WHERE Order_ID=?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, orderId);
             ResultSet resultSet = statement.executeQuery();
