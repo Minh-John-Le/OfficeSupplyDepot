@@ -82,17 +82,18 @@
       			String description = cartItemList.get(i).getProduct().getDescription();
       			int productId = cartItemList.get(i).getProduct().getId();
       			String barcode = cartItemList.get(i).getProduct().getBarcode();
+      			int stock = cartItemList.get(i).getProduct().getStock();
       			%>	
       			
 			<tr>
 				<td>
 					<div class="item">
 						<img src="<%=imageUrl%>">
-						<p><%=productname%>
-						
-						Description: <%=description%></p>
+						<span><b><%=productname%></b>
+						<b>Stock:</b> <%=stock%>
+						<b>Description:</b> <%=description%></span>
 					</div>
-				<td><input type="number" name="quantity_<%=barcode%>" value="<%=quantity%>" min="1">
+				<td><input type="number" name="quantity_<%=barcode%>" value="<%=quantity%>" min="1" max = "10">
 				<button class="remove" value = <%=barcode%> name = "remove">Remove</button>
 				</td>
 				<td><%=weight%></td>
