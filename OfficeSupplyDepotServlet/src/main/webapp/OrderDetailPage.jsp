@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Shopping Cart</title>
-<link rel="stylesheet" href="CartPage.css">
+<link rel="stylesheet" href="OrderDetailPage.css">
 </head>
 <body>
 	<div class="header">

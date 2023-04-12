@@ -68,7 +68,7 @@ public class OrderPageServlet extends HttpServlet {
     	String sortBy = request.getParameter("sortBy");
     	String searchButton = request.getParameter("search-button");
     	String trackPackage = request.getParameter("track Package");
-    	
+    	String viewOrderDetail = request.getParameter("view details");
     	// Session information
     	OrderPageFilter orderPageFilter = (OrderPageFilter) session.getAttribute("orderPageFilter");
     	Customer loginCustomer =  (Customer) session.getAttribute("loginCustomer");
@@ -115,6 +115,23 @@ public class OrderPageServlet extends HttpServlet {
         	requestDispatcher.forward(request, response);
     		return;
         }
+        
+        if (viewOrderDetail != null)
+        {
+			LinkedList<CartItem> packageItemList =  new LinkedList<CartItem>();
+			OrderDetailDAO orderDetailDAO = new OrderDetailDAO(url, mySQLuser, mySQLpassword);
+			OrderDetail selectedOrderDetail = new OrderDetail();
+			selectedOrderDetail = orderDetailDAO.getOrderDetailById(0);
+			
+			//packageItemList = 
+			
+
+        	RequestDispatcher requestDispatcher = request.getRequestDispatcher("OrderDetailPage.jsp");
+        	requestDispatcher.forward(request, response);
+    		return;
+        }
+        
+        
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("OrderPage.jsp");
 		requestDispatcher.forward(request, response);
 		return;
