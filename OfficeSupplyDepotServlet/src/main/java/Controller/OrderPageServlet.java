@@ -67,6 +67,7 @@ public class OrderPageServlet extends HttpServlet {
     	String toDeliveryDate = request.getParameter("to-delivery-date");
     	String sortBy = request.getParameter("sortBy");
     	String searchButton = request.getParameter("search-button");
+    	String trackPackage = request.getParameter("track Package");
     	
     	// Session information
     	OrderPageFilter orderPageFilter = (OrderPageFilter) session.getAttribute("orderPageFilter");
@@ -107,6 +108,13 @@ public class OrderPageServlet extends HttpServlet {
         			
         }
         
+        if (trackPackage != null)
+        {
+        	session.setAttribute("destination", trackPackage);
+        	RequestDispatcher requestDispatcher = request.getRequestDispatcher("TrackPackageMap.jsp");
+        	requestDispatcher.forward(request, response);
+    		return;
+        }
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("OrderPage.jsp");
 		requestDispatcher.forward(request, response);
 		return;
