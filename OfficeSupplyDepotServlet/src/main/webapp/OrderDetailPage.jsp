@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Shopping Cart</title>
+<title>Order Details</title>
 <link rel="stylesheet" href="OrderDetailPage.css">
 </head>
 <body>
@@ -56,6 +56,47 @@
 
 <form action = "cartpage" method="post"> 
 <div  class="cart-page">
+	<% 
+	ShipMethod viewedshipMethod = (ShipMethod) session.getAttribute("viewedShipMethod");
+	OrderDetail orderDetail = (OrderDetail) session.getAttribute("viewedOrderDetail");
+	
+	String shipMethodName = "";
+	BigDecimal shipCost = new BigDecimal(0);
+	
+	if (viewedshipMethod != null)
+	{
+		shipMethodName = viewedshipMethod.getName();
+		shipCost = viewedshipMethod.getPrice();
+	}
+	
+	
+	BigDecimal totalPrice = new BigDecimal(0);
+	BigDecimal totalWeight = new BigDecimal(0);
+	int totalItem = 0;
+	String shipName = "";
+	String address = "";
+	String accountName = "";
+	int accountNumber = 0;
+	String expDate = "";
+
+	
+	
+	if (orderDetail != null)
+	{
+		totalPrice = orderDetail.getTotalPrice();
+		totalWeight = orderDetail.getTotalWeight();
+		totalItem = orderDetail.getTotalItem();
+		shipName = orderDetail.getDeliveryName();
+		address = orderDetail.getShipAddress();
+		accountName = orderDetail.getCardName();
+		accountNumber = orderDetail.getPaymentCardNumber();
+		expDate = orderDetail.getExpireDate();
+		
+	}
+	
+	
+	
+	%>
 
 	<div class="cart-container">
 		<h1>Shopping Cart</h1>
@@ -68,21 +109,21 @@
 				<th>Price</th>
 			</tr>
 			<%
-			LinkedList<CartItem> cartItemList = (LinkedList<CartItem>) session.getAttribute("cartItemList");
+			LinkedList<CartItem> packageItemList = (LinkedList<CartItem>) session.getAttribute("packageItemList");
 					
-			if(cartItemList != null)
+			if(packageItemList != null)
       		{				
-      			for(int i = 0 ; i < cartItemList.size(); i++)
+      			for(int i = 0 ; i < packageItemList.size(); i++)
       			{
-      			String imageUrl = cartItemList.get(i).getProduct().getImageURL();
-      			String productname = cartItemList.get(i).getProduct().getName();
-      			int quantity= cartItemList.get(i).getQuantity();
-      			BigDecimal weight = cartItemList.get(i).getProduct().getWeight();
-      			BigDecimal price = cartItemList.get(i).getProduct().getPrice();
-      			String description = cartItemList.get(i).getProduct().getDescription();
-      			int productId = cartItemList.get(i).getProduct().getId();
-      			String barcode = cartItemList.get(i).getProduct().getBarcode();
-      			int stock = cartItemList.get(i).getProduct().getStock();
+      			String imageUrl = packageItemList.get(i).getProduct().getImageURL();
+      			String productname = packageItemList.get(i).getProduct().getName();
+      			int quantity= packageItemList.get(i).getQuantity();
+      			BigDecimal weight = packageItemList.get(i).getProduct().getWeight();
+      			BigDecimal price = packageItemList.get(i).getProduct().getPrice();
+      			String description = packageItemList.get(i).getProduct().getDescription();
+      			int productId = packageItemList.get(i).getProduct().getId();
+      			String barcode = packageItemList.get(i).getProduct().getBarcode();
+      			int stock = packageItemList.get(i).getProduct().getStock();
       			%>	
       			
 			<tr>
@@ -93,8 +134,7 @@
 						<b>Stock:</b> <%=stock%>
 						<b>Description:</b> <%=description%></span>
 					</div>
-				<td><input type="number" name="quantity_<%=barcode%>" value="<%=quantity%>" min="1" max = "10">
-				<button class="remove" value = <%=barcode%> name = "remove">Remove</button>
+				<td><input type="number" name="quantity_<%=barcode%>" value="<%=quantity%>" readonly>
 				</td>
 				<td><%=weight%></td>
 				<td><%=price%></td>
@@ -103,28 +143,59 @@
          }%>
          	
 		</table>
+		
+		<br>
+		<hr>
+		<br>
+		<!-- ------------------------------------------------ -->
+		<h1>Check out Information</h1>	
+		<div class="bank-account">
+			<h2>Shipping Information</h2>
+			  <div class="form-row">
+		        <label for="ship-name">Name:</label>
+		        <input type="text" id="ship-name" name="ship-name" value="<%=shipName%>" readonly>
+		      </div>
+		      <div class="form-row">
+		        <label for="ship-address">Shipping Address:</label>
+		        <input type="text" id="ship-address" name="ship-address" value="<%=address%>" readonly>
+		      </div>
+		      <h2>Payment Information</h2>
+		      <div class="form-row">
+		        <label for="name">Name On Card:</label>
+		        <input type="text" id="account-name" name="account-name" value="<%=accountName%>" readonly>
+		      </div>
+		      <div class="form-row">
+		        <label for="account-number">Card Number:</label>
+		        <input type="text" id="account-number" name="account-number" value="<%=accountNumber%>" readonly>
+		      </div>
+		      <div class="form-row">
+		        <label for="exp">Expiration Date:</label>
+		        <input type="text" id="exp" name="exp" value="<%=expDate%>" placeholder="MM/YY" readonly>
+		      </div>
+		  </div>
+		
+		
 	</div>
 	<div class="checkout-container">
 		<h1>Summary</h1>
 		<table>
 			<tr class="checkout-table">
 				<td></td>
-				<td><b>Total items:</b> <br> TBD</td>
+				<td><b>Total items:</b> <br> <%=totalItem %></td>
 			</tr>
 			<tr class="checkout-table">
 				<td></td>
-				<td><b>Total weight:</b> <br> TBD</td>
+				<td><b>Total weight:</b> <br> <%=totalWeight %></td>
 			</tr>
 			<tr>
 				<td></td>
-				<td><b>Ship Method:</b> <br> TBD</td>
+				<td><b>Ship Method:</b> <br> <%=shipMethodName%> cost $<%=shipCost %></td>
 			</tr>
 			<tr class="checkout-table">
 				<td></td>
-				<td><b>Subtotal:</b> <br> TBD</td>
+				<td><b>Total:</b> <br> <%=totalPrice %></td>
 			</tr>
 		</table>
-		<button class="checkout" name ="next" value = "next">Next</button>
 	</div>
 	
 </div>

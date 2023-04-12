@@ -129,6 +129,37 @@ public class ProductDAO{
 		}
 		return product;
 	}
+	
+	public Product getProductById(int Id) {
+		Connection connection;
+		Product product = null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+			String query = "SELECT * FROM Products WHERE Id = ?";
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setInt(1, Id);
+			ResultSet resultSet = statement.executeQuery();
+			if (resultSet.next()) {
+				product = new Product();
+				product.setId(resultSet.getInt("Id"));
+				product.setName(resultSet.getString("Name"));
+				product.setStock(resultSet.getInt("Stock"));
+				product.setWeight(resultSet.getBigDecimal("Weight"));
+				product.setDescription(resultSet.getString("Description"));
+				product.setPrice(resultSet.getBigDecimal("Price"));
+				product.setImageURL(resultSet.getString("ImageURL"));
+				product.setWarehouse_id(resultSet.getInt("Warehouse_ID"));
+				product.setCategory(resultSet.getString("Category"));
+				product.setBarcode(resultSet.getString("Barcode"));
+			}
+			statement.close();
+			connection.close();
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return product;
+	}
 
 	public List<Product> searchProductsByName(String searchTerm) {
 	    List<Product> products = new LinkedList<>();

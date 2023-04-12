@@ -21,12 +21,15 @@ import Beans.CartItem;
 import Beans.Customer;
 import Beans.OSDAdmin;
 import Beans.OrderDetail;
+import Beans.OrderPackage;
 import Beans.OrderPageFilter;
 import Beans.Product;
+import Beans.ShipMethod;
 import DAO.CustomerDAO;
 import DAO.OSDAdminDAO;
 import DAO.OrderDetailDAO;
 import DAO.ProductDAO;
+import DAO.ShipMethodDAO;
 import Utilities.Settings;
 
 
@@ -120,12 +123,30 @@ public class OrderPageServlet extends HttpServlet {
         {
 			LinkedList<CartItem> packageItemList =  new LinkedList<CartItem>();
 			OrderDetailDAO orderDetailDAO = new OrderDetailDAO(url, mySQLuser, mySQLpassword);
-			OrderDetail selectedOrderDetail = new OrderDetail();
-			selectedOrderDetail = orderDetailDAO.getOrderDetailById(0);
+			OrderDetail viewedOrderDetail = new OrderDetail();
+			List<OrderPackage> orderPackageList = new LinkedList<OrderPackage>();
+			viewedOrderDetail = orderDetailDAO.getOrderDetailById(Integer.parseInt(viewOrderDetail));
+			ProductDAO productDAO = new ProductDAO(url, mySQLuser, mySQLpassword);
+			ShipMethodDAO shipMethodDAO = new ShipMethodDAO(url, mySQLuser, mySQLpassword);
+			ShipMethod viewedShipMethod = new ShipMethod();
 			
-			//packageItemList = 
+			for (OrderPackage orderPackage: orderPackageList)
+			{
+				CartItem cartItem = new CartItem();
+				Product product = new Product();
+				product = productDAO.getProductById(orderPackage.getProductID());
+				
+				cartItem.setProduct(product);
+				cartItem.setQuantity(orderPackage.getQuantity());
+				
+				packageItemList.add(cartItem);
+			}
 			
-
+			viewedShipMethod = shipMethodDAO.getShipMethodById(viewedOrderDetail.getShipmethodID());
+			
+			session.setAttribute("viewedShipMethod", viewedShipMethod);
+			session.setAttribute("packageItemList", packageItemList);
+			session.setAttribute("viewedOrderDetail", viewedOrderDetail);
         	RequestDispatcher requestDispatcher = request.getRequestDispatcher("OrderDetailPage.jsp");
         	requestDispatcher.forward(request, response);
     		return;

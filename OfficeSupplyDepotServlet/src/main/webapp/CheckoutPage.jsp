@@ -79,7 +79,7 @@
 		
 	%>
 	<div class="cart-container">
-	<h1>Check out Information</h1>	
+		<h1>Check out Information</h1>	
 		<div class="bank-account">
 			<h2>Shipping Information</h2>
 			  <div class="form-row">
