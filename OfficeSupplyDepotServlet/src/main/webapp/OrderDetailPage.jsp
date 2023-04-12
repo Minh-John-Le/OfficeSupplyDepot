@@ -145,7 +145,6 @@
 		</table>
 		
 		<br>
-		<hr>
 		<br>
 		<!-- ------------------------------------------------ -->
 		<h1>Check out Information</h1>	
@@ -185,15 +184,15 @@
 			</tr>
 			<tr class="checkout-table">
 				<td></td>
-				<td><b>Total weight:</b> <br> <%=totalWeight %></td>
+				<td><b>Total weight:</b> <br> <%=totalWeight %> lbs</td>
 			</tr>
 			<tr>
 				<td></td>
-				<td><b>Ship Method:</b> <br> <%=shipMethodName%> cost $<%=shipCost %></td>
+				<td><b>Ship Method:</b> <br> <%=shipMethodName%> - $<%=shipCost %></td>
 			</tr>
 			<tr class="checkout-table">
 				<td></td>
-				<td><b>Total:</b> <br> <%=totalPrice %></td>
+				<td><b>Total:</b> <br> $<%=totalPrice %></td>
 			</tr>
 		</table>
 	</div>

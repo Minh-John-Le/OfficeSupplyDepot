@@ -28,6 +28,7 @@ import Beans.ShipMethod;
 import DAO.CustomerDAO;
 import DAO.OSDAdminDAO;
 import DAO.OrderDetailDAO;
+import DAO.OrderPackageDAO;
 import DAO.ProductDAO;
 import DAO.ShipMethodDAO;
 import Utilities.Settings;
@@ -130,6 +131,8 @@ public class OrderPageServlet extends HttpServlet {
 			ShipMethodDAO shipMethodDAO = new ShipMethodDAO(url, mySQLuser, mySQLpassword);
 			ShipMethod viewedShipMethod = new ShipMethod();
 			
+			OrderPackageDAO orderPackageDAO = new OrderPackageDAO(url, mySQLuser, mySQLpassword);
+			orderPackageList = orderPackageDAO.getPackagesByOrderId(viewedOrderDetail.getId());
 			for (OrderPackage orderPackage: orderPackageList)
 			{
 				CartItem cartItem = new CartItem();

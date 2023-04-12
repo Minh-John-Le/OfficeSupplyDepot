@@ -116,7 +116,7 @@
 			</tr>
 			<tr class="checkout-table">
 				<td></td>
-				<td><b>Total weight:</b> <br><%=weight%> </td>
+				<td><b>Total weight:</b> <br><%=weight%> lbs </td>
 			</tr>
 			<tr>
 				<td></td>
