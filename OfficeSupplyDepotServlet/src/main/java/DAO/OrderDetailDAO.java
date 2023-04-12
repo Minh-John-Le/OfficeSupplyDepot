@@ -58,13 +58,138 @@ public class OrderDetailDAO {
         }
     }
     
-    public List<OrderDetail> getOrderDetailByCustomerId(int customerId) {
+    public List<OrderDetail> getOrderDetailByCustomerIdAndOrderCode(int customerId, String orderCode, String sort, String fromOrderDay, String toOrderDay, String fromDeliveryDay, String toDeliveryDay) {
         List<OrderDetail> orderDetails = new LinkedList<>();
         try {
             Connection connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-            String query = "SELECT * FROM OrderDetails WHERE Customer_ID=?";
+            String query = "SELECT * FROM OrderDetails WHERE Customer_ID=? AND Order_Code LIKE ? \n"
+            		+ "\n AND Order_Date >= fromOrderDay"
+            		+ "\n AND Order_Date <= toOrderDay"
+            		+ "\n AND Delivery_Date >= fromDeliveryDay"
+            		+ "\n AND Delivery_Date <= toDeliveryDay"
+            		+ "\n ORDER BY " + sort;
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, customerId);
+            statement.setString(2, orderCode);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                OrderDetail orderDetail = new OrderDetail();
+                orderDetail.setId(resultSet.getInt("Id"));
+                orderDetail.setCustomerID(resultSet.getInt("Customer_ID"));
+                orderDetail.setOrderCode(resultSet.getString("Order_Code"));
+                orderDetail.setShipmethodID(resultSet.getInt("Shipmethod_ID"));
+                orderDetail.setShipAddress(resultSet.getString("Ship_Address"));
+                orderDetail.setTotalWeight(resultSet.getBigDecimal("Total_Weight"));
+                orderDetail.setTotalPrice(resultSet.getBigDecimal("Total_Price"));
+                orderDetail.setPaymentCardNumber(resultSet.getInt("Payment_Card_Number"));
+                orderDetail.setCardName(resultSet.getString("Card_Name"));
+                orderDetail.setExpireDate(resultSet.getString("Expire_Date"));
+                orderDetail.setDeliveryName(resultSet.getString("Delivery_Name"));
+                orderDetail.setOrderDate(resultSet.getString("Order_Date"));
+                orderDetail.setDeliveryDate(resultSet.getString("Delivery_Date"));
+                orderDetail.setTotalItem(resultSet.getInt("Total_Item"));
+                orderDetails.add(orderDetail);
+            }
+            statement.close();
+            resultSet.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orderDetails;
+    }
+    
+    public List<OrderDetail> getAllOrderDetailByOrderCode(String orderCode, String sort, String fromOrderDay, String toOrderDay, String fromDeliveryDay, String toDeliveryDay) {
+        List<OrderDetail> orderDetails = new LinkedList<>();
+        try {
+            Connection connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+            String query = "SELECT * FROM OrderDetails WHERE Order_Code LIKE ? \n"
+            		+ "\n AND Order_Date >= fromOrderDay"
+            		+ "\n AND Order_Date <= toOrderDay"
+            		+ "\n AND Delivery_Date >= fromDeliveryDay"
+            		+ "\n AND Delivery_Date <= toDeliveryDay"
+            		+ "\n ORDER BY " + sort;
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, orderCode);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                OrderDetail orderDetail = new OrderDetail();
+                orderDetail.setId(resultSet.getInt("Id"));
+                orderDetail.setCustomerID(resultSet.getInt("Customer_ID"));
+                orderDetail.setOrderCode(resultSet.getString("Order_Code"));
+                orderDetail.setShipmethodID(resultSet.getInt("Shipmethod_ID"));
+                orderDetail.setShipAddress(resultSet.getString("Ship_Address"));
+                orderDetail.setTotalWeight(resultSet.getBigDecimal("Total_Weight"));
+                orderDetail.setTotalPrice(resultSet.getBigDecimal("Total_Price"));
+                orderDetail.setPaymentCardNumber(resultSet.getInt("Payment_Card_Number"));
+                orderDetail.setCardName(resultSet.getString("Card_Name"));
+                orderDetail.setExpireDate(resultSet.getString("Expire_Date"));
+                orderDetail.setDeliveryName(resultSet.getString("Delivery_Name"));
+                orderDetail.setOrderDate(resultSet.getString("Order_Date"));
+                orderDetail.setDeliveryDate(resultSet.getString("Delivery_Date"));
+                orderDetail.setTotalItem(resultSet.getInt("Total_Item"));
+                orderDetails.add(orderDetail);
+            }
+            statement.close();
+            resultSet.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orderDetails;
+    }
+    
+    public List<OrderDetail> getOrderDetailByCustomerId(int customerId, String sort, String fromOrderDay, String toOrderDay, String fromDeliveryDay, String toDeliveryDay) {
+        List<OrderDetail> orderDetails = new LinkedList<>();
+        try {
+            Connection connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+            String query = "SELECT * FROM OrderDetails WHERE Customer_ID=? \n"
+            		+ "\n AND Order_Date >= fromOrderDay"
+            		+ "\n AND Order_Date <= toOrderDay"
+            		+ "\n AND Delivery_Date >= fromDeliveryDay"
+            		+ "\n AND Delivery_Date <= toDeliveryDay"
+            		+ "\n ORDER BY " + sort;
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, customerId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                OrderDetail orderDetail = new OrderDetail();
+                orderDetail.setId(resultSet.getInt("Id"));
+                orderDetail.setCustomerID(resultSet.getInt("Customer_ID"));
+                orderDetail.setOrderCode(resultSet.getString("Order_Code"));
+                orderDetail.setShipmethodID(resultSet.getInt("Shipmethod_ID"));
+                orderDetail.setShipAddress(resultSet.getString("Ship_Address"));
+                orderDetail.setTotalWeight(resultSet.getBigDecimal("Total_Weight"));
+                orderDetail.setTotalPrice(resultSet.getBigDecimal("Total_Price"));
+                orderDetail.setPaymentCardNumber(resultSet.getInt("Payment_Card_Number"));
+                orderDetail.setCardName(resultSet.getString("Card_Name"));
+                orderDetail.setExpireDate(resultSet.getString("Expire_Date"));
+                orderDetail.setDeliveryName(resultSet.getString("Delivery_Name"));
+                orderDetail.setOrderDate(resultSet.getString("Order_Date"));
+                orderDetail.setDeliveryDate(resultSet.getString("Delivery_Date"));
+                orderDetail.setTotalItem(resultSet.getInt("Total_Item"));
+                orderDetails.add(orderDetail);
+            }
+            statement.close();
+            resultSet.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orderDetails;
+    }
+    
+    public List<OrderDetail> getAllOrderDetail(String sort, String fromOrderDay, String toOrderDay, String fromDeliveryDay, String toDeliveryDay) {
+        List<OrderDetail> orderDetails = new LinkedList<>();
+        try {
+            Connection connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+            String query = "SELECT * FROM OrderDetails \n"
+            		+ "\n AND Order_Date >= fromOrderDay"
+            		+ "\n AND Order_Date <= toOrderDay"
+            		+ "\n AND Delivery_Date >= fromDeliveryDay"
+            		+ "\n AND Delivery_Date <= toDeliveryDay"
+            		+ "\n ORDER BY " + sort;
+            PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 OrderDetail orderDetail = new OrderDetail();
@@ -160,5 +285,7 @@ public class OrderDetailDAO {
         }
         return orderDetail;
     }
+    
+    
 }
 

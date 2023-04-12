@@ -50,7 +50,9 @@
 	</div>
 	<!-- --------------------------------------------------------------------------------- -->
 	<br>
+	<form action = "orderPage" method="post">
 	
+	</form>
 	<div class="search-bar">
 		<label for="order-number">Order Number:</label>
 		<input type="text" id="order-number">
@@ -67,11 +69,21 @@
    <div>
   	<span> <b> Expect Delivery Date </b></span>
     <label for="from-date">From:</label>
-		<input type="date" id="from-date" value = "">
+		<input type="date" id="from-date">
 		<label for="to-date">To:</label>
 		<input type="date" id="to-date">
   </div>
   
+  <br>
+  <div>
+ 	 <span> <b> Sort by </b></span>
+	  <select id="category" name="category" required>
+	     <option value="Order_Day ASC" >Oldest Order Day</option>
+	     <option value="Order_Day DESC">Newest Order Day</option>
+		 <option value="Delivery_Date ASC" >Oldest Delivery Day</option>
+	     <option value="Delivery_Date DESC">Newest Delivery Day</option>
+	 </select>
+  </div>
 	<div class="order-cards">
 		<div class="order-card">
 			<div class="order-info">

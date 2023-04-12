@@ -75,10 +75,10 @@ public class SignUpServlet extends HttpServlet {
 	        
 	        // checking for existing customer
 	        Customer existingCustomer = customerDAO.getCustomerByUsername(customer.getUsername());
-	        Settings.customer = customer;
+	        
 	        if(existingCustomer != null)
 	        {
-	        	errList.add("Username: " + Settings.customer.getUsername() + " already exist!");  	
+	        	errList.add("Username: " + customer.getUsername() + " already exist!");  	
 	        
 	        }
 	        if(password.equals(""))
