@@ -48,7 +48,7 @@
 				displayName = loginCustomer.getCustomerName();
 		%>
 			<div class="info-section">
-				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="upload.html">Order</a> | <a href="CartPage.jsp#">Cart</a>
+				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="OrderPage.jsp">Order</a> | <a href="CartPage.jsp#">Cart</a>
 			</div>
 		<%
 			}
@@ -58,7 +58,7 @@
 		%>
 		
 			<div class="info-section">
-				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="#">Order</a> | <a href="InventoryPage.jsp">Inventory</a>
+				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="OrderPage.jsp">Order</a> | <a href="InventoryPage.jsp">Inventory</a>
 			</div>
 		<%
 			}

@@ -39,7 +39,7 @@
 					displayName = loginAdmin.getAdminName();
 			%>
 				<div class="info-section">
-					<a href="AccountPage.jsp"><%=displayName%></a> | <a href="#">Order</a> | <a href="InventoryPage.jsp">Inventory</a>
+					<a href="AccountPage.jsp"><%=displayName%></a> | <a href="OrderPage.jsp">Order</a> | <a href="InventoryPage.jsp">Inventory</a>
 				</div>
 			<%
 				}
