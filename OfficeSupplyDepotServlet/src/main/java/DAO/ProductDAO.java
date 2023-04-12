@@ -161,13 +161,13 @@ public class ProductDAO{
 		return product;
 	}
 
-	public List<Product> searchProductsByName(String searchTerm) {
+	public List<Product> searchProductsByName(String searchTerm, String sortBy) {
 	    List<Product> products = new LinkedList<>();
 	    Connection connection;
 	    try {
 	        Class.forName("com.mysql.cj.jdbc.Driver");
 	        connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-	        String query = "SELECT * FROM Products WHERE Name LIKE ?";
+	        String query = "SELECT * FROM Products WHERE Name LIKE ? ORDER BY " + sortBy;
 	        PreparedStatement statement = connection.prepareStatement(query);
 	        statement.setString(1, "%" + searchTerm + "%");
 	        ResultSet resultSet = statement.executeQuery();
@@ -197,13 +197,13 @@ public class ProductDAO{
 	    return null;
 	}
 	
-	public List<Product> searchProductsByNameAndCategory(String searchTerm, String category) {
+	public List<Product> searchProductsByNameAndCategory(String searchTerm, String category, String sortBy) {
 	    List<Product> products = new LinkedList<>();
 	    Connection connection;
 	    try {
 	        Class.forName("com.mysql.cj.jdbc.Driver");
 	        connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-	        String query = "SELECT * FROM Products WHERE Name LIKE ? AND Category = ?";
+	        String query = "SELECT * FROM Products WHERE Name LIKE ? AND Category = ? ORDER BY " + sortBy;
 	        PreparedStatement statement = connection.prepareStatement(query);
 	        statement.setString(1, "%" + searchTerm + "%");
 	        statement.setString(2, category);

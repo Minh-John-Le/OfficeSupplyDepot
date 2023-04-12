@@ -25,7 +25,16 @@
                 <option value="Office Furniture">Office Furniture</option>
                 <option value="Essentials">Essentials</option>
             </select>
+        	<select id="category" name="sortBy" required>
+	       	   <option value="Name ASC">A-Z</option>
+	           <option value="Name DESC">Z-A</option>
+	           <option value="Stock ASC">Least Stock</option>
+	           <option value="Stock DESC">Most Stock</option>
+	           <option value="Price ASC"> Lowest Price</option>
+	           <option value="Price DESC">Highest Price</option>
+	       </select> 
         </div>
+        
 		<div class="search">
 			<input type="text" placeholder="Search for items..." name = "search text">
 			<button name = "button" value = "search">Search</button>

@@ -66,6 +66,7 @@ public class MainPageServlet extends HttpServlet {
         String addToCartButton = request.getParameter("Add To Cart");
         String searchText = request.getParameter("search text");
         String category = request.getParameter("category");
+        String sortBy = request.getParameter("sortBy");
         
         if (button != null)
         {
@@ -75,11 +76,11 @@ public class MainPageServlet extends HttpServlet {
         		
         		if (category.equals("All"))
         		{
-        			searchProductList = productDAO.searchProductsByName(searchText);
+        			searchProductList = productDAO.searchProductsByName(searchText, sortBy);
         		}
         		else 
         		{
-        			searchProductList = productDAO.searchProductsByNameAndCategory(searchText, category);
+        			searchProductList = productDAO.searchProductsByNameAndCategory(searchText, category, sortBy);
         		}
         		
         		session.setAttribute("searchProductList", searchProductList);

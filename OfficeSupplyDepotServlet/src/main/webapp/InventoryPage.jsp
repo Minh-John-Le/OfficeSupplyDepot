@@ -68,6 +68,16 @@
            <option value="Office Furniture">Office Furniture</option>
            <option value="Essentials">Essentials</option>
        </select>   
+       
+       <span>Sort By: </span>
+       	<select id="category" name="sortBy" required>
+       	<option value="NAME ASC">A-Z</option>
+           <option value="NAME DESC">Z-A</option>
+           <option value="Stock ASC">Least Stock</option>
+           <option value="Stock DESC">Most Stock</option>
+           <option value="Price ASC"> Lowest Price</option>
+           <option value="Price DESC">Highest Price</option>
+       </select>   
 		
 	</div>
 		
