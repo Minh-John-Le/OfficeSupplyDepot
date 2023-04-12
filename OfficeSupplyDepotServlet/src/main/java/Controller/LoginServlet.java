@@ -2,6 +2,7 @@ package Controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -19,6 +20,7 @@ import Beans.BankAccount;
 import Beans.Customer;
 import Beans.PaymentAccount;
 import Beans.OSDAdmin;
+import Beans.OrderPageFilter;
 import DAO.BankAccountDAO;
 import DAO.CustomerDAO;
 import DAO.PaymentAccountDAO;
@@ -114,10 +116,28 @@ public class LoginServlet extends HttpServlet {
 			return;
 		}
         
+        // Set up some default filter 
+        LocalDate toOrderDay = LocalDate.now();
+        LocalDate toDeliveryDay = LocalDate.now().plusDays(7);
+        String toOrderDayStr = toOrderDay.toString();
+        String toDeliveryDayStr = toDeliveryDay.toString();
+        
+        LocalDate fromDay = LocalDate.now().minusDays(7);
+        String fromDayStr = fromDay.toString();
+        OrderPageFilter orderPageFilter = new OrderPageFilter();
+        orderPageFilter.setOrderNumber("");
+        orderPageFilter.setToOrderDay(toOrderDayStr);
+        orderPageFilter.setToDeliveryDay(toDeliveryDayStr);
+        orderPageFilter.setFromDeliveryDay(fromDayStr);
+        orderPageFilter.setFromOrderDay(fromDayStr);
+        orderPageFilter.setSortBy(""); 
+        
+        // session setting
 		session .setAttribute("isCustomer", isCustomer);
         session.setAttribute("loginCustomer", loginCustomer);
         session.setAttribute("loginAdmin", loginAdmin);
         session.setAttribute("paymentAccount", paymentAccount);
+        session.setAttribute("orderPageFilter", orderPageFilter);
         
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("MainPage.jsp");
 		requestDispatcher.forward(request, response);

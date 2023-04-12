@@ -20,9 +20,12 @@ import javax.servlet.http.HttpSession;
 import Beans.CartItem;
 import Beans.Customer;
 import Beans.OSDAdmin;
+import Beans.OrderDetail;
+import Beans.OrderPageFilter;
 import Beans.Product;
 import DAO.CustomerDAO;
 import DAO.OSDAdminDAO;
+import DAO.OrderDetailDAO;
 import DAO.ProductDAO;
 import Utilities.Settings;
 
@@ -35,13 +38,8 @@ public class OrderPageServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		List<String> errList = new LinkedList<String>();
-		List<Product> searchProductList = new LinkedList<Product>();
-		List<CartItem> cartItemList = (List<CartItem>) session.getAttribute("cartItemList");
-		
-    	if (cartItemList == null)
-    	{
-    		cartItemList = new LinkedList<CartItem>();
-    	}
+
+
     	
     	ServletContext context = getServletContext();
         
@@ -62,59 +60,56 @@ public class OrderPageServlet extends HttpServlet {
         
     	//=============================================
         // Front end input receive
-    	String button = request.getParameter("button");
-        //String addToCartButton = request.getParameter("Add To Cart");
-        String searchText = request.getParameter("search text");
-        String category = request.getParameter("category");
-        
-        String updateButton = request.getParameter("Update");
-        
-        if (button != null)
+    	String orderNumber = request.getParameter("order-number");
+    	String fromOrderDate = request.getParameter("from-order-date");
+    	String toOrderDate = request.getParameter("to-order-date");
+    	String fromDeliveryDate = request.getParameter("from-delivery-date");
+    	String toDeliveryDate = request.getParameter("to-delivery-date");
+    	String sortBy = request.getParameter("sortBy");
+    	String searchButton = request.getParameter("search-button");
+    	
+    	// Session information
+    	OrderPageFilter orderPageFilter = (OrderPageFilter) session.getAttribute("orderPageFilter");
+    	Customer loginCustomer =  (Customer) session.getAttribute("loginCustomer");
+    	OSDAdmin loginAdmin = (OSDAdmin) session.getAttribute("loginAdmin");
+    			
+        if (orderNumber == null)
         {
-        	if (button.equals("search"))
+        	orderNumber ="";
+        }
+        
+        if (searchButton != null)
+        {
+        	List<OrderDetail> orderDetailList = new LinkedList<OrderDetail>();
+        	OrderDetailDAO orderDetailDAO = new OrderDetailDAO(url, mySQLuser, mySQLpassword);
+        	orderPageFilter.setOrderNumber(orderNumber);
+        	orderPageFilter.setFromOrderDay(fromOrderDate);
+        	orderPageFilter.setToOrderDay(toOrderDate);
+        	orderPageFilter.setFromDeliveryDay(fromDeliveryDate);
+        	orderPageFilter.setToDeliveryDay(toDeliveryDate);
+        	orderPageFilter.setSortBy(sortBy);
+        	
+        	if (loginCustomer != null)
         	{
-        		ProductDAO productDAO = new ProductDAO(url, mySQLuser, mySQLpassword);
-        		
-        		if (category.equals("All"))
-        		{
-        			searchProductList = productDAO.searchProductsByName(searchText);
-        		}
-        		else 
-        		{
-        			searchProductList = productDAO.searchProductsByNameAndCategory(searchText, category);
-        		}
-        		
-        		session.setAttribute("searchProductList", searchProductList);
-        		
-        		RequestDispatcher requestDispatcher = request.getRequestDispatcher("InventoryPage.jsp");
-        		requestDispatcher.forward(request, response);
-        		return;
+        		orderDetailList = orderDetailDAO.getOrderDetailByCustomerId(loginCustomer.getId() , orderPageFilter);	
+        	}
+        	else if (loginAdmin != null)
+        	{
+        		orderDetailList = orderDetailDAO.getAllOrderDetail(orderPageFilter);	
         	}
         	
-        	if (button.equals("add item"))
-        	{
-        		RequestDispatcher requestDispatcher = request.getRequestDispatcher("AddProductPage.jsp");
-        		requestDispatcher.forward(request, response);
-        		return;
-        	}
+        	
+        	session.setAttribute("orderDetailList", orderDetailList);
+        	session.setAttribute("orderPageFilter", orderPageFilter);
+    		RequestDispatcher requestDispatcher = request.getRequestDispatcher("OrderPage.jsp");
+    		requestDispatcher.forward(request, response);
+    		return;
         			
         }
         
-        // Update button
-        if (updateButton != null)
-        {
-        	ProductDAO productDAO = new ProductDAO(url, mySQLuser, mySQLpassword);
-        	
-        	Product updateProduct = productDAO.getProductByBarcode(updateButton);
-        	session.setAttribute("updateProduct", updateProduct);
-    		
-    		RequestDispatcher requestDispatcher = request.getRequestDispatcher("UpdateProductPage.jsp");
-    		requestDispatcher.forward(request, response);
-    		return;
-        	
-        }
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("OrderPage.jsp");
+		requestDispatcher.forward(request, response);
+		return;
     }
 	
-	
-
 }

@@ -35,7 +35,7 @@ public class AccountServlet extends HttpServlet {
 	    	ServletContext context = getServletContext();
 	    	String clickButton = request.getParameter("button");
 	    	Customer loginCustomer =  (Customer) session.getAttribute("loginCustomer");
-	    	OSDAdmin loginAdmin = (OSDAdmin) session.getAttribute("loginAdmin");;
+	    	OSDAdmin loginAdmin = (OSDAdmin) session.getAttribute("loginAdmin");
 	    	PaymentAccount paymentAccount = (PaymentAccount) session.getAttribute("paymentAccount");
 	    	
 	        // Get the input stream for the properties file

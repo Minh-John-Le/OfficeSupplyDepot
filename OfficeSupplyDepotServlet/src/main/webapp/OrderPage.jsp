@@ -50,65 +50,90 @@
 	</div>
 	<!-- --------------------------------------------------------------------------------- -->
 	<br>
-	<form action = "orderPage" method="post">
+	<%
+		OrderPageFilter orderPageFilter = (OrderPageFilter) session.getAttribute("orderPageFilter");
+		LinkedList<OrderDetail> orderDetailList = (LinkedList<OrderDetail>) session.getAttribute("orderDetailList");
+		String orderNumber = "";
+		String fromOrderDay = "";
+		String toOrderDay = "";
+		String fromDeliveryDay ="";
+		String toDeliveryDay = "";
+		String sortBy = "";
+		
+		if (orderPageFilter != null)
+		{
+			orderNumber = orderPageFilter.getOrderNumber();
+			fromOrderDay = orderPageFilter.getFromOrderDay();
+			toOrderDay = orderPageFilter.getToOrderDay();
+			fromDeliveryDay = orderPageFilter.getFromDeliveryDay();
+			toDeliveryDay = orderPageFilter.getToDeliveryDay();
+			sortBy = orderPageFilter.getSortBy();
+		}
+		
+		
+	%>
+<form action = "orderPage" method="post">
 	
-	</form>
 	<div class="search-bar">
 		<label for="order-number">Order Number:</label>
-		<input type="text" id="order-number">
-    <button type="button">Search</button>
+		<input type="text" name = "order-number" value ="<%=orderNumber%>">
+    	<button type="submit" name = "search-button" value ="search-button">Search</button>
 	</div>
   <div>
   	<span> <b> Order Date </b></span>
     <label for="from-date">From:</label>
-		<input type="date" id="from-date">
-		<label for="to-date">To:</label>
-		<input type="date" id="to-date">
+	<input type="date" id="from-order-date" name = "from-order-date" value = "<%=fromOrderDay%>">
+	<label for="to-date">To:</label>
+	<input type="date" id="to-order-date" name = "to-order-date" value = "<%=toOrderDay%>">
   </div>
   <br>
-   <div>
+  <div>
   	<span> <b> Expect Delivery Date </b></span>
     <label for="from-date">From:</label>
-		<input type="date" id="from-date">
-		<label for="to-date">To:</label>
-		<input type="date" id="to-date">
+	<input type="date" id="from-delivery-date" name = "from-delivery-date" value = "<%=fromDeliveryDay%>">
+	<label for="to-date">To:</label>
+	<input type="date" id="to-delivery-date" name = "to-delivery-date" value = "<%=toDeliveryDay%>">
   </div>
-  
   <br>
   <div>
  	 <span> <b> Sort by </b></span>
-	  <select id="category" name="category" required>
-	     <option value="Order_Day ASC" >Oldest Order Day</option>
-	     <option value="Order_Day DESC">Newest Order Day</option>
-		 <option value="Delivery_Date ASC" >Oldest Delivery Day</option>
-	     <option value="Delivery_Date DESC">Newest Delivery Day</option>
+	  <select id="sortBy" name="sortBy" required>
+	     <option value="Order_Date ASC" <%= sortBy.equals("Order_Date ASC") ? "selected" : "" %>>Oldest Order Day</option>
+	     <option value="Order_Date DESC" <%= sortBy.equals("Order_Date DESC") ? "selected" : "" %>>Newest Order Day</option>
+		 <option value="Delivery_Date ASC" <%= sortBy.equals("Delivery_Date ASC") ? "selected" : "" %>>Oldest Delivery Day</option>
+	     <option value="Delivery_Date DESC" <%= sortBy.equals("Delivery_Date DESC") ? "selected" : "" %>>Newest Delivery Day</option>
 	 </select>
   </div>
+  <hr>
+  <br>
+   <!-- ---------------------------------------------------------------------------------- -->
 	<div class="order-cards">
+		<%
+		if (orderDetailList != null)
+		{
+			for (OrderDetail orderDetail: orderDetailList)
+			{
+			
+		%>
 		<div class="order-card">
 			<div class="order-info">
-				<h3>Order #12345</h3>
-				<p>Ship To: John Doe, 123 Main St, Anytown, USA</p>
-				<p>Total Weight: 5.2 lbs</p>
-				<p>Total Price: $150.00</p>
-				<p>Order Date: 2023-04-10</p>
-				<p>Expected Delivery Date: 2023-04-15</p>
-				<button>View Details</button>
-				<button>Track Package</button>
+				<h3>Order # <%=orderDetail.getOrderCode()%></h3>
+				<p>Ship To: <%=orderDetail.getDeliveryName()%>, <%=orderDetail.getShipAddress() %></p>
+				<p>Total Weight: <%=orderDetail.getTotalWeight() %> lbs</p>
+				<p>Total Price: $<%=orderDetail.getTotalPrice()%></p>
+				<p>Order Date: <%=orderDetail.getOrderDate()%></p>
+				<p>Expected Delivery Date:<%=orderDetail.getDeliveryDate()%></p>
+				<button type="submit" name = "view details" value = "<%=orderDetail.getId()%>">View Details</button>
+				<button type="submit" name = "track Package" value = "<%=orderDetail.getShipAddress()%>">Track Package</button>
 			</div>
 		</div>
-		<div class="order-card">
-			<div class="order-info">
-				<h3>Order #67890</h3>
-				<p>Ship To: Jane Smith, 456 Park Ave, Anytown, USA</p>
-				<p>Total Weight: 2.8 lbs</p>
-				<p>Total Price: $75.00</p>
-				<p>Order Date: 2023-04-08</p>
-				<p>Expected Delivery Date: 2023-04-13</p>
-				<button>View Details</button>
-				<button>Track Package</button>
-			</div>
-		</div>
+		<%
+			}
+		}
+		%>
+
 	</div>
+	
+	</form>
 </body>
 </html>
