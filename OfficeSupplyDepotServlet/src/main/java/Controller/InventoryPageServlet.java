@@ -21,6 +21,7 @@ import Beans.CartItem;
 import Beans.Customer;
 import Beans.OSDAdmin;
 import Beans.Product;
+import Beans.SearchProductFilter;
 import DAO.CustomerDAO;
 import DAO.OSDAdminDAO;
 import DAO.ProductDAO;
@@ -83,7 +84,13 @@ public class InventoryPageServlet extends HttpServlet {
         		{
         			searchProductList = productDAO.searchProductsByNameAndCategory(searchText, category, sortBy);
         		}
+        		// update the filter so that it update the search information
+        		SearchProductFilter searchProductFilter = (SearchProductFilter) session.getAttribute("searchProductFilter");
+        		searchProductFilter.setCategory(category);
+        		searchProductFilter.setSearchTerm(searchText);
+        		searchProductFilter.setSortBy(sortBy);
         		
+        		session.setAttribute("searchProductFilter", searchProductFilter);
         		session.setAttribute("searchProductList", searchProductList);
         		
         		RequestDispatcher requestDispatcher = request.getRequestDispatcher("InventoryPage.jsp");

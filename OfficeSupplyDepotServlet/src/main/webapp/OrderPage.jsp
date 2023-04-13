@@ -75,12 +75,12 @@
 <form action = "orderPage" method="post">
 	
 	<div class="search-bar">
-		<label for="order-number">Order Number:</label>
+		<label for="order-number"><b>Order Number:</b></label>
 		<input type="text" name = "order-number" value ="<%=orderNumber%>">
     	<button type="submit" name = "search-button" value ="search-button">Search</button>
 	</div>
   <div>
-  	<span> <b> Order Date </b></span>
+  	<span> <b> Order Date -</b></span>
     <label for="from-date">From:</label>
 	<input type="date" id="from-order-date" name = "from-order-date" value = "<%=fromOrderDay%>">
 	<label for="to-date">To:</label>
@@ -88,7 +88,7 @@
   </div>
   <br>
   <div>
-  	<span> <b> Expect Delivery Date </b></span>
+  	<span> <b> Expect Delivery Date -</b></span>
     <label for="from-date">From:</label>
 	<input type="date" id="from-delivery-date" name = "from-delivery-date" value = "<%=fromDeliveryDay%>">
 	<label for="to-date">To:</label>
@@ -98,10 +98,10 @@
   <div>
  	 <span> <b> Sort by </b></span>
 	  <select id="sortBy" name="sortBy" required>
-	     <option value="Order_Date ASC" <%= sortBy.equals("Order_Date ASC") ? "selected" : "" %>>Oldest Order Day</option>
-	     <option value="Order_Date DESC" <%= sortBy.equals("Order_Date DESC") ? "selected" : "" %>>Newest Order Day</option>
-		 <option value="Delivery_Date ASC" <%= sortBy.equals("Delivery_Date ASC") ? "selected" : "" %>>Oldest Delivery Day</option>
-	     <option value="Delivery_Date DESC" <%= sortBy.equals("Delivery_Date DESC") ? "selected" : "" %>>Newest Delivery Day</option>
+	     <option value="Order_Date ASC" <%= sortBy.equals("Order_Date ASC") ? "selected" : "" %>>Oldest Order Date</option>
+	     <option value="Order_Date DESC" <%= sortBy.equals("Order_Date DESC") ? "selected" : "" %>>Newest Order Date</option>
+		 <option value="Delivery_Date ASC" <%= sortBy.equals("Delivery_Date ASC") ? "selected" : "" %>>Oldest Delivery Date</option>
+	     <option value="Delivery_Date DESC" <%= sortBy.equals("Delivery_Date DESC") ? "selected" : "" %>>Newest Delivery Date</option>
 	 </select>
   </div>
   <hr>
@@ -117,12 +117,12 @@
 		%>
 		<div class="order-card">
 			<div class="order-info">
-				<h3>Order # <%=orderDetail.getOrderCode()%></h3>
-				<p>Ship To: <%=orderDetail.getDeliveryName()%>, <%=orderDetail.getShipAddress() %></p>
-				<p>Total Weight: <%=orderDetail.getTotalWeight() %> lbs</p>
-				<p>Total Price: $<%=orderDetail.getTotalPrice()%></p>
-				<p>Order Date: <%=orderDetail.getOrderDate()%></p>
-				<p>Expected Delivery Date:<%=orderDetail.getDeliveryDate()%></p>
+				<h3><b>Order #</b> <%=orderDetail.getOrderCode()%></h3>
+				<p><b>Ship To:</b> <%=orderDetail.getDeliveryName()%>, <%=orderDetail.getShipAddress() %></p>
+				<p><b>Total Weight:</b> <%=orderDetail.getTotalWeight() %> lbs</p>
+				<p><b>Total Price:</b> $<%=orderDetail.getTotalPrice()%></p>
+				<p><b>Order Date:</b> <%=orderDetail.getOrderDate()%></p>
+				<p><b>Expected Delivery Date:</b> <%=orderDetail.getDeliveryDate()%></p>
 				<button type="submit" name = "view details" value = "<%=orderDetail.getId()%>">View Details</button>
 				<button type="submit" name = "track Package" value = "<%=orderDetail.getShipAddress()%>">Track Package</button>
 			</div>

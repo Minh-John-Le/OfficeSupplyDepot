@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import Beans.BankAccount;
 import Beans.Customer;
 import Beans.PaymentAccount;
+import Beans.SearchProductFilter;
 import Beans.OSDAdmin;
 import Beans.OrderPageFilter;
 import DAO.BankAccountDAO;
@@ -132,8 +133,16 @@ public class LoginServlet extends HttpServlet {
         orderPageFilter.setFromOrderDay(fromDayStr);
         orderPageFilter.setSortBy(""); 
         
+        // Set up initial searchFilter
+        
+        SearchProductFilter searchProductFilter = new SearchProductFilter();
+        searchProductFilter.setCategory("All");
+        searchProductFilter.setSearchTerm("");
+        searchProductFilter.setSortBy("Name ASC");
+        
         // session setting
-		session .setAttribute("isCustomer", isCustomer);
+        session.setAttribute("searchProductFilter", searchProductFilter);
+		session.setAttribute("isCustomer", isCustomer);
         session.setAttribute("loginCustomer", loginCustomer);
         session.setAttribute("loginAdmin", loginAdmin);
         session.setAttribute("paymentAccount", paymentAccount);

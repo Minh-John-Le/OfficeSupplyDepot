@@ -21,6 +21,7 @@ import Beans.CartItem;
 import Beans.Customer;
 import Beans.OSDAdmin;
 import Beans.Product;
+import Beans.SearchProductFilter;
 import DAO.CustomerDAO;
 import DAO.OSDAdminDAO;
 import DAO.ProductDAO;
@@ -68,6 +69,7 @@ public class MainPageServlet extends HttpServlet {
         String category = request.getParameter("category");
         String sortBy = request.getParameter("sortBy");
         
+        
         if (button != null)
         {
         	if (button.equals("search"))
@@ -83,6 +85,13 @@ public class MainPageServlet extends HttpServlet {
         			searchProductList = productDAO.searchProductsByNameAndCategory(searchText, category, sortBy);
         		}
         		
+        		// update the filter so that it update the search information
+        		SearchProductFilter searchProductFilter = (SearchProductFilter) session.getAttribute("searchProductFilter");
+        		searchProductFilter.setCategory(category);
+        		searchProductFilter.setSearchTerm(searchText);
+        		searchProductFilter.setSortBy(sortBy);
+        		
+        		session.setAttribute("searchProductFilter", searchProductFilter);
         		session.setAttribute("searchProductList", searchProductList);
         		
         		RequestDispatcher requestDispatcher = request.getRequestDispatcher("MainPage.jsp");
