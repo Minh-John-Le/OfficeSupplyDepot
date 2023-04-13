@@ -22,6 +22,7 @@ import javax.servlet.http.Part;
 
 import Beans.Product;
 import DAO.ProductDAO;
+import Utilities.ValidationUtil;
 
 @WebServlet("/addproduct")
 @MultipartConfig(
@@ -70,6 +71,10 @@ public class AddProductPageServlet extends HttpServlet {
         String category = request.getParameter("category");
         String imageUrl ="";
         
+        //================================================
+        //Util package
+        ValidationUtil validationUtil = new ValidationUtil();
+        
         //=============================================
         // Create a directory for saving the uploaded file
         //This path for deployment
@@ -100,6 +105,36 @@ public class AddProductPageServlet extends HttpServlet {
         		product.setPrice(new BigDecimal(price));
         		product.setBarcode(barcode);
         		product.setCategory(category);
+        		
+        		// Validation before add product
+        		Product checkProduct = productDAO.getProductByBarcode(barcode);
+        		Part myfilePart = request.getPart("file");
+        		
+        		if (productName.equals(""))
+        		{
+        			errList.add("Product Name cannot be empty");
+        		}
+        		
+        		if (!validationUtil.isPNG(myfilePart))
+        	    {
+        	    	errList.add("Image must be in PNG format!");
+        	    }
+        		
+        		if (checkProduct != null)
+        		{
+        			errList.add("Product barcode already exist!");
+        		}
+        		
+        		// Validation Error
+    	        if(!errList.isEmpty()) { //has some error
+    				request.setAttribute("errlist", errList);
+    				RequestDispatcher requestDispatcher = request.getRequestDispatcher("AddProductPage.jsp");
+    				requestDispatcher.forward(request, response);
+    				return;
+    			}
+        		
+        		//========================================================================
+        		//Add Product if there is zero validation error
         		
         		productDAO.addProduct(product);
         		product = productDAO.getProductByBarcode(product.getBarcode());

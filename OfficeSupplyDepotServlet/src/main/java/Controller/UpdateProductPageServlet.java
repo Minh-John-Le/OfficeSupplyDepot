@@ -23,6 +23,7 @@ import javax.servlet.http.Part;
 
 import Beans.Product;
 import DAO.ProductDAO;
+import Utilities.ValidationUtil;
 
 @WebServlet("/updateproduct")
 @MultipartConfig(
@@ -61,7 +62,7 @@ public class UpdateProductPageServlet extends HttpServlet {
     	
     	//=============================================
         // Front end input receive
-    	String productName = request.getParameter("name");
+    	String productName = request.getParameter("name").trim();
         String warehouseId = request.getParameter("warehouse");
         String stock = request.getParameter("stock");
         String weight = request.getParameter("weight");
@@ -76,6 +77,12 @@ public class UpdateProductPageServlet extends HttpServlet {
         imageUrl = updateProduct.getImageURL();
         int id = updateProduct.getId();
         
+        
+        // ================================================
+        //Util Package
+        ValidationUtil validationUtil = new ValidationUtil();
+        
+        
         //=============================================
         // Create a directory for saving the uploaded file
         //This path for deployment
@@ -88,7 +95,8 @@ public class UpdateProductPageServlet extends HttpServlet {
 	    if (!fileSaveDir.exists()) {
 	        fileSaveDir.mkdir();
 	    }
-
+	    
+	    
 	    
 	    
 	    if (clickButton != null)
@@ -107,22 +115,44 @@ public class UpdateProductPageServlet extends HttpServlet {
         		product.setBarcode(barcode);
         		product.setCategory(category);	
         		product.setImageURL(imageUrl);
-        		product.setId(id);
-        		// Update product
-        		productDAO.updateProduct(product);
-        		product = productDAO.getProductByBarcode(product.getBarcode());
-        		
-        		
-        		//========================================================================
-        		//Add Image
+        		product.setId(id);	
+	
         		if (myCheckbox != null)
         		{
 	        		// Get the file part from the request
-	        	    Part filePart = request.getPart("file");
-	
+	        	    Part myfilePart = request.getPart("file");
+	        	    
+	        	    if (!validationUtil.isPNG(myfilePart))
+	        	    {
+	        	    	errList.add("Image must be in PNG format!");
+	        	    }
+        		}
+        		
+        		if (productName.equals(""))
+        		{
+        			errList.add("Product Name cannot be empty!");
+        		}
+        		
+        		
+        		// Validation Error
+    	        if(!errList.isEmpty()) { //has some error
+    				request.setAttribute("errlist", errList);
+    				RequestDispatcher requestDispatcher = request.getRequestDispatcher("UpdateProductPage.jsp");
+    				requestDispatcher.forward(request, response);
+    				return;
+    			}
+    	        
+    	        
+        		//========================================================================
+        		//Update Image
+        		if (myCheckbox != null)
+        		{
+        			Part filePart = request.getPart("file"); 	    
+	        	    
 	        	    // Get the name of the uploaded file
 	        	    //String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
 	        	    String fileName = "product_"+String.valueOf(product.getId()) + ".png";
+	        	    
 	        	    
 	        	    // Create a file object for the uploaded file
 	        	    File file = new File(savePath + File.separator + fileName);
@@ -139,11 +169,12 @@ public class UpdateProductPageServlet extends HttpServlet {
 	
 	        	    // Save the file to the file system
 	        	    filePart.write(file.getAbsolutePath());
-	        	    
-	        	    // Update imageUrl
-	        	    productDAO.updateProduct(product);
-	        	  
+
         		}
+        		
+        		// Update the product
+        		productDAO.updateProduct(product);
+        		product = productDAO.getProductByBarcode(product.getBarcode());
         		   		
         		session.setAttribute("updateProduct", product);
         		RequestDispatcher requestDispatcher = request.getRequestDispatcher("UpdateProductPage.jsp");

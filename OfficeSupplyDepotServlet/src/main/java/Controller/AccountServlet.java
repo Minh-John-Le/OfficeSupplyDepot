@@ -73,9 +73,9 @@ public class AccountServlet extends HttpServlet {
 	        
 	        
 	        // Validation
-	        if (name != null && name.equals(""))
+	        if (name != null && !validationUtil.isValidDisplayName(name))
 	        {
-	        	errList.add("Display Name cannot be empty!");
+	        	errList.add("Display Name cannot be empty and must be at max 20 characters!");
 	        }
 	        
 	        if (password != null && !validationUtil.isValidPassword(password))
@@ -116,11 +116,11 @@ public class AccountServlet extends HttpServlet {
 			        {
 			        	CustomerDAO customerDAO = new CustomerDAO(url,mySQLuser, mySQLpassword);
 			        	
-			        	loginCustomer.setUsername(username);
-			        	loginCustomer.setPassword(password);
-			        	loginCustomer.setCustomerName(name);
-			        	loginCustomer.setEmail(email);
-			        	loginCustomer.setAddress(address);
+			        	loginCustomer.setUsername(username.trim());
+			        	loginCustomer.setPassword(password.trim());
+			        	loginCustomer.setCustomerName(name.trim());
+			        	loginCustomer.setEmail(email.trim());
+			        	loginCustomer.setAddress(address.trim());
 				        customerDAO.updateCustomer(loginCustomer);	      
 			        }
 			        else  if (loginAdmin != null)

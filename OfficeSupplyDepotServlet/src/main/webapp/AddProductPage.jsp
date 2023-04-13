@@ -1,4 +1,6 @@
 <%@page import = "Beans.*" %>
+<%@page import = "java.util.List" %>
+<%@page import = "java.util.Iterator" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -96,6 +98,22 @@
                 <button type="submit" value="Add Product" name = "button">Add Product</button>
                 <button type="button" onclick="window.location.href = 'InventoryPage.jsp';">Cancel</button>
             </div>
+            
+            <%
+      	List errList = (List) request.getAttribute("errlist");      		
+      	if(errList != null)
+      	{
+      		for(Iterator it = errList.iterator(); it.hasNext();)
+      		{
+      			String error = (String) it.next();
+      			%>
+	 			<font color ="red">
+	 			<li> <%=error%> </li>
+	 			</font>
+	 			<%
+      		}
+     	}
+   		%>
 	        
 	    </div>
     </form>

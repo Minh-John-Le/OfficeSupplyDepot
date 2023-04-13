@@ -2,6 +2,8 @@ package Utilities;
 
 import java.util.Calendar;
 
+import javax.servlet.http.Part;
+
 public class ValidationUtil {
 	public boolean isValidPassword(String password) {
 	    if (password == null || password.length() < 8) {
@@ -74,5 +76,17 @@ public class ValidationUtil {
 	        }
 	    }
 	    return true;
+	}
+	
+	public boolean isPNG(Part filePart) {
+	    if (filePart == null || filePart.getSize() == 0) {
+	        return false;
+	    }
+	    String contentType = filePart.getContentType();
+	    return contentType != null && contentType.toLowerCase().startsWith("image/png");
+	}
+	
+	public boolean isValidDisplayName(String name) {
+	    return name != null && !name.trim().isEmpty() && name.length() <= 20;
 	}
 }

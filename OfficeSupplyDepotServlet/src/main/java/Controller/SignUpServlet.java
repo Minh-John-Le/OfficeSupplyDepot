@@ -88,9 +88,9 @@ public class SignUpServlet extends HttpServlet {
 	        	errList.add("username cannot be empty");
 	        }
 	        
-	        if (name != null && name.equals(""))
+	        if (name != null && !validationUtil.isValidDisplayName(name))
 	        {
-	        	errList.add("Name cannot be empty");
+	        	errList.add("Display name cannot be empty and must be at max 20 characters!");
 	        }
 	        
 	        if(password != null && !validationUtil.isValidPassword(password))

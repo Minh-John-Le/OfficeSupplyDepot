@@ -132,3 +132,8 @@ button[type="button"]:hover {
 .item-image {
 	margin-right: 20px;
 }
+
+.item-image img {
+  max-width: 400px;
+  max-height: 400px;
+}
