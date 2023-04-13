@@ -71,7 +71,7 @@ public class SignUpServlet extends HttpServlet {
 	        customer.setCustomerName(name);
 	        customer.setEmail(email);
 	        
-	        PaymentAccount paymentAccount = new PaymentAccount(-1, -1, "","", -1);
+	        PaymentAccount paymentAccount = new PaymentAccount(-1, -1, "","", "");
 	        
 	        // checking for existing customer
 	        Customer existingCustomer = customerDAO.getCustomerByUsername(customer.getUsername());

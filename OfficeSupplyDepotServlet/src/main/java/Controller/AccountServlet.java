@@ -95,7 +95,7 @@ public class AccountServlet extends HttpServlet {
 			        {
 			        	PaymentAccountDAO paymentAccountDAO = new PaymentAccountDAO(url,mySQLuser, mySQLpassword);
 			        	paymentAccount.setName(accountName);
-			        	paymentAccount.setCardNumber(Integer.parseInt(accountNumber));
+			        	paymentAccount.setCardNumber(accountNumber);
 			        	paymentAccount.setExpireDate(expDate);
 			        	paymentAccountDAO.updatePaymentAccount(paymentAccount);
 			        }		    

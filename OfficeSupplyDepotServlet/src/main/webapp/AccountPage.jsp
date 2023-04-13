@@ -21,7 +21,7 @@
 			
 			// account
 			String accountName = "";
-			int accountNumber = -1;
+			String accountNumber = "";
 			String expDate = "";
 			
 			if (loginCustomer != null)

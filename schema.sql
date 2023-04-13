@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS PaymentAccounts (
   Customer_ID int NOT NULL,
   Name varchar(255) DEFAULT NULL,
   Expire_Date varchar(5) DEFAULT NULL,
-  Card_Number int DEFAULT NULL,
+  Card_Number varchar(20) DEFAULT NULL,
   PRIMARY KEY (Id),
   FOREIGN KEY (Customer_ID) REFERENCES Customers (Id)
 );
