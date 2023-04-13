@@ -24,6 +24,7 @@ import DAO.CustomerDAO;
 import DAO.PaymentAccountDAO;
 import DAO.OSDAdminDAO;
 import Utilities.Settings;
+import Utilities.ValidationUtil;
 
 @WebServlet("/account")
 public class AccountServlet extends HttpServlet {
@@ -34,9 +35,12 @@ public class AccountServlet extends HttpServlet {
 	    	HttpSession session = request.getSession();
 	    	ServletContext context = getServletContext();
 	    	String clickButton = request.getParameter("button");
+	    	
+	    	// DAO 
 	    	Customer loginCustomer =  (Customer) session.getAttribute("loginCustomer");
 	    	OSDAdmin loginAdmin = (OSDAdmin) session.getAttribute("loginAdmin");
 	    	PaymentAccount paymentAccount = (PaymentAccount) session.getAttribute("paymentAccount");
+	    	
 	    	
 	        // Get the input stream for the properties file
 	        InputStream input = context.getResourceAsStream("/WEB-INF/classes/db.properties");
@@ -53,6 +57,8 @@ public class AccountServlet extends HttpServlet {
 	        String mySQLuser = props.getProperty("db.username");
 	        String mySQLpassword = props.getProperty("db.password");
 	        
+	        // Util package
+	        ValidationUtil validationUtil = new ValidationUtil();
 	    	
 	    	//=============================================
 	        // Front end input receive
@@ -64,8 +70,43 @@ public class AccountServlet extends HttpServlet {
 	        String accountName = request.getParameter("account-name");
 	        String accountNumber = request.getParameter("account-number");
 	        String expDate = request.getParameter("exp");
-	        boolean isCustomer = (boolean) session.getAttribute("isCustomer");
-
+	        
+	        
+	        // Validation
+	        if (name != null && name.equals(""))
+	        {
+	        	errList.add("Display Name cannot be empty!");
+	        }
+	        
+	        if (password != null && !validationUtil.isValidPassword(password))
+	        {
+	        	errList.add("Invalid Password! Password must have at least 8 characters, 1 uppercase, 1 lowercase, and 1 special character" ); 
+	        }
+	        
+	        if (expDate != null && !expDate.equals(""))
+	        {
+	        	if(!validationUtil.isValidExpDate(expDate))
+	        	{
+	        		errList.add("Expire Date should be in format MM/YY");
+	        	}
+	        }
+	        
+	        if (accountNumber != null && !accountNumber.equals(""))
+	        {
+	        	if(!validationUtil.isNumeric(accountNumber))
+	        	{
+	        		errList.add("Invalid Account Number!");
+	        	}
+	        }
+	        
+	        // Validation Error
+	        if(!errList.isEmpty()) { //has some error
+				request.setAttribute("errlist", errList);
+				RequestDispatcher requestDispatcher = request.getRequestDispatcher("AccountPage.jsp");
+				requestDispatcher.forward(request, response);
+				return;
+			}
+	        
 	        if (clickButton != null)
 	        {
 	        	if (clickButton.equals("update-btn"))

@@ -1,4 +1,6 @@
 <%@page import = "Beans.*" %>
+<%@page import = "java.util.List" %>
+<%@page import = "java.util.Iterator" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -137,6 +139,22 @@
 	      <button type = "submit" class="update-btn" value="update-btn" name = "button" >Update</button>
 	      <button type = "submit" class="logout-btn" value="logout-btn" name = "button">Log Out</button>
 	    </div>
+	    
+	    <%
+      	List errList = (List) request.getAttribute("errlist");      		
+      	if(errList != null)
+      	{
+      		for(Iterator it = errList.iterator(); it.hasNext();)
+      		{
+      			String error = (String) it.next();
+      			%>
+	 			<font color ="red">
+	 			<li> <%=error%> </li>
+	 			</font>
+	 			<%
+      		}
+     	}
+   		%>
 	  </div>
 	</form>
 </body>

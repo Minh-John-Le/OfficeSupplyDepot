@@ -83,17 +83,17 @@ public class SignUpServlet extends HttpServlet {
 	        
 	        }
 	        
-	        if (username.equals(""))
+	        if (username != null && username.equals(""))
 	        {
 	        	errList.add("username cannot be empty");
 	        }
 	        
-	        if(name.equals(""))
+	        if (name != null && name.equals(""))
 	        {
 	        	errList.add("Name cannot be empty");
 	        }
 	        
-	        if(!validationUtil.isValidPassword(password))
+	        if(password != null && !validationUtil.isValidPassword(password))
         	{
 	        	errList.add("Invalid Password! Password must have at least 8 characters, 1 uppercase, 1 lowercase, and 1 special character" ); 
         	}
