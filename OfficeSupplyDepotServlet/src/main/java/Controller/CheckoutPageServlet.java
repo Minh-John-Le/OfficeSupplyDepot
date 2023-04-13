@@ -29,6 +29,8 @@ import DAO.PaymentAccountDAO;
 import DAO.*;
 import Utilities.CheckoutUtil;
 import Utilities.Settings;
+import Utilities.ValidationUtil;
+
 import java.util.UUID;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -82,6 +84,48 @@ public class CheckoutPageServlet extends HttpServlet {
 		LinkedList<CartItem> cartItemList = (LinkedList<CartItem>) session.getAttribute("cartItemList");
 		int totalItem = (int) session.getAttribute("totalItem");
 		
+		
+		// Util package
+		ValidationUtil validationUtil = new ValidationUtil();
+		
+		 // Validation
+        if (shipName != null && shipName.equals(""))
+        {
+        	errList.add("Ship name cannot be empty!");
+        }
+        
+        if (address != null && address.equals(""))
+        {
+        	errList.add("Address cannot be empty!");
+        }
+        
+        if (cardName != null && cardName.equals(""))
+        {
+        	errList.add("Name on card cannot be empty!");
+        }
+        
+     
+    	if(!validationUtil.isValidExpDate(expDate) || expDate.equals(""))
+    	{
+    		errList.add("Expire date should be in format MM/YY");
+    	}
+       
+        
+    	if(!validationUtil.isNumeric(cardNumber))
+    	{
+    		errList.add("Invalid account number!");
+    	}
+        
+        
+    	// Validation Error
+        if(!errList.isEmpty()) { //has some error
+			request.setAttribute("errlist", errList);
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("CheckoutPage.jsp");
+			requestDispatcher.forward(request, response);
+			return;
+		}
+        
+        
 		if(checkoutButton != null)
 		{
 			

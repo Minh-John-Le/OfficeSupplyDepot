@@ -69,7 +69,7 @@
 		PaymentAccount paymentAccount = (PaymentAccount) session.getAttribute("paymentAccount");
 		String address = loginCustomer.getAddress();
 		String accountName = "";
-		int accountNumber = 0;
+		String accountNumber = "";
 		String expDate ="";
 		
 		if (paymentAccount != null)
@@ -131,6 +131,22 @@
 		</table>
 		
 		<button class="checkout" name = "checkout" value = "checkout">Check Out</button>
+		
+		<%
+      	List errList = (List) request.getAttribute("errlist");      		
+      	if(errList != null)
+      	{
+      		for(Iterator it = errList.iterator(); it.hasNext();)
+      		{
+      			String error = (String) it.next();
+      			%>
+	 			<font color ="red">
+	 			<li> <%=error%> </li>
+	 			</font>
+	 			<%
+      		}
+     	}
+   		%>
 	</div>
 	
 </div>

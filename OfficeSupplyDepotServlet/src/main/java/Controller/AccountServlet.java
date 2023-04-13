@@ -93,6 +93,7 @@ public class AccountServlet extends HttpServlet {
 	        
 	        if (accountNumber != null && !accountNumber.equals(""))
 	        {
+	        	
 	        	if(!validationUtil.isNumeric(accountNumber))
 	        	{
 	        		errList.add("Invalid Account Number!");
