@@ -23,6 +23,7 @@ import DAO.CustomerDAO;
 import DAO.PaymentAccountDAO;
 import DAO.OSDAdminDAO;
 import Utilities.Settings;
+import Utilities.ValidationUtil;
 
 @WebServlet("/signup")
 public class SignUpServlet extends HttpServlet {    
@@ -75,16 +76,28 @@ public class SignUpServlet extends HttpServlet {
 	        
 	        // checking for existing customer
 	        Customer existingCustomer = customerDAO.getCustomerByUsername(customer.getUsername());
-	        
+	        ValidationUtil validationUtil = new ValidationUtil();
 	        if(existingCustomer != null)
 	        {
 	        	errList.add("Username: " + customer.getUsername() + " already exist!");  	
 	        
 	        }
-	        if(password.equals(""))
+	        
+	        if (username.equals(""))
+	        {
+	        	errList.add("username cannot be empty");
+	        }
+	        
+	        if(name.equals(""))
+	        {
+	        	errList.add("Name cannot be empty");
+	        }
+	        
+	        if(!validationUtil.isValidPassword(password))
         	{
-	        	errList.add("Password cannot be empty!"); 
+	        	errList.add("Invalid Password! Password must have at least 8 characters, 1 uppercase, 1 lowercase, and 1 special character" ); 
         	}
+	        
 	        
 	        if(errList.isEmpty())
 	        {
