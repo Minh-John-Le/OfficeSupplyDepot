@@ -98,10 +98,10 @@
   <div>
  	 <span> <b> Sort by </b></span>
 	  <select id="sortBy" name="sortBy" required>
-	     <option value="Order_Date ASC" <%= sortBy.equals("Order_Date ASC") ? "selected" : "" %>>Oldest Order Date</option>
-	     <option value="Order_Date DESC" <%= sortBy.equals("Order_Date DESC") ? "selected" : "" %>>Newest Order Date</option>
-		 <option value="Delivery_Date ASC" <%= sortBy.equals("Delivery_Date ASC") ? "selected" : "" %>>Oldest Delivery Date</option>
+	     <option value="Order_Date DESC" <%= sortBy.equals("Order_Date DESC") ? "selected" : "" %>>Newest Order</option>
+		 <option value="Order_Date ASC" <%= sortBy.equals("Order_Date ASC") ? "selected" : "" %>>Oldest Order</option>
 	     <option value="Delivery_Date DESC" <%= sortBy.equals("Delivery_Date DESC") ? "selected" : "" %>>Newest Delivery Date</option>
+ 		 <option value="Delivery_Date ASC" <%= sortBy.equals("Delivery_Date ASC") ? "selected" : "" %>>Oldest Delivery Date</option>
 	 </select>
   </div>
   <hr>

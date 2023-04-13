@@ -100,13 +100,14 @@ public class CheckoutPageServlet extends HttpServlet {
 			OrderPackageDAO orderPackageDAO = new OrderPackageDAO(url, mySQLuser, mySQLpassword);
 			String orderCode = UUID.randomUUID().toString();
 			
+			// Calculate order speed
 			LocalDate orderDay = LocalDate.now();
 			int speed = shipMethod.getSpeed();
 			LocalDate deliveryDay = LocalDate.now().plusDays(speed);
 			String orderDayStr = orderDay.toString();
 			String deliveryDayStr = deliveryDay.toString();
 			
-			
+			// Order Detail
 			OrderDetail orderDetail = new OrderDetail();
 			orderDetail.setCardName(cardName);
 			orderDetail.setCustomerID(loginCustomer.getId());
@@ -129,13 +130,13 @@ public class CheckoutPageServlet extends HttpServlet {
 			orderPackageDAO.addPackage(cartItemList, orderDetail.getId());
 			
 			// reset all cart value
-			session.setAttribute("totalPrice", 0);
-			session.setAttribute("weight", 0);
+			session.setAttribute("totalPrice", null);
+			session.setAttribute("weight", null);
 			session.setAttribute("cartItemList", null);
-			session.setAttribute("subtotal", 0);
+			session.setAttribute("subtotal", null);
 			session.setAttribute("shipMethod", null);
 			session.setAttribute("availableShipMethodList", null);
-			session.setAttribute("totalItem", 0);
+			session.setAttribute("totalItem", null);
 			
 			
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("MainPage.jsp");

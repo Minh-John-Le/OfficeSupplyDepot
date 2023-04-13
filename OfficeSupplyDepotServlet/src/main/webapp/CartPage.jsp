@@ -124,7 +124,16 @@
 				<td><b>Subtotal:</b> <br> TBD</td>
 			</tr>
 		</table>
+		<% 
+		if (cartItemList == null || cartItemList.size() == 0) {
+		}
+		else
+		{
+		%>
 		<button class="checkout" name ="next" value = "next">Next</button>
+		<%
+		}
+		%>
 	</div>
 	
 </div>

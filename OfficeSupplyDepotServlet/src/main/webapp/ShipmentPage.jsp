@@ -3,6 +3,7 @@
 <%@page import = "java.util.LinkedList" %>
 <%@page import = "Beans.*" %>
 <%@page import = "java.math.BigDecimal" %>
+<%@page import = "java.time.LocalDate" %>
 
 <!DOCTYPE html>
 <html>
@@ -68,6 +69,10 @@
 				BigDecimal price = availableShipMethodList.get(i).getPrice();
 				int speed = availableShipMethodList.get(i).getSpeed();
 				int Id = availableShipMethodList.get(i).getId();
+				String speedStr = String.valueOf(speed);
+				LocalDate deliveryDay = LocalDate.now().plusDays(speed);
+				String deliveryDayStr = deliveryDay.toString();
+				
 				
 	%>
 		  <div class="card">
@@ -78,7 +83,8 @@
 		  </div>
 		  <div class="card-body">
 		    <p>Price: $<%=price%></p>
-		    <p>Speed: <%=speed %> Days</p>
+		    <p>Speed: <%=speed%> Day(s)</p>
+		    <p>Expect Delivery Date: <%=deliveryDayStr%></p>
 		  </div>
 		  </div>	
 	<%

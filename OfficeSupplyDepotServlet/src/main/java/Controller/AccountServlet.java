@@ -130,6 +130,15 @@ public class AccountServlet extends HttpServlet {
 					// OrderPage
 					session.setAttribute("orderPageFilter", null);
 					
+					// Cart, Ship, Checkout Page
+					session.setAttribute("totalPrice", null);
+					session.setAttribute("weight", null);
+					session.setAttribute("cartItemList", null);
+					session.setAttribute("subtotal", null);
+					session.setAttribute("shipMethod", null);
+					session.setAttribute("availableShipMethodList", null);
+					session.setAttribute("totalItem", null);
+					
 			        RequestDispatcher requestDispatcher = request.getRequestDispatcher("MainPage.jsp");
 			        requestDispatcher.forward(request, response);
 			        return;

@@ -60,9 +60,11 @@
 		int totalItem = (int) session.getAttribute("totalItem");
 		ShipMethod shipMethod  = (ShipMethod) session.getAttribute("shipMethod");	
 		String shipMethodName = "";
+		BigDecimal shipPrice = new BigDecimal(0);
 		if (shipMethod != null)
 		{
 			shipMethodName = shipMethod.getName();
+			shipPrice = shipMethod.getPrice();
 		}
 		PaymentAccount paymentAccount = (PaymentAccount) session.getAttribute("paymentAccount");
 		String address = loginCustomer.getAddress();
@@ -120,7 +122,7 @@
 			</tr>
 			<tr>
 				<td></td>
-				<td><b>Ship Method:</b> <br> <%=shipMethodName%></td>
+				<td><b>Ship Method:</b> <br> <%=shipMethodName%> - $<%=shipPrice%></td>
 			</tr>
 			<tr class="checkout-table">
 				<td></td>
