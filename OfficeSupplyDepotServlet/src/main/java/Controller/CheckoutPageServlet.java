@@ -70,11 +70,11 @@ public class CheckoutPageServlet extends HttpServlet {
 		String checkoutButton = request.getParameter("checkout");
 		
 		// Request info
-		String shipName = request.getParameter("ship-name");
-        String address = request.getParameter("ship-address");
-        String cardName = request.getParameter("account-name");
-        String cardNumber = request.getParameter("account-number");
-        String expDate = request.getParameter("exp");
+		String shipName = request.getParameter("ship-name").trim();
+        String address = request.getParameter("ship-address").trim();
+        String cardName = request.getParameter("account-name").trim();
+        String cardNumber = request.getParameter("account-number").trim();
+        String expDate = request.getParameter("exp").trim();
 		
 		// Session Info
 		BigDecimal totalPrice = (BigDecimal) session.getAttribute("totalPrice");

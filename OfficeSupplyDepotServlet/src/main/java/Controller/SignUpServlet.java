@@ -55,10 +55,10 @@ public class SignUpServlet extends HttpServlet {
     	
     	//=============================================
         // Front end input receive
-    	String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String name = request.getParameter("name");
-        String email = request.getParameter("email");
+    	String username = request.getParameter("username").trim();
+        String password = request.getParameter("password").trim();
+        String name = request.getParameter("name").trim();
+        String email = request.getParameter("email").trim();
         String account_type = request.getParameter("account-type");
 
         

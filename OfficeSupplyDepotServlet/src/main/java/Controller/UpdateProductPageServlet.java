@@ -66,10 +66,10 @@ public class UpdateProductPageServlet extends HttpServlet {
         String warehouseId = request.getParameter("warehouse");
         String stock = request.getParameter("stock");
         String weight = request.getParameter("weight");
-        String description = request.getParameter("description");
+        String description = request.getParameter("description").trim();
         String price = request.getParameter("price");
         String clickButton = request.getParameter("button");
-        String barcode = request.getParameter("barcode");
+        String barcode = request.getParameter("barcode").trim();
         String category = request.getParameter("category");
         String imageUrl ="";
         String myCheckbox = request.getParameter("myCheckbox");  

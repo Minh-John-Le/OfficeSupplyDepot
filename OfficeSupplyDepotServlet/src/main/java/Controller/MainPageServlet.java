@@ -87,6 +87,10 @@ public class MainPageServlet extends HttpServlet {
         		
         		// update the filter so that it update the search information
         		SearchProductFilter searchProductFilter = (SearchProductFilter) session.getAttribute("searchProductFilter");
+        		if (searchProductFilter == null)
+        		{
+        			searchProductFilter = new SearchProductFilter();
+        		}
         		searchProductFilter.setCategory(category);
         		searchProductFilter.setSearchTerm(searchText);
         		searchProductFilter.setSortBy(sortBy);
@@ -111,7 +115,8 @@ public class MainPageServlet extends HttpServlet {
         	ci.setProduct(productDAO.getProductByBarcode(addToCartButton));
         	for (int i = 0; i < cartItemList.size(); i++){
         		if (cartItemList.get(i).getProduct().getId() == ci.getProduct().getId()){
-        			cartItemList.get(i).setQuantity(cartItemList.get(i).getQuantity()+1);
+        			int newQuantity = Math.min(cartItemList.get(i).getQuantity()+1, 10);
+        			cartItemList.get(i).setQuantity(newQuantity);
         			alreadyInCart = true;
         		}
         	}

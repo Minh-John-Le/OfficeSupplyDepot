@@ -25,7 +25,15 @@
 			String accountName = "";
 			String accountNumber = "";
 			String expDate = "";
-			
+			if (loginCustomer == null && loginAdmin == null)
+			{
+				%>
+				<script type="text/javascript">
+					window.location.href = "MainPage.jsp";
+				</script>
+					<p>If you are not redirected automatically, please click <a href="MainPage.jsp">here</a></p>
+				<%
+			}
 			if (loginCustomer != null)
 			{
 				username = loginCustomer.getUsername();

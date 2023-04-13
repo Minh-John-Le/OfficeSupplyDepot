@@ -62,14 +62,14 @@ public class AccountServlet extends HttpServlet {
 	    	
 	    	//=============================================
 	        // Front end input receive
-	    	String username = request.getParameter("username");
-	        String password = request.getParameter("password");
-	        String name = request.getParameter("display-name");
-	        String email = request.getParameter("email");
-	        String address = request.getParameter("address");
-	        String accountName = request.getParameter("account-name");
-	        String accountNumber = request.getParameter("account-number");
-	        String expDate = request.getParameter("exp");
+	    	String username = request.getParameter("username").trim();
+	        String password = request.getParameter("password").trim();
+	        String name = request.getParameter("display-name").trim();
+	        String email = request.getParameter("email").trim();
+	        String address = request.getParameter("address").trim();
+	        String accountName = request.getParameter("account-name").trim();
+	        String accountNumber = request.getParameter("account-number").trim();
+	        String expDate = request.getParameter("exp").trim();
 	        
 	        
 	        // Validation
@@ -116,11 +116,11 @@ public class AccountServlet extends HttpServlet {
 			        {
 			        	CustomerDAO customerDAO = new CustomerDAO(url,mySQLuser, mySQLpassword);
 			        	
-			        	loginCustomer.setUsername(username.trim());
-			        	loginCustomer.setPassword(password.trim());
-			        	loginCustomer.setCustomerName(name.trim());
-			        	loginCustomer.setEmail(email.trim());
-			        	loginCustomer.setAddress(address.trim());
+			        	loginCustomer.setUsername(username);
+			        	loginCustomer.setPassword(password);
+			        	loginCustomer.setCustomerName(name);
+			        	loginCustomer.setEmail(email);
+			        	loginCustomer.setAddress(address);
 				        customerDAO.updateCustomer(loginCustomer);	      
 			        }
 			        else  if (loginAdmin != null)

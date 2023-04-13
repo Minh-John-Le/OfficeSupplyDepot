@@ -1,5 +1,5 @@
-Create database OfficeSupplyDepotDatabase;
-use OfficeSupplyDepotDatabase;
+Create database OfficeSupplyDepot;
+use OfficeSupplyDepot;
 
 CREATE TABLE IF NOT EXISTS Customers (
   Id int NOT NULL AUTO_INCREMENT,

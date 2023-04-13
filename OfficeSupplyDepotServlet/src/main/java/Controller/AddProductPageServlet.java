@@ -60,14 +60,14 @@ public class AddProductPageServlet extends HttpServlet {
     	
     	//=============================================
         // Front end input receive
-    	String productName = request.getParameter("name");
+    	String productName = request.getParameter("name").trim();
         String warehouseId = request.getParameter("warehouse");
         String stock = request.getParameter("stock");
         String weight = request.getParameter("weight");
-        String description = request.getParameter("description");
+        String description = request.getParameter("description").trim();
         String price = request.getParameter("price");
         String clickButton = request.getParameter("button");
-        String barcode = request.getParameter("barcode");
+        String barcode = request.getParameter("barcode").trim();
         String category = request.getParameter("category");
         String imageUrl ="";
         
@@ -167,7 +167,7 @@ public class AddProductPageServlet extends HttpServlet {
         	    // Update imageUrl
         	    productDAO.updateProduct(product);
         	    
-        	    RequestDispatcher requestDispatcher = request.getRequestDispatcher("AddProductPage.jsp");
+        	    RequestDispatcher requestDispatcher = request.getRequestDispatcher("InventoryPage.jsp");
 		        requestDispatcher.forward(request, response);
         	    return;
         	}	
