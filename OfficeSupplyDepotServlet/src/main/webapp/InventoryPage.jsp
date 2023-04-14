@@ -8,7 +8,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Office Supply Depot</title>
+	<title>Inventory</title>
 	<link rel="stylesheet" href="InventoryPage.css">
 </head>
 <body>
@@ -24,11 +24,12 @@
 			String displayName = "";
 			if (loginCustomer == null && loginAdmin == null)
 			{
-		%>
-			<div class="info-section">
-				<a href="Login.jsp">Login</a> | <a href="SignUp.jsp">Sign up</a>
-			</div>
-		<%
+				%>
+				<script type="text/javascript">
+					window.location.href = "MainPage.jsp";
+				</script>
+					<p>If you are not redirected automatically, please click <a href="MainPage.jsp">here</a></p>
+				<%
 			}
 			else if (loginCustomer != null)
 			{
@@ -46,29 +47,55 @@
 		%>
 		
 			<div class="info-section">
-				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="#">Order</a> | <a href="InventoryPage.jsp">Inventory</a>
+				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="OrderPage.jsp">Order</a> | <a href="InventoryPage.jsp">Inventory</a>
 			</div>
 		<%
 			}
 		%>
 		
 	</div>
-	    
-       <div class="search">
-       	<select id="category" name="category" required>
-       	<option value="All">All</option>
-           <option value="Electronics">Electronics</option>
-           <option value="Craft Supplies">Craft Supplies</option>
-           <option value="Office Furniture">Office Furniture</option>
-           <option value="Essentials">Essentials</option>
-       </select>
-           
-		<input type="text" placeholder="Search for items..." name = "search text">
+	<br>
+    <div class="search">
+    <%
+	SearchProductFilter searchProductFilter = (SearchProductFilter) session.getAttribute("searchProductFilter");
+	String category = "";
+	String sortBy = "";
+	String searchTerm = "";
+	if (searchProductFilter != null)
+	{
+		category = searchProductFilter.getCategory();
+		sortBy = searchProductFilter.getSortBy();
+		searchTerm = searchProductFilter.getSearchTerm();
+	}
+	%>
+		<span><b>Product Name:</b> </span>
+   		<input type="text" placeholder="Search for items..." name = "search text" value ="<%=searchTerm%>">
 		<button name = "button" value = "search">Search</button>
 		<button name = "button" value = "add item">Add Item</button>
+		<br>
+		<br>
+		<span><b>Category: </b></span>
+       	<select id="category" name="category" required>
+       	   <option value="All" <%= category.equals("All") ? "selected" : "" %>>All</option>
+           <option value="Electronics" <%= category.equals("Electronics") ? "selected" : "" %>>Electronics</option>
+           <option value="Craft Supplies" <%= category.equals("Craft Supplies") ? "selected" : "" %>>Craft Supplies</option>
+           <option value="Office Furniture" <%= category.equals("Office Furniture") ? "selected" : "" %>>Office Furniture</option>
+           <option value="Essentials" <%= category.equals("Essentials") ? "selected" : "" %>>Essentials</option>
+       </select>  
+       
+       <span><b>Sort By:</b> </span>
+      <select id="category" name="sortBy" required>
+       	   <option value="Name ASC" <%= sortBy.equals("Name ASC") ? "selected" : "" %> >A-Z</option>
+           <option value="Name DESC" <%= sortBy.equals("Name DESC") ? "selected" : "" %>>Z-A</option>
+           <option value="Stock ASC" <%= sortBy.equals("Stock ASC") ? "selected" : "" %>>Least Stock</option>
+           <option value="Stock DESC" <%= sortBy.equals("Stock DESC") ? "selected" : "" %>>Most Stock</option>
+           <option value="Price ASC" <%= sortBy.equals("Price ASC") ? "selected" : "" %>> Lowest Price</option>
+           <option value="Price DESC" <%= sortBy.equals("Price DESC") ? "selected" : "" %>>Highest Price</option>
+      </select> 
+     
 	</div>
 		
-   
+   	<br>
 		
 	<div class="item-container">
 	

@@ -16,30 +16,19 @@
 		<div class="home-link">
 			<a href="MainPage.jsp"> Office Supply Depot </a>	
 		</div>
-		<div class="form-group">
-            <select id="category" name="category" required>
-            	<option value="All">All</option>
-                <option value="Electronics">Electronics</option>
-                <option value="Craft Supplies">Craft Supplies</option>
-                <option value="Office Furniture">Office Furniture</option>
-                <option value="Essentials">Essentials</option>
-            </select>
-        </div>
-		<div class="search">
-			<input type="text" placeholder="Search for items..." name = "search text">
-			<button name = "button" value = "search">Search</button>
-		</div>
+
 		<%
 			Customer loginCustomer = (Customer) session.getAttribute("loginCustomer");
 			OSDAdmin loginAdmin = (OSDAdmin) session.getAttribute("loginAdmin");
 			String displayName = "";
 			if (loginCustomer == null && loginAdmin == null)
 			{
-		%>
-			<div class="info-section">
-				<a href="Login.jsp">Login</a> | <a href="SignUp.jsp">Sign up</a>
-			</div>
-		<%
+				%>
+				<script type="text/javascript">
+					window.location.href = "MainPage.jsp";
+				</script>
+					<p>If you are not redirected automatically, please click <a href="MainPage.jsp">here</a></p>
+				<%
 			}
 			else if (loginCustomer != null)
 			{
@@ -47,7 +36,7 @@
 				displayName = loginCustomer.getCustomerName();
 		%>
 			<div class="info-section">
-				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="upload.html">Order</a> | <a href="CartPage.jsp#">Cart</a>
+				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="OrderPage.jsp">Order</a> | <a href="CartPage.jsp#">Cart</a>
 			</div>
 		<%
 			}
@@ -57,7 +46,7 @@
 		%>
 		
 			<div class="info-section">
-				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="#">Order</a> | <a href="AddProductPage.jsp">Inventory</a>
+				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="OrderPage.jsp">Order</a> | <a href="AddProductPage.jsp">Inventory</a>
 			</div>
 		<%
 			}
@@ -66,10 +55,10 @@
 	</div>
 
 
-
+<form action = "cartpage" method="post"> 
 <div  class="cart-page">
 
-<div class="cart-container">
+	<div class="cart-container">
 		<h1>Shopping Cart</h1>
 		
 		<table>
@@ -93,18 +82,20 @@
       			BigDecimal price = cartItemList.get(i).getProduct().getPrice();
       			String description = cartItemList.get(i).getProduct().getDescription();
       			int productId = cartItemList.get(i).getProduct().getId();
+      			String barcode = cartItemList.get(i).getProduct().getBarcode();
+      			int stock = cartItemList.get(i).getProduct().getStock();
       			%>	
       			
 			<tr>
 				<td>
 					<div class="item">
 						<img src="<%=imageUrl%>">
-						<p><%=productname%>
-						
-						Description: <%=description%></p>
+						<span><b><%=productname%></b>
+						<b>Stock:</b> <%=stock%>
+						<b>Description:</b> <%=description%></span>
 					</div>
-				<td><input type="number" value="<%=quantity%>" min="1">
-				<button class="remove">Remove</button>
+				<td><input type="number" name="quantity_<%=barcode%>" value="<%=quantity%>" min="1" max = "10">
+				<button class="remove" value = "<%=barcode%>" name = "remove">Remove</button>
 				</td>
 				<td><%=weight%></td>
 				<td><%=price%></td>
@@ -119,25 +110,36 @@
 		<table>
 			<tr class="checkout-table">
 				<td></td>
-				<td><b>Total items:</b> <br> 1000000 </td>
+				<td><b>Total items:</b> <br> TBD</td>
 			</tr>
 			<tr class="checkout-table">
 				<td></td>
-				<td><b>Total weight:</b> <br>100000 </td>
+				<td><b>Total weight:</b> <br> TBD</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><b>Ship Method:</b> <br> TBD</td>
 			</tr>
 			<tr class="checkout-table">
 				<td></td>
-				<td><b>Shipping</b> <br>TBD</td>
-			</tr>
-			<tr class="checkout-table">
-				<td></td>
-				<td><b>Subtotal:</b> <br>$100.99</td>
+				<td><b>Subtotal:</b> <br> TBD</td>
 			</tr>
 		</table>
-		<button class="checkout">Checkout</button>
-	</div>
+		<% 
+		if (cartItemList == null || cartItemList.size() == 0) {
+		}
+		else
+		{
+		%>
+		<button class="checkout" name ="next" value = "next">Next</button>
+		<%
+		}
+		%>
 	</div>
 	
+</div>
+
+</form>
 
 </body>
 </html>

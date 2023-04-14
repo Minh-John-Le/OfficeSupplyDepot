@@ -1,9 +1,11 @@
 <%@page import = "Beans.*" %>
+<%@page import = "java.util.List" %>
+<%@page import = "java.util.Iterator" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Account Page</title>
+  <title>Account Information</title>
   <link rel="stylesheet" href="AccountPage.css">
 </head>
 <body>
@@ -21,9 +23,17 @@
 			
 			// account
 			String accountName = "";
-			int accountNumber = -1;
+			String accountNumber = "";
 			String expDate = "";
-			
+			if (loginCustomer == null && loginAdmin == null)
+			{
+				%>
+				<script type="text/javascript">
+					window.location.href = "MainPage.jsp";
+				</script>
+					<p>If you are not redirected automatically, please click <a href="MainPage.jsp">here</a></p>
+				<%
+			}
 			if (loginCustomer != null)
 			{
 				username = loginCustomer.getUsername();
@@ -67,7 +77,7 @@
 				displayName = loginCustomer.getCustomerName();
 		%>
 			<div class="info-section">
-				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="#">Order</a> | <a href="CartPage.jsp#">Cart</a>
+				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="OrderPage.jsp">Order</a> | <a href="CartPage.jsp#">Cart</a>
 			</div>
 		<%
 			}
@@ -77,7 +87,7 @@
 		%>
 		
 			<div class="info-section">
-				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="#">Order</a> | <a href="InventoryPage.jsp">Inventory</a>
+				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="OrderPage.jsp">Order</a> | <a href="InventoryPage.jsp">Inventory</a>
 			</div>
 		<%
 			}
@@ -137,6 +147,22 @@
 	      <button type = "submit" class="update-btn" value="update-btn" name = "button" >Update</button>
 	      <button type = "submit" class="logout-btn" value="logout-btn" name = "button">Log Out</button>
 	    </div>
+	    
+	    <%
+      	List errList = (List) request.getAttribute("errlist");      		
+      	if(errList != null)
+      	{
+      		for(Iterator it = errList.iterator(); it.hasNext();)
+      		{
+      			String error = (String) it.next();
+      			%>
+	 			<font color ="red">
+	 			<li> <%=error%> </li>
+	 			</font>
+	 			<%
+      		}
+     	}
+   		%>
 	  </div>
 	</form>
 </body>

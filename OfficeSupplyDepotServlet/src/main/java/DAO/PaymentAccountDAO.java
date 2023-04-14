@@ -31,7 +31,7 @@ public class PaymentAccountDAO {
             statement.setInt(1, account.getCustomerId());
             statement.setString(2, account.getName());
             statement.setString(3, account.getExpireDate());
-            statement.setInt(4, account.getCardNumber());
+            statement.setString(4, account.getCardNumber());
             statement.executeUpdate();
             statement.close();
             connection.close();
@@ -54,7 +54,7 @@ public class PaymentAccountDAO {
                 int customerId = rs.getInt("Customer_ID");
                 String name = rs.getString("Name");
                 String expireDate = rs.getString("Expire_Date");
-                int cardNumber = rs.getInt("Card_Number");
+                String cardNumber = rs.getString("Card_Number");
                 account = new PaymentAccount(id, customerId, name, expireDate, cardNumber);
             }
             rs.close();
@@ -80,7 +80,7 @@ public class PaymentAccountDAO {
                 int id = rs.getInt("Id");
                 String name = rs.getString("Name");
                 String expireDate = rs.getString("Expire_Date");
-                int cardNumber = rs.getInt("Card_Number");
+                String cardNumber = rs.getString("Card_Number");
                 account = new PaymentAccount(id, customerId, name, expireDate, cardNumber);
             }
             rs.close();
@@ -92,7 +92,7 @@ public class PaymentAccountDAO {
         return account;
     }
 
-    public PaymentAccount searchByAccountNumber(int accountNumber) {
+    public PaymentAccount searchByAccountNumber(String accountNumber) {
         Connection connection;
         PaymentAccount account = null;
         try {
@@ -100,7 +100,7 @@ public class PaymentAccountDAO {
             connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
             String query = "SELECT * FROM PaymentAccounts WHERE Card_Number = ?";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, accountNumber);
+            statement.setString(1, accountNumber);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 int id = rs.getInt("Id");
@@ -128,7 +128,7 @@ public class PaymentAccountDAO {
             statement.setInt(1, account.getCustomerId());
             statement.setString(2, account.getName());
             statement.setString(3, account.getExpireDate());
-            statement.setInt(4, account.getCardNumber());
+            statement.setString(4, account.getCardNumber());
             statement.setInt(5, account.getId());
             statement.executeUpdate();
             statement.close();

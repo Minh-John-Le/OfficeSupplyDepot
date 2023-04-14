@@ -21,6 +21,7 @@ import Beans.CartItem;
 import Beans.Customer;
 import Beans.OSDAdmin;
 import Beans.Product;
+import Beans.SearchProductFilter;
 import DAO.CustomerDAO;
 import DAO.OSDAdminDAO;
 import DAO.ProductDAO;
@@ -66,6 +67,8 @@ public class MainPageServlet extends HttpServlet {
         String addToCartButton = request.getParameter("Add To Cart");
         String searchText = request.getParameter("search text");
         String category = request.getParameter("category");
+        String sortBy = request.getParameter("sortBy");
+        
         
         if (button != null)
         {
@@ -75,13 +78,24 @@ public class MainPageServlet extends HttpServlet {
         		
         		if (category.equals("All"))
         		{
-        			searchProductList = productDAO.searchProductsByName(searchText);
+        			searchProductList = productDAO.searchProductsByName(searchText, sortBy);
         		}
         		else 
         		{
-        			searchProductList = productDAO.searchProductsByNameAndCategory(searchText, category);
+        			searchProductList = productDAO.searchProductsByNameAndCategory(searchText, category, sortBy);
         		}
         		
+        		// update the filter so that it update the search information
+        		SearchProductFilter searchProductFilter = (SearchProductFilter) session.getAttribute("searchProductFilter");
+        		if (searchProductFilter == null)
+        		{
+        			searchProductFilter = new SearchProductFilter();
+        		}
+        		searchProductFilter.setCategory(category);
+        		searchProductFilter.setSearchTerm(searchText);
+        		searchProductFilter.setSortBy(sortBy);
+        		
+        		session.setAttribute("searchProductFilter", searchProductFilter);
         		session.setAttribute("searchProductList", searchProductList);
         		
         		RequestDispatcher requestDispatcher = request.getRequestDispatcher("MainPage.jsp");
@@ -101,7 +115,8 @@ public class MainPageServlet extends HttpServlet {
         	ci.setProduct(productDAO.getProductByBarcode(addToCartButton));
         	for (int i = 0; i < cartItemList.size(); i++){
         		if (cartItemList.get(i).getProduct().getId() == ci.getProduct().getId()){
-        			cartItemList.get(i).setQuantity(cartItemList.get(i).getQuantity()+1);
+        			int newQuantity = Math.min(cartItemList.get(i).getQuantity()+1, 10);
+        			cartItemList.get(i).setQuantity(newQuantity);
         			alreadyInCart = true;
         		}
         	}

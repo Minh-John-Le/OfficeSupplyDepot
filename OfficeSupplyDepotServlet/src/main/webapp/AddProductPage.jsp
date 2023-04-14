@@ -1,4 +1,6 @@
 <%@page import = "Beans.*" %>
+<%@page import = "java.util.List" %>
+<%@page import = "java.util.Iterator" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,6 +19,15 @@
 	String password = "";
 	String displayName = "";
 
+	if (loginAdmin == null)
+	{
+		%>
+		<script type="text/javascript">
+			window.location.href = "MainPage.jsp";
+		</script>
+			<p>If you are not redirected automatically, please click <a href="MainPage.jsp">here</a></p>
+		<%
+	}
 	
 	if (loginAdmin != null)
 	{
@@ -38,7 +49,7 @@
 					displayName = loginAdmin.getAdminName();
 			%>
 				<div class="info-section">
-					<a href="AccountPage.jsp"><%=displayName%></a> | <a href="#">Order</a> | <a href="InventoryPage.jsp">Inventory</a>
+					<a href="AccountPage.jsp"><%=displayName%></a> | <a href="OrderPage.jsp">Order</a> | <a href="InventoryPage.jsp">Inventory</a>
 				</div>
 			<%
 				}
@@ -96,6 +107,22 @@
                 <button type="submit" value="Add Product" name = "button">Add Product</button>
                 <button type="button" onclick="window.location.href = 'InventoryPage.jsp';">Cancel</button>
             </div>
+            
+            <%
+      	List errList = (List) request.getAttribute("errlist");      		
+      	if(errList != null)
+      	{
+      		for(Iterator it = errList.iterator(); it.hasNext();)
+      		{
+      			String error = (String) it.next();
+      			%>
+	 			<font color ="red">
+	 			<li> <%=error%> </li>
+	 			</font>
+	 			<%
+      		}
+     	}
+   		%>
 	        
 	    </div>
     </form>

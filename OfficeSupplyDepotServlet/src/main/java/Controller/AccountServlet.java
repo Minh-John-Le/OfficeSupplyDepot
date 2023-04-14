@@ -24,6 +24,7 @@ import DAO.CustomerDAO;
 import DAO.PaymentAccountDAO;
 import DAO.OSDAdminDAO;
 import Utilities.Settings;
+import Utilities.ValidationUtil;
 
 @WebServlet("/account")
 public class AccountServlet extends HttpServlet {
@@ -34,9 +35,12 @@ public class AccountServlet extends HttpServlet {
 	    	HttpSession session = request.getSession();
 	    	ServletContext context = getServletContext();
 	    	String clickButton = request.getParameter("button");
+	    	
+	    	// DAO 
 	    	Customer loginCustomer =  (Customer) session.getAttribute("loginCustomer");
-	    	OSDAdmin loginAdmin = (OSDAdmin) session.getAttribute("loginAdmin");;
+	    	OSDAdmin loginAdmin = (OSDAdmin) session.getAttribute("loginAdmin");
 	    	PaymentAccount paymentAccount = (PaymentAccount) session.getAttribute("paymentAccount");
+	    	
 	    	
 	        // Get the input stream for the properties file
 	        InputStream input = context.getResourceAsStream("./src/main/webapp/WEB-INF/classes/db.properties");
@@ -53,19 +57,58 @@ public class AccountServlet extends HttpServlet {
 	        String mySQLuser = props.getProperty("db.username");
 	        String mySQLpassword = props.getProperty("db.password");
 	        
+	        // Util package
+	        ValidationUtil validationUtil = new ValidationUtil();
 	    	
 	    	//=============================================
 	        // Front end input receive
-	    	String username = request.getParameter("username");
-	        String password = request.getParameter("password");
-	        String name = request.getParameter("display-name");
-	        String email = request.getParameter("email");
+	    	String username = request.getParameter("username").trim();
+	        String password = request.getParameter("password").trim();
+	        String name = request.getParameter("display-name").trim();
+	        String email = request.getParameter("email").trim();
 	        String address = request.getParameter("address");
 	        String accountName = request.getParameter("account-name");
 	        String accountNumber = request.getParameter("account-number");
 	        String expDate = request.getParameter("exp");
-	        boolean isCustomer = (boolean) session.getAttribute("isCustomer");
-
+	        
+	        
+	        
+	        // Validation
+	        if (name != null && !validationUtil.isValidDisplayName(name))
+	        {
+	        	errList.add("Display Name cannot be empty and must be at max 20 characters!");
+	        }
+	        
+	        if (password != null && !validationUtil.isValidPassword(password))
+	        {
+	        	errList.add("Invalid Password! Password must have at least 8 characters, 1 uppercase, 1 lowercase, and 1 special character" ); 
+	        }
+	        
+	        if (expDate != null && !expDate.equals(""))
+	        {
+	        	if(!validationUtil.isValidExpDate(expDate))
+	        	{
+	        		errList.add("Expire Date should be in format MM/YY");
+	        	}
+	        }
+	        
+	        if (accountNumber != null && !accountNumber.equals(""))
+	        {
+	        	
+	        	if(!validationUtil.isNumeric(accountNumber))
+	        	{
+	        		errList.add("Invalid Account Number!");
+	        	}
+	        }
+	        
+	        // Validation Error
+	        if(!errList.isEmpty()) { //has some error
+				request.setAttribute("errlist", errList);
+				RequestDispatcher requestDispatcher = request.getRequestDispatcher("AccountPage.jsp");
+				requestDispatcher.forward(request, response);
+				return;
+			}
+	        
 	        if (clickButton != null)
 	        {
 	        	if (clickButton.equals("update-btn"))
@@ -95,7 +138,7 @@ public class AccountServlet extends HttpServlet {
 			        {
 			        	PaymentAccountDAO paymentAccountDAO = new PaymentAccountDAO(url,mySQLuser, mySQLpassword);
 			        	paymentAccount.setName(accountName);
-			        	paymentAccount.setCardNumber(Integer.parseInt(accountNumber));
+			        	paymentAccount.setCardNumber(accountNumber);
 			        	paymentAccount.setExpireDate(expDate);
 			        	paymentAccountDAO.updatePaymentAccount(paymentAccount);
 			        }		    
@@ -109,9 +152,37 @@ public class AccountServlet extends HttpServlet {
 	        	}
 	        	else if (clickButton.equals("logout-btn"))
 	        	{
+	        		// reset all attribute
+	        		// Account
 	        		session.setAttribute("loginAdmin", null);
 			        session.setAttribute("loginCustomer", null);
 			        session.setAttribute("paymentAccount", null);
+			       
+			        // Cart 
+			        session.setAttribute("totalPrice", 0);
+					session.setAttribute("weight", 0);
+					session.setAttribute("cartItemList", null);
+					session.setAttribute("subtotal", 0);
+					session.setAttribute("shipMethod", null);
+					session.setAttribute("availableShipMethodList", null);
+					
+					//Main Page
+					session.setAttribute("searchProductList", null);
+					session.setAttribute("searchProductFilter", null);
+					
+					// OrderPage
+					session.setAttribute("orderPageFilter", null);
+					session.setAttribute("destination", null);
+					
+					// Cart, Ship, Checkout Page
+					session.setAttribute("totalPrice", null);
+					session.setAttribute("weight", null);
+					session.setAttribute("cartItemList", null);
+					session.setAttribute("subtotal", null);
+					session.setAttribute("shipMethod", null);
+					session.setAttribute("availableShipMethodList", null);
+					session.setAttribute("totalItem", null);
+					
 			        RequestDispatcher requestDispatcher = request.getRequestDispatcher("MainPage.jsp");
 			        requestDispatcher.forward(request, response);
 			        return;

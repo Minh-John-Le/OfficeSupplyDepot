@@ -5,9 +5,9 @@ public class PaymentAccount {
     private int customerId;
     private String name;
     private String expireDate;
-    private int cardNumber;
+    private String cardNumber;
 
-    public PaymentAccount(int id, int customerId, String name, String expireDate, int cardNumber) {
+    public PaymentAccount(int id, int customerId, String name, String expireDate, String cardNumber) {
         this.id = id;
         this.customerId = customerId;
         this.name = name;
@@ -47,11 +47,11 @@ public class PaymentAccount {
         this.expireDate = expireDate;
     }
 
-    public int getCardNumber() {
+    public String getCardNumber() {
         return cardNumber;
     }
 
-    public void setCardNumber(int cardNumber) {
+    public void setCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;
     }
 }

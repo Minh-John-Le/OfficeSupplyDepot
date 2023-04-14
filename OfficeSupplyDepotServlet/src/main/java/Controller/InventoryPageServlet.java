@@ -21,6 +21,7 @@ import Beans.CartItem;
 import Beans.Customer;
 import Beans.OSDAdmin;
 import Beans.Product;
+import Beans.SearchProductFilter;
 import DAO.CustomerDAO;
 import DAO.OSDAdminDAO;
 import DAO.ProductDAO;
@@ -66,7 +67,7 @@ public class InventoryPageServlet extends HttpServlet {
         //String addToCartButton = request.getParameter("Add To Cart");
         String searchText = request.getParameter("search text");
         String category = request.getParameter("category");
-        
+        String sortBy = request.getParameter("sortBy");
         String updateButton = request.getParameter("Update");
         
         if (button != null)
@@ -77,13 +78,19 @@ public class InventoryPageServlet extends HttpServlet {
         		
         		if (category.equals("All"))
         		{
-        			searchProductList = productDAO.searchProductsByName(searchText);
+        			searchProductList = productDAO.searchProductsByName(searchText, sortBy);
         		}
         		else 
         		{
-        			searchProductList = productDAO.searchProductsByNameAndCategory(searchText, category);
+        			searchProductList = productDAO.searchProductsByNameAndCategory(searchText, category, sortBy);
         		}
+        		// update the filter so that it update the search information
+        		SearchProductFilter searchProductFilter = (SearchProductFilter) session.getAttribute("searchProductFilter");
+        		searchProductFilter.setCategory(category);
+        		searchProductFilter.setSearchTerm(searchText);
+        		searchProductFilter.setSortBy(sortBy);
         		
+        		session.setAttribute("searchProductFilter", searchProductFilter);
         		session.setAttribute("searchProductList", searchProductList);
         		
         		RequestDispatcher requestDispatcher = request.getRequestDispatcher("InventoryPage.jsp");

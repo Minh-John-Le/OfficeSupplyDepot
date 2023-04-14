@@ -22,6 +22,7 @@ import javax.servlet.http.Part;
 
 import Beans.Product;
 import DAO.ProductDAO;
+import Utilities.ValidationUtil;
 
 @WebServlet("/addproduct")
 @MultipartConfig(
@@ -59,16 +60,20 @@ public class AddProductPageServlet extends HttpServlet {
     	
     	//=============================================
         // Front end input receive
-    	String productName = request.getParameter("name");
+    	String productName = request.getParameter("name").trim();
         String warehouseId = request.getParameter("warehouse");
         String stock = request.getParameter("stock");
         String weight = request.getParameter("weight");
-        String description = request.getParameter("description");
+        String description = request.getParameter("description").trim();
         String price = request.getParameter("price");
         String clickButton = request.getParameter("button");
-        String barcode = request.getParameter("barcode");
+        String barcode = request.getParameter("barcode").trim();
         String category = request.getParameter("category");
         String imageUrl ="";
+        
+        //================================================
+        //Util package
+        ValidationUtil validationUtil = new ValidationUtil();
         
         //=============================================
         // Create a directory for saving the uploaded file
@@ -101,6 +106,36 @@ public class AddProductPageServlet extends HttpServlet {
         		product.setBarcode(barcode);
         		product.setCategory(category);
         		
+        		// Validation before add product
+        		Product checkProduct = productDAO.getProductByBarcode(barcode);
+        		Part myfilePart = request.getPart("file");
+        		
+        		if (productName.equals(""))
+        		{
+        			errList.add("Product Name cannot be empty");
+        		}
+        		
+        		if (!validationUtil.isPNG(myfilePart))
+        	    {
+        	    	errList.add("Image must be in PNG format!");
+        	    }
+        		
+        		if (checkProduct != null)
+        		{
+        			errList.add("Product barcode already exist!");
+        		}
+        		
+        		// Validation Error
+    	        if(!errList.isEmpty()) { //has some error
+    				request.setAttribute("errlist", errList);
+    				RequestDispatcher requestDispatcher = request.getRequestDispatcher("AddProductPage.jsp");
+    				requestDispatcher.forward(request, response);
+    				return;
+    			}
+        		
+        		//========================================================================
+        		//Add Product if there is zero validation error
+        		
         		productDAO.addProduct(product);
         		product = productDAO.getProductByBarcode(product.getBarcode());
         		
@@ -132,7 +167,7 @@ public class AddProductPageServlet extends HttpServlet {
         	    // Update imageUrl
         	    productDAO.updateProduct(product);
         	    
-        	    RequestDispatcher requestDispatcher = request.getRequestDispatcher("AddProductPage.jsp");
+        	    RequestDispatcher requestDispatcher = request.getRequestDispatcher("InventoryPage.jsp");
 		        requestDispatcher.forward(request, response);
         	    return;
         	}	

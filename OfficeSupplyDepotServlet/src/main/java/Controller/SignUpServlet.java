@@ -23,6 +23,7 @@ import DAO.CustomerDAO;
 import DAO.PaymentAccountDAO;
 import DAO.OSDAdminDAO;
 import Utilities.Settings;
+import Utilities.ValidationUtil;
 
 @WebServlet("/signup")
 public class SignUpServlet extends HttpServlet {    
@@ -55,10 +56,10 @@ public class SignUpServlet extends HttpServlet {
     	
     	//=============================================
         // Front end input receive
-    	String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String name = request.getParameter("name");
-        String email = request.getParameter("email");
+    	String username = request.getParameter("username").trim();
+        String password = request.getParameter("password").trim();
+        String name = request.getParameter("name").trim();
+        String email = request.getParameter("email").trim();
         String account_type = request.getParameter("account-type");
 
         
@@ -72,20 +73,32 @@ public class SignUpServlet extends HttpServlet {
 	        customer.setCustomerName(name);
 	        customer.setEmail(email);
 	        
-	        PaymentAccount paymentAccount = new PaymentAccount(-1, -1, "","", -1);
+	        PaymentAccount paymentAccount = new PaymentAccount(-1, -1, "","", "");
 	        
 	        // checking for existing customer
 	        Customer existingCustomer = customerDAO.getCustomerByUsername(customer.getUsername());
-	        Settings.customer = customer;
+	        ValidationUtil validationUtil = new ValidationUtil();
 	        if(existingCustomer != null)
 	        {
-	        	errList.add("Username: " + Settings.customer.getUsername() + " already exist!");  	
+	        	errList.add("Username: " + customer.getUsername() + " already exist!");  	
 	        
 	        }
-	        if(password.equals(""))
+	        
+	        if (username != null && username.equals(""))
+	        {
+	        	errList.add("username cannot be empty");
+	        }
+	        
+	        if (name != null && !validationUtil.isValidDisplayName(name))
+	        {
+	        	errList.add("Display name cannot be empty and must be at max 20 characters!");
+	        }
+	        
+	        if(password != null && !validationUtil.isValidPassword(password))
         	{
-	        	errList.add("Password cannot be empty!"); 
+	        	errList.add("Invalid Password! Password must have at least 8 characters, 1 uppercase, 1 lowercase, and 1 special character" ); 
         	}
+	        
 	        
 	        if(errList.isEmpty())
 	        {

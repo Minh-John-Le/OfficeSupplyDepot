@@ -1,5 +1,7 @@
 <%@page import = "Beans.*" %>
 <%@page import = "java.math.BigDecimal" %>
+<%@page import = "java.util.List" %>
+<%@page import = "java.util.Iterator" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,6 +20,15 @@
 	String password = "";
 	String displayName = "";
 
+	if (loginAdmin == null)
+	{
+		%>
+		<script type="text/javascript">
+			window.location.href = "MainPage.jsp";
+		</script>
+			<p>If you are not redirected automatically, please click <a href="MainPage.jsp">here</a></p>
+		<%
+	}
 	
 	if (loginAdmin != null)
 	{
@@ -39,7 +50,7 @@
 					displayName = loginAdmin.getAdminName();
 			%>
 				<div class="info-section">
-					<a href="AccountPage.jsp"><%=displayName%></a> | <a href="#">Order</a> | <a href="InventoryPage.jsp">Inventory</a>
+					<a href="AccountPage.jsp"><%=displayName%></a> | <a href="OrderPage.jsp">Order</a> | <a href="InventoryPage.jsp">Inventory</a>
 				</div>
 			<%
 				}
@@ -64,15 +75,20 @@
 		
 		%>
 	    <div class="container">
-        	<h1>Add Product</h1>
+        	<h1>Update Product</h1>       	
+        	<div class="form-group">
+                <label for="name">Barcode:</label>
+                <input type="text" id="barcode" name="barcode" required value = "<%=barcode%>" readonly>
+            </div>
+            
+            <hr>
+            <br>
+            
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" required value ="<%=productName%>">
             </div>
-            <div class="form-group">
-                <label for="name">Barcode:</label>
-                <input type="text" id="barcode" name="barcode" required value = "<%=barcode%>">
-            </div>
+         
             <div class="form-group">
                 <label for="category">Category:</label>
                 <select id="category" name="category" required>
@@ -91,11 +107,11 @@
             </div>
             <div class="form-group">
                 <label for="stock">Stock:</label>
-                <input type="number" id="stock" name="stock" required value = <%=stock%>>
+                <input type="number" id="stock" name="stock" required value = <%=stock%> min = 0>
             </div>
             <div class="form-group">
                 <label for="weight">Weight:</label>
-                <input type="number" step="0.01" id="weight" name="weight" required value = <%=weight%>>
+                <input type="number" step="0.01" id="weight" name="weight" required value = <%=weight%> min = 0>
             </div>
             <div class="form-group">
                 <label for="description">Description:</label>
@@ -103,14 +119,14 @@
             </div>
             <div class="form-group">
                 <label for="price">Price:</label>
-                <input type="number" step="0.01" id="price" name="price" required value =<%=price%>>
+                <input type="number" step="0.01" id="price" name="price" required value =<%=price%> min = 0>
             </div>
             <div class="form-group">
                 <label for="image">Image:</label>
                 <div class="item-image">
 					<img src="<%=imageURL%>">
 				</div>
-				<input type="checkbox" nid="myCheckbox" name="myCheckbox" value="true"> New Image
+				<input type="checkbox" id="myCheckbox" name="myCheckbox" value="true"> New Image
                 <input type="file" id="file" name="file">
             </div>
             <div class="form-group">
@@ -118,6 +134,21 @@
                 <button type="button" onclick="window.location.href = 'InventoryPage.jsp';">Cancel</button>
             </div>
 	        
+   		<%
+      	List errList = (List) request.getAttribute("errlist");      		
+      	if(errList != null)
+      	{
+      		for(Iterator it = errList.iterator(); it.hasNext();)
+      		{
+      			String error = (String) it.next();
+      			%>
+	 			<font color ="red">
+	 			<li> <%=error%> </li>
+	 			</font>
+	 			<%
+      		}
+     	}
+   		%>
 	    </div>
     </form>
 </body>

@@ -1,3 +1,8 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+
 /* Header Styles */
 .header {
 	background-color: #232f3e;
@@ -105,3 +110,4 @@ h2 {
   margin-top: 0;
   margin-bottom: 20px;
 }
+
