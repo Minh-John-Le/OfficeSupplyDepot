@@ -19,6 +19,15 @@
 	String password = "";
 	String displayName = "";
 
+	if (loginAdmin == null)
+	{
+		%>
+		<script type="text/javascript">
+			window.location.href = "MainPage.jsp";
+		</script>
+			<p>If you are not redirected automatically, please click <a href="MainPage.jsp">here</a></p>
+		<%
+	}
 	
 	if (loginAdmin != null)
 	{

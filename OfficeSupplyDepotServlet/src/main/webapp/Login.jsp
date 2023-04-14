@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Login Page</title>
+	<title>Login</title>
 	<link rel="stylesheet" type="text/css" href="Login.css">
 </head>
 <body>

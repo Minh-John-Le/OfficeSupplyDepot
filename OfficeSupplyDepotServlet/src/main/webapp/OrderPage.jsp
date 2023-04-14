@@ -21,11 +21,12 @@
 			String displayName = "";
 			if (loginCustomer == null && loginAdmin == null)
 			{
-		%>
-			<div class="info-section">
-				<a href="Login.jsp">Login</a> | <a href="SignUp.jsp">Sign up</a>
-			</div>
-		<%
+				%>
+				<script type="text/javascript">
+					window.location.href = "MainPage.jsp";
+				</script>
+					<p>If you are not redirected automatically, please click <a href="MainPage.jsp">here</a></p>
+				<%
 			}
 			else if (loginCustomer != null)
 			{
