@@ -66,10 +66,11 @@ public class AccountServlet extends HttpServlet {
 	        String password = request.getParameter("password").trim();
 	        String name = request.getParameter("display-name").trim();
 	        String email = request.getParameter("email").trim();
-	        String address = request.getParameter("address").trim();
-	        String accountName = request.getParameter("account-name").trim();
-	        String accountNumber = request.getParameter("account-number").trim();
-	        String expDate = request.getParameter("exp").trim();
+	        String address = request.getParameter("address");
+	        String accountName = request.getParameter("account-name");
+	        String accountNumber = request.getParameter("account-number");
+	        String expDate = request.getParameter("exp");
+	        
 	        
 	        
 	        // Validation
