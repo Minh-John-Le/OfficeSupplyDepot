@@ -172,6 +172,7 @@ public class AccountServlet extends HttpServlet {
 					
 					// OrderPage
 					session.setAttribute("orderPageFilter", null);
+					session.setAttribute("destination", null);
 					
 					// Cart, Ship, Checkout Page
 					session.setAttribute("totalPrice", null);
