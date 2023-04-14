@@ -151,7 +151,7 @@ public class UpdateProductPageServlet extends HttpServlet {
 	        	    
 	        	    // Get the name of the uploaded file
 	        	    //String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-	        	    String fileName = "product_"+String.valueOf(product.getId()) + ".png";
+	        	    String fileName = "product_"+String.valueOf(product.getBarcode()) + ".png";
 	        	    
 	        	    
 	        	    // Create a file object for the uploaded file

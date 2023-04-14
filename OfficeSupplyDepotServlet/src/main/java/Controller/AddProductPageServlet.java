@@ -94,6 +94,8 @@ public class AddProductPageServlet extends HttpServlet {
         {
         	if (clickButton.equals("Add Product"))
         	{
+        		
+        		
         		// Prepare Product info
         		ProductDAO productDAO = new ProductDAO(url,mySQLuser, mySQLpassword);
         		Product product = new Product();
@@ -105,6 +107,10 @@ public class AddProductPageServlet extends HttpServlet {
         		product.setPrice(new BigDecimal(price));
         		product.setBarcode(barcode);
         		product.setCategory(category);
+        		
+        		String fileName = "product_"+String.valueOf(product.getBarcode()) + ".png";
+        		imageUrl = SAVE_DIR + File.separator + fileName;
+        		product.setImageURL(imageUrl);
         		
         		// Validation before add product
         		Product checkProduct = productDAO.getProductByBarcode(barcode);
@@ -125,6 +131,11 @@ public class AddProductPageServlet extends HttpServlet {
         			errList.add("Product barcode already exist!");
         		}
         		
+        		if(!validationUtil.isValidBarcode(barcode))
+        		{
+        			errList.add("bardcode can only contain letter and number without any space!");
+        		}
+        		
         		// Validation Error
     	        if(!errList.isEmpty()) { //has some error
     				request.setAttribute("errlist", errList);
@@ -137,7 +148,6 @@ public class AddProductPageServlet extends HttpServlet {
         		//Add Product if there is zero validation error
         		
         		productDAO.addProduct(product);
-        		product = productDAO.getProductByBarcode(product.getBarcode());
         		
         		
         		//========================================================================
@@ -146,14 +156,13 @@ public class AddProductPageServlet extends HttpServlet {
 
         	    // Get the name of the uploaded file
         	    //String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-        	    String fileName = "product_"+String.valueOf(product.getId()) + ".png";
+        	    
         	    
         	    // Create a file object for the uploaded file
         	    File file = new File(savePath + File.separator + fileName);
         	    
         	    //imageUrl = savePath + File.separator + fileName;
-        	    imageUrl = SAVE_DIR + File.separator + fileName;
-        	    product.setImageURL(imageUrl);
+        	    
         	    
         	    
         	    // Delete the file if it already exists
@@ -165,7 +174,7 @@ public class AddProductPageServlet extends HttpServlet {
         	    filePart.write(file.getAbsolutePath());
         	    
         	    // Update imageUrl
-        	    productDAO.updateProduct(product);
+        	    //productDAO.updateProduct(product);
         	    
         	    RequestDispatcher requestDispatcher = request.getRequestDispatcher("InventoryPage.jsp");
 		        requestDispatcher.forward(request, response);
