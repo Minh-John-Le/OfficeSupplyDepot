@@ -6,14 +6,10 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v8.0">
-		<attributes>
-			<attribute name="owner.project.facets" value="jst.web"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="/Users/David/Desktop/Spring2023/CS160/OfficeSupplyDepot/apache-tomcat-9.0.71/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="/Users/David/Downloads/mysql-connector-j-8.0.32/mysql-connector-j-8.0.32.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="/home/shadowsong/Documents/GitHub/OfficeSupplyDepot/OfficeSupplyDepotServlet/src/main/webapp/WEB-INF/lib/aws-mysql-jdbc-1.1.4.jar"/>
-	<classpathentry kind="lib" path="/home/shadowsong/Documents/GitHub/OfficeSupplyDepot/OfficeSupplyDepotServlet/src/main/webapp/WEB-INF/lib/mysql-connector-j-8.0.32.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/apache-tomcat-9.0.71"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

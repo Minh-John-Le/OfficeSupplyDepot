@@ -93,8 +93,22 @@ CREATE TABLE IF NOT EXISTS Reviews (
   FOREIGN KEY (Customer_ID) REFERENCES Customers (Id)
 );
 
-CREATE USER 'david'@'localhost' IDENTIFIED BY '!Changme123';
-CREATE USER 'nate'@'localhost' IDENTIFIED BY '!Changme123';
+CREATE USER 'david'@'%' IDENTIFIED BY '!Changme123';
+GRANT ALL PRIVILEGES ON *.* TO 'david'@'%';
+FLUSH PRIVILEGES;
+
+CREATE USER 'nate'@'%' IDENTIFIED BY '!Changme123';
+GRANT ALL PRIVILEGES ON *.* TO 'nate'@'%';
+FLUSH PRIVILEGES;
+
 CREATE USER 'nathan'@'%' IDENTIFIED BY '!Changme123';
+GRANT ALL PRIVILEGES ON *.* TO 'nathan'@'%';
+FLUSH PRIVILEGES;
+
 CREATE USER 'kaleigh'@'%' IDENTIFIED BY '!Changme123';
-CREATE USER 'nathan'@'%' IDENTIFIED BY '!Changme123';
+GRANT ALL PRIVILEGES ON *.* TO 'kaleigh'@'%';
+FLUSH PRIVILEGES;
+
+CREATE USER 'khush'@'%' IDENTIFIED BY '!Changeme123';
+GRANT ALL PRIVILEGES ON *.* TO 'khush'@'%';
+FLUSH PRIVILEGES;

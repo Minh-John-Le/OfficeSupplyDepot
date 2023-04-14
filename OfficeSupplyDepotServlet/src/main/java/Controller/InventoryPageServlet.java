@@ -46,7 +46,7 @@ public class InventoryPageServlet extends HttpServlet {
     	ServletContext context = getServletContext();
         
         // Get the input stream for the properties file
-        InputStream input = context.getResourceAsStream("/WEB-INF/classes/db.properties");
+        InputStream input = context.getResourceAsStream("./src/main/webapp/WEB-INF/classes/db.properties");
         
         // Load the properties from the file
         Properties props = new Properties();
