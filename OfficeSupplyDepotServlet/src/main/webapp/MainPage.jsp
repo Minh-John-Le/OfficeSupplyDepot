@@ -145,10 +145,10 @@
 				<p>Welcome to the Office Supply Depot! This is the project of student in team 10 from San Jose State University</p>
 				<p>To get started, simply follow the guide below:</p>
 				<ul>
-					<li>Full User guide: click on "help" to view full user guide</li>
-					<li>View products: Simply click "search" button to view all product or add filter to search for a specific product</li>
-					<li>Login / Sign up: Click  "Sign up"" to create new account or "login" with your credentials for more functions</li>
-					<li>Contact dev team: click on "Contact"</li>
+					<li><b>Full User guide:</b> click on "help" in footer to view full user guide</li>
+					<li><b>View products:</b> Simply click "search" button on header to view all product or add filter to search for a specific product.</li>
+					<li> <b>Login / Sign up:</b> Click  "Sign up"" to create new account or "login" with your credentials for more functions.</li>
+					<li><b>Contact dev team:</b> click on "Contact us" in footer.</li>
 				</ul>
       		
       		</div>

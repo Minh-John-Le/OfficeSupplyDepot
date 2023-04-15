@@ -112,7 +112,7 @@
 			<%
 			LinkedList<CartItem> packageItemList = (LinkedList<CartItem>) session.getAttribute("packageItemList");
 					
-			if(packageItemList != null)
+			if(packageItemList != null && packageItemList.size() > 0)
       		{				
       			for(int i = 0 ; i < packageItemList.size(); i++)
       			{
@@ -140,8 +140,10 @@
 				<td><%=weight%></td>
 				<td><%=price%></td>
 			</tr>
-        <% }
-         }%>
+        <% 
+        		}
+         }
+         %>
          	
 		</table>
 		

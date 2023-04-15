@@ -110,7 +110,7 @@
    <!-- ---------------------------------------------------------------------------------- -->
 	<div class="order-cards">
 		<%
-		if (orderDetailList != null)
+		if (orderDetailList != null && orderDetailList.size() > 0)
 		{
 			for (OrderDetail orderDetail: orderDetailList)
 			{
@@ -130,6 +130,25 @@
 		</div>
 		<%
 			}
+		}
+		
+		else
+		{
+			%>
+			<div>  		
+				<p>To view your order, simply click the search button.</p>
+				
+				<p>
+				<b>Note:</b></p>	    
+				<ul>
+				<li>By default, Office Supply Depot will shows Order within 7 days, and the order delivery range is two weeks counting from last week.</li>
+				<li>You can change the filter such as sort by, and input order number to search for a specific order.</li>
+				</ul>
+				
+					
+  			</div>
+			
+			<%
 		}
 		%>
 
