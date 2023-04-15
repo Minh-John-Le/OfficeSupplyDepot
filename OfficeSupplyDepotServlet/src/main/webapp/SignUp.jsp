@@ -15,9 +15,10 @@
 		</div>
 		
 		<div class="info-section">
-			<a href="Login.jsp">Login</a> | <a href="SignUp.jsp">Sign up</a>
+			<a href="ContactPage.jsp">Contact us</a> | <a href="Login.jsp">Login</a> | <a href="SignUp.jsp">Sign up</a>
 		</div>
 	</div>
+	<br>
 	<div class="container">
 		<h1>Sign Up</h1>
 		<form id="Sign-up-form" action = "signup" method="post">

@@ -88,17 +88,6 @@ CREATE TABLE IF NOT EXISTS OrderPackages (
   FOREIGN KEY (Order_ID) REFERENCES OrderDetails (Id)
 );
 
-CREATE TABLE IF NOT EXISTS Reviews (
-  Id int NOT NULL AUTO_INCREMENT,
-  Customer_ID int NOT NULL,
-  Product_ID int NOT NULL,
-  Stars int DEFAULT NULL,
-  Content text,
-  Date_Post varchar(10) DEFAULT NULL,
-  PRIMARY KEY (Id),
-  FOREIGN KEY (Product_ID) REFERENCES Products (Id),
-  FOREIGN KEY (Customer_ID) REFERENCES Customers (Id)
-);
 
 CREATE TABLE IF NOT EXISTS PickupAreas (
   Id int NOT NULL,
