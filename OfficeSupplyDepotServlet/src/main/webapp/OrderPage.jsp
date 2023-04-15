@@ -132,27 +132,31 @@
 			}
 		}
 		
-		else
-		{
-			%>
-			<div>  		
-				<p>To view your order, simply click the search button.</p>
-				
-				<p>
-				<b>Note:</b></p>	    
-				<ul>
-				<li>By default, Office Supply Depot will shows Order within 7 days, and the order delivery range is two weeks counting from last week.</li>
-				<li>You can change the filter such as sort by, and input order number to search for a specific order.</li>
-				</ul>
-				
-					
-  			</div>
-			
-			<%
-		}
 		%>
 
 	</div>
+	<%
+		if (orderDetailList == null || orderDetailList.size() <= 0)
+		{
+			%>
+			  	
+			
+			<div class="card">
+			  <div class="card-body">
+			    <h5 class="card-title">Hello, again</h5>
+			    <p class="card-text">To view your order, simply click the search button.</p>
+			    <p class="card-text"><b>Note:</b></p>
+			    <ul>
+			     
+			      <li>By default, Office Supply Depot will shows Order within 7 days, and the order delivery range is two weeks counting from last week.</li>
+					<li>You can change the filter such as sort by, and input order number to search for a specific order.</li>
+				
+			    </ul>
+			  </div>
+			</div>				
+			<%
+		}
+		%>
 	
 	</form>
 </body>

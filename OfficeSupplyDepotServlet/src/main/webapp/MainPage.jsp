@@ -138,25 +138,31 @@
 	<%
 			}
       	}
-      	else
-      	{
-    %>
-      		<div>  		
-				<p>Welcome to the Office Supply Depot! This is the project of student in team 10 from San Jose State University</p>
-				<p>To get started, simply follow the guide below:</p>
-				<ul>
-					<li><b>Full User guide:</b> click on "help" in footer to view full user guide</li>
-					<li><b>View products:</b> Simply click "search" button on header to view all product or add filter to search for a specific product.</li>
-					<li> <b>Login / Sign up:</b> Click  "Sign up"" to create new account or "login" with your credentials for more functions.</li>
-					<li><b>Contact dev team:</b> click on "Contact us" in footer.</li>
-				</ul>
-      		
-      		</div>
-    <%
-      	}
+    
     %>
  
 	</div>
+	<%
+	  	if (searchProductList == null || searchProductList.size() <= 0)
+      	{
+    %>
+      		<div class="card">
+			  <div class="card-body">
+			    <h5 class="card-title">Welcome to Office Supply Depot</h5>
+			    <p class="card-text">This is the project of students in team 10 from San Jose State University</p>
+			    <p class="card-text">To get started, simply follow the guide below:</p>
+			    <ul>
+			      <li><b>Full user guide:</b> click on "help" in footer to view full user guide</li>
+			      <li><b>View products:</b> Simply click "search" button on header to view all product or add filter to search for a specific product.</li>
+			      <li><b>Login / Sign up:</b> Click "Sign up"" to create new account or "login" with your credentials for more functions.</li>
+			      <li><b>Contact dev team:</b> click on "Contact us" in footer.</li>
+			    </ul>
+			  </div>
+			</div>
+
+     <% 		
+      	}
+     %>
 	</form>
 	
 	
