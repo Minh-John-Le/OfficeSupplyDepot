@@ -122,4 +122,19 @@
 </form>
 	<script src = "ShipmentPage.js"></script>
 </body>
+
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<footer>
+		<div class="home-link">
+			<a href="ContactPage.jsp">Contact us</a> 
+			<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+			<a href="UserGuide.jsp">Help</a> 
+		</div>
+	
+		<p>&copy; 2023 San Jose State University CS160-Team10. All Rights Reserved.</p>
+	</footer>
 </html>

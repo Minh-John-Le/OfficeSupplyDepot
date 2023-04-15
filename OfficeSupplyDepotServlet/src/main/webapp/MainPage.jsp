@@ -59,7 +59,7 @@
 			{
 		%>
 			<div class="info-section">
-				<a href="ContactPage.jsp">Contact us</a> | <a href="Login.jsp">Login</a> | <a href="SignUp.jsp">Sign up</a>
+				<a href="Login.jsp">Login</a> | <a href="SignUp.jsp">Sign up</a>
 			</div>
 		<%
 			}
@@ -92,7 +92,7 @@
 	
 	<%
       	LinkedList<Product> searchProductList = (LinkedList<Product>) session.getAttribute("searchProductList");      		
-      	if(searchProductList != null)
+      	if(searchProductList != null && searchProductList.size() > 0)
       	{
       		for(int i = 0 ; i < searchProductList.size(); i++)
       		{
@@ -137,10 +137,43 @@
 		</div>
 	<%
 			}
-      	} 
+      	}
+      	else
+      	{
+    %>
+      		<div>  		
+				<p>Welcome to the Office Supply Depot! This is the project of student in team 10 from San Jose State University</p>
+				<p>To get started, simply follow the guide below:</p>
+				<ul>
+					<li>Full User guide: click on "help" to view full user guide</li>
+					<li>View products: Simply click "search" button to view all product or add filter to search for a specific product</li>
+					<li>Login / Sign up: Click  "Sign up"" to create new account or "login" with your credentials for more functions</li>
+					<li>Contact dev team: click on "Contact"</li>
+				</ul>
+      		
+      		</div>
+    <%
+      	}
     %>
  
 	</div>
 	</form>
+	
+	
 </body>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<footer>
+		<div class="home-link">
+			<a href="ContactPage.jsp">Contact us</a> 
+			<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+			<a href="UserGuide.jsp">Help</a> 
+		</div>
+	
+		<p>&copy; 2023 San Jose State University CS160-Team10. All Rights Reserved.</p>
+	</footer>
+
 </html>

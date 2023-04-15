@@ -86,3 +86,22 @@ input[type="submit"] {
 input[type="submit"]:hover {
 	background-color: #3e8e41;
 }
+
+footer {
+    background-color:  #232f3e;
+    color: #fff;
+    padding: 5px;
+    width: 100%;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    font-size: 12px;
+}
+
+.footer a 
+{
+	color: #fff;
+	text-decoration: none;
+	margin-left: 10px;
+	font-size: 12px;
+}

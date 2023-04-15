@@ -13,7 +13,7 @@
 			<a href="MainPage.jsp"> Office Supply Depot </a>	
 		</div>
 		<div class="info-section">
-				<a href="ContactPage.jsp">Contact us</a> | <a href="Login.jsp">Login</a> | <a href="SignUp.jsp">Sign up</a>
+			<a href="Login.jsp">Login</a> | <a href="SignUp.jsp">Sign up</a>
 		</div>
 	</div>
 	<div class="login-container">
@@ -49,4 +49,18 @@
 	</div>
 	
 </body>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<footer>
+		<div class="home-link">
+			<a href="ContactPage.jsp">Contact us</a> 
+			<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+			<a href="UserGuide.jsp">Help</a> 
+		</div>
+	
+		<p>&copy; 2023 San Jose State University CS160-Team10. All Rights Reserved.</p>
+	</footer>
 </html>
