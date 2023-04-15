@@ -1,12 +1,14 @@
+<%@page import = "java.util.List" %>
+<%@page import = "java.util.Iterator" %>
+<%@page import = "java.util.LinkedList" %>
+<%@page import = "Beans.*" %>
+<%@page import = "java.math.BigDecimal" %>
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Contact Page</title>
-	<link rel="stylesheet" type="text/css" href="ContactPage.css">
-  <head>
+ 	 <head>
   	<meta charset="UTF-8">
-  	<title>Sign Up</title>
-  	<link rel="stylesheet" href="SignUp.css">
+  		<title>Contact Page</title>
+		<link rel="stylesheet" type="text/css" href="ContactPage.css">
 	</head>
 	  <body>
 	  	<div class="header">
@@ -14,9 +16,39 @@
 	  			<a href="MainPage.jsp"> Office Supply Depot </a>
 	  		</div>
 
-	  		<div class="info-section">
-	  			<a href="Login.jsp">Login</a> | <a href="SignUp.jsp">Sign up</a>
-	  		</div>
+	  		<%
+			Customer loginCustomer = (Customer) session.getAttribute("loginCustomer");
+			OSDAdmin loginAdmin = (OSDAdmin) session.getAttribute("loginAdmin");
+			String displayName = "";
+			if (loginCustomer == null && loginAdmin == null)
+			{
+		%>
+			<div class="info-section">
+				<a href="Login.jsp">Login</a> | <a href="SignUp.jsp">Sign up</a>
+			</div>
+		<%
+			}
+			else if (loginCustomer != null)
+			{
+	
+				displayName = loginCustomer.getCustomerName();
+		%>
+			<div class="info-section">
+				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="OrderPage.jsp">Order</a> | <a href="CartPage.jsp#">Cart</a>
+			</div>
+		<%
+			}
+			else if (loginAdmin != null)
+			{
+				displayName = loginAdmin.getAdminName();
+		%>
+		
+			<div class="info-section">
+				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="OrderPage.jsp">Order</a> | <a href="InventoryPage.jsp">Inventory</a>
+			</div>
+		<%
+			}
+		%>
 	  	</div>
 	  	<br>
 	<main>
