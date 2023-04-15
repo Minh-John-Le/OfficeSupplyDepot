@@ -77,15 +77,36 @@
 		</section>
 		<section id="section2">
 			<h2>How to Use</h2>
-
-			<p><b>Main Page:</b> </p>
+			<h3>Header</h3>
 			<ul>
-				<li>Search Item: simply click search to view all items in the store or include filter to search for specific item</li>
-				<li>Order: click on order next to your display name to navigate to order page</li>
-				<li> Dev team info: click "Contact" to see dev team information</li>
-				<li>Account Information: After login click on your display name to navigate to your account page</li>
-				<li>Update Account: Directly write your new information in the account form and click "Update" button</li>
-				<li>Logout: Click "log out" button</li>
+				<li><b>Navigate to Main Page:</b> click our website name "Office Supply Depot".</li>
+				<li><b>Navigate to Sign up Page:</b> click "Sign up".</li>
+				<li><b>Navigate to Login Page:</b> click "Login".</li>
+				<li><b>Navigate to Account Page:</b> After login, customer display name will appear on header. Click that name to navigate to Account Page.</li>
+				<li><b>Navigate to Order Page:</b> After login, "Order" will appear on header. Click it to get to Order Page.</li>
+				<li><b>Navigate to Cart Page:</b> After login, "Cart" will appear on header. Click it to get to Order Page.</li>
+			</ul>
+
+			<h3>Footer</h3>
+			<ul>
+				<li><b>Contact dev team:</b> click "Contact" to see dev team information.</li>
+				<li><b>Get full user guide:</b> click "Help" to navigate to user guide page.</li>
+			</ul>
+
+			<h3>Main Page</h3>
+			<ul>
+				<li><b>Search Item:</b> simply click "search" to view all items in the store or include filter to search for specific item.</li>
+				<li><b>Category Filter:</b> the first drop down box next to "Office Supply Depot" on header is category filter. Click it and choose the desired category to filter product.</li>
+				<li><b>Sort Filter:</b> the next drop down box, which is before search's texbox is sort. This will indicate how items will be organize after the search.</li>
+				<li><b>Search's Textbox:</b> Search's textbox have auto complete search(e.g: input "note" will give user both "note" and "notebook"). Enter desired item name in this box.</li>
+				<li><b>Add item to cart:</b> after search, item will appear with "add to cart" button. Click those button will add item to cart.</li>
+			</ul>
+
+			<h3>Account Page</h3>
+			<ul>
+				<li><b>Username and email:</b> those two field is used for recovery and contacting method, so they cannot be change.</li>
+				<li><b>Update Account:</b> Directly write your new information in the account form's textbox and click "Update" button.</li>
+				<li><b>Logout:</b> Click "log out" button.</li>
 			</ul>
 
 		</section>
