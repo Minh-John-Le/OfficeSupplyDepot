@@ -137,3 +137,22 @@ button[type="button"]:hover {
   max-width: 400px;
   max-height: 400px;
 }
+
+footer {
+    background-color:  #232f3e;
+    color: #fff;
+    padding: 5px;
+    width: 100%;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    font-size: 12px;
+}
+
+.footer a 
+{
+	color: #fff;
+	text-decoration: none;
+	margin-left: 10px;
+	font-size: 12px;
+}

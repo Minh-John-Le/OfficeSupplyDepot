@@ -89,4 +89,19 @@ public class ValidationUtil {
 	public boolean isValidDisplayName(String name) {
 	    return name != null && !name.trim().isEmpty() && name.length() <= 20;
 	}
+	
+	public boolean isValidBarcode(String barcode) {
+	    if (barcode == null || barcode.isEmpty()) {
+	        return false; // barcode is empty or null
+	    }
+	    
+	    for (int i = 0; i < barcode.length(); i++) {
+	        char c = barcode.charAt(i);
+	        if (!Character.isLetterOrDigit(c)) {
+	            return false; // barcode contains non-letter and non-digit characters
+	        }
+	    }
+	    
+	    return true;
+	}
 }

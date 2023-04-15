@@ -11,6 +11,7 @@ body {
 	display: flex;
 	align-items: center;
 	padding: 10px;
+	font-size: 17px;
 }
 .logo img {
 	height: 30px;
@@ -22,6 +23,7 @@ body {
 .home-link a
 {
 	color: #fff;
+	font-size: 17px;
 	text-decoration: none;
 	margin-left: 10px;
 }
@@ -29,7 +31,8 @@ body {
 	padding: 5px;
 	border: none;
 	border-radius: 3px;
-	width: 380px;
+	width: 350px;
+	
 }
 .search button {
 	background-color: #ff9900;
@@ -46,10 +49,10 @@ select {
   border: none;
   border-radius: 3px;
   color: #000;
-  font-size: 16px;
+  font-size: 14px;
   padding: 5px;
   margin-right: 10px;
-  width: 130px;
+  width: 100px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -116,7 +119,7 @@ select:focus {
   border: none;
   border-radius: 3px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 17px;
   transition: background-color 0.2s ease-in-out;
   position: absolute;
   bottom: 10px;
@@ -131,5 +134,26 @@ img {
   width: 2in;
   height: 2in;
   object-fit: scale-down;
+}
+
+
+
+footer {
+    background-color:  #232f3e;
+    color: #fff;
+    padding: 5px;
+    width: 100%;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    font-size: 12px;
+}
+
+.footer a 
+{
+	color: #fff;
+	text-decoration: none;
+	margin-left: 10px;
+	font-size: 12px;
 }
 

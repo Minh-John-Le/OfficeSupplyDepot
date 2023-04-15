@@ -81,7 +81,7 @@ public class AccountServlet extends HttpServlet {
 	        
 	        if (password != null && !validationUtil.isValidPassword(password))
 	        {
-	        	errList.add("Invalid Password! Password must have at least 8 characters, 1 uppercase, 1 lowercase, and 1 special character" ); 
+	        	errList.add("Invalid Password! Password must have at least 8 characters, 1 uppercase, 1 lowercase, 1 digit, and 1 special character" ); 
 	        }
 	        
 	        if (expDate != null && !expDate.equals(""))

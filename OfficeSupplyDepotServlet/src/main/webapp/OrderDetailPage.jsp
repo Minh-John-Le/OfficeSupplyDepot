@@ -46,7 +46,7 @@
 		%>
 		
 			<div class="info-section">
-				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="OrderPage.jsp">Order</a> | <a href="AddProductPage.jsp">Inventory</a>
+				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="OrderPage.jsp">Order</a> | <a href="InventoryPage.jsp">Inventory</a>
 			</div>
 		<%
 			}
@@ -203,4 +203,19 @@
 </form>
 
 </body>
+
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<footer>
+		<div class="home-link">
+			<a href="ContactPage.jsp">Contact us</a> 
+			<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+			<a href="UserGuide.jsp">Help</a> 
+		</div>
+	
+		<p>&copy; 2023 San Jose State University CS160-Team10. All Rights Reserved.</p>
+	</footer>
 </html>

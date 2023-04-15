@@ -50,6 +50,54 @@ public class ProductDAO{
 		}	
 	}
 	
+	public Product addProductAndReturnProduct(Product product) {
+		Product addedProduct = null;
+		Connection connection;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+			String query = "INSERT INTO Products (Name, Stock, Weight, Description, Price, ImageURL, Warehouse_ID, Category, Barcode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setString(1, product.getName());
+	        statement.setInt(2, product.getStock());
+	        statement.setBigDecimal(3, product.getWeight());
+	        statement.setString(4, product.getDescription());
+	        statement.setBigDecimal(5, product.getPrice());
+	        statement.setString(6, product.getImageURL());
+	        statement.setInt(7, product.getWarehouse_id());
+	        statement.setString(8, product.getCategory());
+	        statement.setString(9, product.getBarcode());
+	        statement.executeUpdate();
+	  
+	        
+	        String query2 = "SELECT * FROM Products WHERE Barcode = ?";
+	        PreparedStatement statement2 = connection.prepareStatement(query2);
+			statement2.setString(1, product.getBarcode());
+			ResultSet resultSet = statement2.executeQuery();
+			if (resultSet.next()) {
+				addedProduct = new Product();
+				addedProduct.setId(resultSet.getInt("Id"));
+				addedProduct.setName(resultSet.getString("Name"));
+				addedProduct.setStock(resultSet.getInt("Stock"));
+				addedProduct.setWeight(resultSet.getBigDecimal("Weight"));
+				addedProduct.setDescription(resultSet.getString("Description"));
+				addedProduct.setPrice(resultSet.getBigDecimal("Price"));
+				addedProduct.setImageURL(resultSet.getString("ImageURL"));
+				addedProduct.setWarehouse_id(resultSet.getInt("Warehouse_ID"));
+				addedProduct.setCategory(resultSet.getString("Category"));
+				addedProduct.setBarcode(resultSet.getString("Barcode"));
+			}
+			
+			statement.close();
+	        connection.close();
+	        
+		}
+		catch(SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}	
+		return addedProduct;
+	}
+	
 	public void deleteProduct(int productId) {
     	Connection connection;
 		try {
