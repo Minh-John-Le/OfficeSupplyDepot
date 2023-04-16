@@ -147,6 +147,7 @@ public class LoginServlet extends HttpServlet {
         session.setAttribute("loginAdmin", loginAdmin);
         session.setAttribute("paymentAccount", paymentAccount);
         session.setAttribute("orderPageFilter", orderPageFilter);
+        session.setAttribute("orderDetailList", null);
         
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("MainPage.jsp");
 		requestDispatcher.forward(request, response);
