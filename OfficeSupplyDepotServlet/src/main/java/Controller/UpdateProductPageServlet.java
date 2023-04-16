@@ -87,10 +87,10 @@ public class UpdateProductPageServlet extends HttpServlet {
         // Create a directory for saving the uploaded file
         //This path for deployment
 	    String appPath = request.getServletContext().getRealPath("");
-	    //String savePath = appPath + File.separator + SAVE_DIR;
+	    String savePath = appPath + File.separator + SAVE_DIR;
         
         // This path for testing
-	    String savePath = "/home/shadowsong/Documents/GitHub/OfficeSupplyDepot/OfficeSupplyDepotServlet/src/main/webapp/"+ File.separator + SAVE_DIR;
+	    //String savePath = "/home/shadowsong/Documents/GitHub/OfficeSupplyDepot/OfficeSupplyDepotServlet/src/main/webapp/"+ File.separator + SAVE_DIR;
 	    File fileSaveDir = new File(savePath);
 	    if (!fileSaveDir.exists()) {
 	        fileSaveDir.mkdir();
