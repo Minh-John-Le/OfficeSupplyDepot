@@ -1,7 +1,7 @@
 <%@page import = "java.util.List" %>
 <%@page import = "java.util.Iterator" %>
 <%@page import = "java.util.LinkedList" %>
-<%@page import="beans.*" %>
+<%@page import= "beans.*" %>
 <%@page import = "java.math.BigDecimal" %>
 
 <!DOCTYPE html>
