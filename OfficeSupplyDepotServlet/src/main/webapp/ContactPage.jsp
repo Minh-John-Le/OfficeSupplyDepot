@@ -81,12 +81,12 @@
       <div class="team-member">
 				<h2>Khush Naidu</h2>
 				<p class="skills">Front-end, Back-end Developer</p>
-				<p class="email"></p>
-				<a href="" target="_blank">LinkedIn Profile</a>
+				<p class="email">Khush Email</p>
+				<a href="https://github.com/khushnaidu" target="_blank">LinkedIn Profile</a>
 			</div>
       <div class="team-member">
 				<h2>David Warshawsky</h2>
-				<p class="skills">Data Engineer, BioTechnology Engineer</p>
+				<p class="skills">Data and BioTechnology Engineer</p>
 				<p class="email">davidawarshawsky@gmail.com</p>
 				<a href="https://www.linkedin.com/in/david-a-warshawsky/" target="_blank">LinkedIn Profile</a>
 			</div>
@@ -100,7 +100,7 @@
 	<br>
 	<br>
 	<footer>
-		<div class="home-link">
+		<div class ="foot-link">
 			<a href="ContactPage.jsp">Contact us</a> 
 			<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 			<a href="UserGuide.jsp">Help</a> 

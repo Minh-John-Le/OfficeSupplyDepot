@@ -148,7 +148,7 @@
     %>
       		<div class="card">
 			  <div class="card-body">
-			    <h5 class="card-title">Welcome to Office Supply Depot</h5>
+			    <h4 class="card-title">Welcome to Office Supply Depot</h4>
 			    <p class="card-text">This is the project of students in team 10 from San Jose State University</p>
 			    <p class="card-text">To get started, simply follow the guide below:</p>
 			    <ul>
@@ -173,7 +173,7 @@
 	<br>
 	<br>
 	<footer>
-		<div class="home-link">
+		<div class ="foot-link">
 			<a href="ContactPage.jsp">Contact us</a> 
 			<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 			<a href="UserGuide.jsp">Help</a> 

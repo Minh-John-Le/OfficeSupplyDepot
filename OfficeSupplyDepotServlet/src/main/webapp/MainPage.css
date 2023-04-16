@@ -137,17 +137,6 @@ img {
 }
 
 
-
-footer {
-    background-color:  #232f3e;
-    color: #fff;
-    padding: 5px;
-    width: 100%;
-    text-align: center;
-    position: fixed;
-    bottom: 0;
-    font-size: 12px;
-}
 /*****************************User Guide Card *******************/
 
 .card {
@@ -155,7 +144,6 @@ footer {
   max-width: 500px;
   margin: auto;
   text-align: center;
-  font-family: Arial, sans-serif;
   background-color: #f8f8f8;
   padding: 20px;
 }
@@ -205,11 +193,34 @@ footer {
 
 
 
+footer {
+    background-color:  #232f3e;
+    color: #fff;
+    padding: 5px;
+    width: 100%;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    font-size: 12px;
+}
+
 .footer a 
 {
 	color: #fff;
 	text-decoration: none;
 	margin-left: 10px;
 	font-size: 12px;
+}
+
+.foot-link {
+  margin-right: 10px;
+}
+
+.foot-link a
+{
+	color: #fff;
+	font-size: 12px;
+	text-decoration: none;
+	margin-left: 10px;
 }
 

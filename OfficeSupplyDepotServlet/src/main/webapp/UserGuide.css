@@ -120,3 +120,15 @@ footer {
 	margin-left: 10px;
 	font-size: 12px;
 }
+
+.foot-link {
+  margin-right: 10px;
+}
+
+.foot-link a
+{
+	color: #fff;
+	font-size: 12px;
+	text-decoration: none;
+	margin-left: 10px;
+}

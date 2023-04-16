@@ -37,7 +37,6 @@
 
 body {
   background-color: #f7f7f7;
-  font-family: Arial, sans-serif;
 }
 
 .container {
@@ -72,7 +71,6 @@ textarea {
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
-  font-family: Arial, sans-serif;
   transition: border-color 0.3s ease-in-out;
 }
 
@@ -97,7 +95,6 @@ button[type="reset"] {
   border: none;
   border-radius: 5px;
   font-size: 16px;
-  font-family: Arial, sans-serif;
   cursor: pointer;
 }
 
@@ -155,4 +152,16 @@ footer {
 	text-decoration: none;
 	margin-left: 10px;
 	font-size: 12px;
+}
+
+.foot-link {
+  margin-right: 10px;
+}
+
+.foot-link a
+{
+	color: #fff;
+	font-size: 12px;
+	text-decoration: none;
+	margin-left: 10px;
 }

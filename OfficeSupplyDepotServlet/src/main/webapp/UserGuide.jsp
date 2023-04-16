@@ -67,13 +67,26 @@
 	<main>
 		<section id="section1">
 			<h2>Getting Started</h2>
-			<p>Welcome to the Office Supply Depot! This guide will help you get started with our website and provide you with all the information you need to use it.</p>
-			<p>To get started, simply follow the steps below:</p>
-			<ol>
-				<li>Step 1: Click on Sign up to get a new account or login if you already have one</li>
-				<li>Step 2: Enter your login credentials.</li>
-				<li>Step 3: Then Navigate to Mainpage and Click Search to see al product</li>
-			</ol>
+			<p>Welcome to the Office Supply Depot! This is the project of students in team 10 from San Jose State University.</p>
+			
+			<p>
+			Office Supply Depot is an online office retailer with 2 warehouses in San Jose. The warehouse doesn't have a
+			showroom as all the items for sale are listed online. It has a pickup area for customer to pick up their prepaid orders made
+			online. It offers free delivery services for any orders over $100.00. For any orders that are less than 15lbs, the delivery
+			will be done by a drone on the same day during business hours. Otherwise the orders will be delivered by delivery truck
+			within 2 business days. For any order that are under $100, customer can request deliveries (drone or truck) by paying a
+			surcharge of $20. For same day truck delivery of orders over $100, customer can pay a surcharge of $25.
+			</p>
+			<p>
+			Our team is responsible to develop the IT infrastructure and website for customers and store administrators. Customer will be
+			able to buy various office supply items by first placing them into a shopping cart before they check-out. The store
+			manager should be able to update the inventory using an administrator panel when new stock are being delivered to the
+			warehouse from the suppliers. Each truck will need to be able to optimize their delivery routing based on customer
+			locations.
+			</p>
+			
+			<p>The next part of this guide,"How to use", will help you get started with our website and provide you with all the information you need to use it.</p>
+			
 		</section>
 		<section id="section2">
 			<h2>How to Use</h2>
@@ -108,17 +121,36 @@
 				<li><b>Update Account:</b> Directly write your new information in the account form's textbox and click "Update" button.</li>
 				<li><b>Logout:</b> Click "log out" button.</li>
 			</ul>
-
+			
+			<h3>Account Page</h3>
+			<ul>
+				<li><b>Username and email:</b> those two field is used for recovery and contacting method, so they cannot be change.</li>
+				<li><b>Update Account:</b> Directly write your new information in the account form's textbox and click "Update" button.</li>
+				<li><b>Logout:</b> Click "log out" button.</li>
+			</ul>
+			
+			<h3>Order Page</h3>
+			<ul>
+				<li><b>Search Order:</b> Simply click "search" button. You can apply input appropriate filter to serach for a specific order</li>
+				<li><b>Track Package</b> After searching for order, the list of order will appear. Click on track package to see the map and route that Office Supply Depot use to deliver package to shipping address</li>
+				<li><b>View Order Details:</b> After searching for order, the list of order will appear. Click on "View Details" button to see the details.</li>
+			</ul>
+			
+			<h3>Cart Page</h3>
+			<ul>
+				<li><b>Purchase Items</b> After place item to cart, navigate to cart page and follow instruction on the page to check out.</li>
+			</ul>
+			
 		</section>
 		<section id="section3">
 			<h2>FAQs</h2>
 			<dl>
-				<dt>Question 1: How do I reset my password?</dt>
-				<dd>Answer: To reset your password, simply click on the "Forgot Password" link and follow the instructions.</dd>
-				<dt>Question 2: How do I contact customer support?</dt>
+				<dt><b>Question 1:</b> How do I reset my password?</dt>
+				<dd>Answer: At the current version of Office Supply Depot, dev team has not implement password reseting.</dd>
+				<dt><b>Question 2:</b> How do I contact customer support?</dt>
 				<dd>Answer: You can contact customer support by phone or email. Our contact information can be found on the Contact Us page.</dd>
-				<dt>Question 3: How do I update my account information?</dt>
-				<dd>Answer: To update your account information, simply log in to your account and click on the "Settings" link.</dd>
+				<dt><b>Question 3:</b> How do I update my account information?</dt>
+				<dd>Answer: To update your account information, simply log in to your account and click on your display name on the header.</dd>
 			</dl>
 		</section>
 	</main>
@@ -128,7 +160,7 @@
 	<br>
 	<br>
 	<footer>
-		<div class="home-link">
+		<div class ="foot-link">
 			<a href="ContactPage.jsp">Contact us</a> 
 			<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 			<a href="UserGuide.jsp">Help</a> 

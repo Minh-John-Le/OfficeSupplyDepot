@@ -149,7 +149,6 @@ select:focus {
   max-width: 500px;
   margin: auto;
   text-align: center;
-  font-family: Arial, sans-serif;
   background-color: #f8f8f8;
   padding: 20px;
 }
@@ -214,4 +213,16 @@ footer {
 	text-decoration: none;
 	margin-left: 10px;
 	font-size: 12px;
+}
+
+.foot-link {
+  margin-right: 10px;
+}
+
+.foot-link a
+{
+	color: #fff;
+	font-size: 12px;
+	text-decoration: none;
+	margin-left: 10px;
 }

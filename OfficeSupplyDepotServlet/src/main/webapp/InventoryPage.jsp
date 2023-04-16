@@ -152,7 +152,7 @@
 	<br>
 	<br>
 	<footer>
-		<div class="home-link">
+		<div class ="foot-link">
 			<a href="ContactPage.jsp">Contact us</a> 
 			<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 			<a href="UserGuide.jsp">Help</a> 

@@ -143,13 +143,14 @@
 			
 			<div class="card">
 			  <div class="card-body">
-			    <h5 class="card-title">Hello, again</h5>
-			    <p class="card-text">To view your order, simply click the search button.</p>
+			    <h4 class="card-title">Hello, again</h4>
+			    <p class="card-text">To view your order, simply click the "Search" button.</p>
+			    <p class="card-text">When a list order will show up, you can see details with "View Details" button, or click "Track Package" to see delivery route</p>
 			    <p class="card-text"><b>Note:</b></p>
 			    <ul>
 			     
-			      <li>By default, Office Supply Depot will shows Order within 7 days, and the order delivery range is two weeks counting from last week.</li>
-					<li>You can change the filter such as sort by, and input order number to search for a specific order.</li>
+			      	<li>By default, Office Supply Depot will shows Order within 7 days, and the order delivery range is 2 weeks counting from last week.</li>
+					<li>You can change the filter such as sort by, order/delivery range and input order number to search for a specific order.</li>
 				
 			    </ul>
 			  </div>
@@ -167,7 +168,7 @@
 	<br>
 	<br>
 	<footer>
-		<div class="home-link">
+		<div class ="foot-link">
 			<a href="ContactPage.jsp">Contact us</a> 
 			<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 			<a href="UserGuide.jsp">Help</a> 
