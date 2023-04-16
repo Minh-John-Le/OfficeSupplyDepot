@@ -1,5 +1,5 @@
-Create database OfficeSupplyDepotDatabase;
-use OfficeSupplyDepotDatabase;
+Create database OfficeSupplyDepot;
+use OfficeSupplyDepot;
 
 CREATE TABLE IF NOT EXISTS Customers (
   Id int NOT NULL AUTO_INCREMENT,
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS PaymentAccounts (
   Customer_ID int NOT NULL,
   Name varchar(255) DEFAULT NULL,
   Expire_Date varchar(5) DEFAULT NULL,
-  Card_Number int DEFAULT NULL,
+  Card_Number varchar(20) DEFAULT NULL,
   PRIMARY KEY (Id),
   FOREIGN KEY (Customer_ID) REFERENCES Customers (Id)
 );
@@ -45,16 +45,23 @@ CREATE TABLE IF NOT EXISTS ShipMethods (
   PRIMARY KEY (Id)
 );
 
-CREATE TABLE IF NOT EXISTS Order_Details (
+CREATE TABLE IF NOT EXISTS OrderDetails (
   Id int NOT NULL AUTO_INCREMENT,
+  Order_Code varchar(255) NOT NULL,
   Customer_ID int NOT NULL,
-  Payment_Account_ID int NOT NULL,
   Shipmethod_ID int NOT NULL,
   Ship_Address text,
   Total_Weight decimal(10,2) DEFAULT NULL,
+  Total_Price decimal(10,2) DEFAULT NULL,
+  Payment_Card_Number int NOT NULL,
+  Card_Name varchar(255) NOT NULL,
+  Expire_Date varchar(5) NOT NULL,
+  Delivery_Name varchar(255) NOT NULL,
+  Order_Date varchar(20) NOT NULL,
+  Delivery_Date varchar(20) NOT NULL,
+  Total_Item int NOT NULL,
   PRIMARY KEY (Id),
   FOREIGN KEY (Customer_ID) REFERENCES Customers (Id),
-  FOREIGN KEY (Payment_Account_ID) REFERENCES PaymentAccounts (Id),
   FOREIGN KEY (Shipmethod_ID) REFERENCES ShipMethods (Id)
 );
 
@@ -73,33 +80,24 @@ CREATE TABLE IF NOT EXISTS Products (
   FOREIGN KEY (Warehouse_ID) REFERENCES Warehouses (Id)
 );
 
-CREATE TABLE IF NOT EXISTS Packages (
+CREATE TABLE IF NOT EXISTS OrderPackages (
   Order_ID int DEFAULT NULL,
   Product_ID int DEFAULT NULL,
   Quantity int NOT NULL,
   FOREIGN KEY (Product_ID) REFERENCES Products (Id),
-  FOREIGN KEY (Order_ID) REFERENCES Order_Details (Id)
+  FOREIGN KEY (Order_ID) REFERENCES OrderDetails (Id)
 );
 
-CREATE TABLE IF NOT EXISTS Reviews (
-  Id int NOT NULL AUTO_INCREMENT,
-  Customer_ID int NOT NULL,
-  Product_ID int NOT NULL,
-  Stars int DEFAULT NULL,
-  Content text,
-  Date_Post varchar(10) DEFAULT NULL,
-  PRIMARY KEY (Id),
-  FOREIGN KEY (Product_ID) REFERENCES Products (Id),
-  FOREIGN KEY (Customer_ID) REFERENCES Customers (Id)
+
+CREATE TABLE IF NOT EXISTS PickupAreas (
+  Id int NOT NULL,
+  Name varchar(255) UNIQUE NOT NULL,
+  Address text,
+  PRIMARY KEY (Id)
 );
 
 CREATE USER 'david'@'localhost' IDENTIFIED BY '!Changme123';
-FLUSH PRIVILEGES;
 CREATE USER 'nate'@'localhost' IDENTIFIED BY '!Changme123';
-FLUSH PRIVILEGES;
 CREATE USER 'nathan'@'%' IDENTIFIED BY '!Changme123';
-FLUSH PRIVILEGES;
 CREATE USER 'kaleigh'@'%' IDENTIFIED BY '!Changme123';
-FLUSH PRIVILEGES;
 CREATE USER 'khush'@'%' IDENTIFIED BY '!Changme123';
-FLUSH PRIVILEGES;

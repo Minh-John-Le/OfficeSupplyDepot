@@ -100,4 +100,4 @@ CREATE USER 'david'@'localhost' IDENTIFIED BY '!Changme123';
 CREATE USER 'nate'@'localhost' IDENTIFIED BY '!Changme123';
 CREATE USER 'nathan'@'%' IDENTIFIED BY '!Changme123';
 CREATE USER 'kaleigh'@'%' IDENTIFIED BY '!Changme123';
-CREATE USER 'nathan'@'%' IDENTIFIED BY '!Changme123';
+CREATE USER 'khush'@'%' IDENTIFIED BY '!Changme123';

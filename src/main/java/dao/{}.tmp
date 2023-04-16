@@ -1,0 +1,1420 @@
+package dao;
+
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
+
+import beans.BankAccount;
+import beans.ShipMethod;
+
+public class ShipMethodDAO {
+
+    private String url ="";
+    private String mySQLUser = "";
+    private String mySQLPass = "";
+
+    public ShipMethodDAO(String url, String user, String password) 
+    {
+        this.url = url;
+        this.mySQLUser = user;
+        this.mySQLPass = password;
+    }
+
+    public List<ShipMethod> getAvailableShipMethod(String shipMethodListStr) {
+        List<ShipMethod> availableShipMethods = new LinkedList<>();
+        try (Connection conn = DriverManager.getConnection(url, mySQLUser, mySQLPass)) {
+            String query = "SELECT * FROM ShipMethods WHERE Id IN (" + shipMethodListStr +");";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("Id");
+                String name = rs.getString("Name");
+                BigDecimal price = rs.getBigDecimal("Price");
+                int speed = rs.getInt("Speed");
+                ShipMethod shipMethod = new ShipMethod();
+                shipMethod.setId(id);
+                shipMethod.setName(name);
+                shipMethod.setPrice(price);
+                shipMethod.setSpeed(speed);
+                availableShipMethods.add(shipMethod);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return availableShipMethods;
+    }
+    
+
+	public ShipMethod getShipMethodById(int id) {
+	    ShipMethod shipMethod = null;
+	    try (Connection conn = DriverManager.getConnection(url, mySQLUser, mySQLPass)) {
+	        String query = "SELECT * FROM ShipMethods WHERE Id = ?";
+	        PreparedStatement stmt = conn.prepareStatement(query);
+	        stmt.setInt(1, id);
+	        ResultSet rs = stmt.executeQuery();
+	        if (rs.next()) {
+	            String name = rs.getString("Name");
+	            BigDecimal price = rs.getBigDecimal("Price");
+	            int speed = rs.getInt("Speed");
+	            shipMethod = new ShipMethod();
+	            shipMethod.setId(id);
+	            shipMethod.setName(name);
+	            shipMethod.setPrice(price);
+	            shipMethod.setSpeed(speed);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return shipMethod;
+	}
+
+}
+package dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
+
+import beans.CartItem;
+import beans.OrderPackage;
+
+public class OrderPackageDAO {
+
+    private String url;
+    private String mySQLUser;
+    private String mySQLPass;
+
+    public OrderPackageDAO(String url, String user, String password) {
+        this.url = url;
+        this.mySQLUser = user;
+        this.mySQLPass = password;
+    }
+
+    public void addOrderPackage(OrderPackage pkg) {
+        try {
+            Connection connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+            String query = "INSERT INTO OrderPackages (Order_ID, Product_ID, Quantity) VALUES (?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, pkg.getOrderID());
+            statement.setInt(2, pkg.getProductID());
+            statement.setInt(3, pkg.getQuantity());
+            statement.executeUpdate();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addPackage(List<CartItem> cartItemList, int orderId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            // Get connection
+            connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+
+            // Prepare statement
+            String query = "INSERT INTO OrderPackages (Order_ID, Product_ID, Quantity) VALUES (?, ?, ?)";
+            statement = connection.prepareStatement(query);
+
+            // Iterate through cart items and add to batch
+            for (CartItem cartItem : cartItemList) {
+                // Set parameters for each item in batch
+                statement.setInt(1, orderId);
+                statement.setInt(2, cartItem.getProduct().getId());
+                statement.setInt(3, cartItem.getQuantity());
+
+                // Add statement to batch
+                statement.addBatch();
+            }
+
+            // Execute batch
+            statement.executeBatch();
+            statement.close();
+            connection.close();
+
+        } catch (SQLException e) {
+        	e.printStackTrace();
+        } 
+    }
+
+    
+    public List<OrderPackage> getPackagesByOrderId(int orderId) {
+        List<OrderPackage> packages = new LinkedList<>();
+        try {
+            Connection connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+            String query = "SELECT * FROM OrderPackages WHERE Order_ID=?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, orderId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                OrderPackage pkg = new OrderPackage();
+                pkg.setOrderID(resultSet.getInt("Order_ID"));
+                pkg.setProductID(resultSet.getInt("Product_ID"));
+                pkg.setQuantity(resultSet.getInt("Quantity"));
+                packages.add(pkg);
+            }
+            statement.close();
+            resultSet.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return packages;
+    }
+}
+package dao;
+
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
+
+import beans.BankAccount;
+import beans.OrderDetail;
+import beans.OrderPageFilter;
+import beans.ShipMethod;
+
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class OrderDetailDAO {
+    
+    private String url ="";
+    private String mySQLUser = "";
+    private String mySQLPass = "";
+    
+    public OrderDetailDAO(String url, String user, String password) 
+    {
+        this.url = url;
+        this.mySQLUser = user;
+        this.mySQLPass = password;
+    }
+    
+    public void addOrderDetail(OrderDetail orderDetail) {
+        try {
+            Connection connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+            String query = "INSERT INTO OrderDetails (Customer_ID, Order_Code, Shipmethod_ID, Ship_Address, Total_Weight, Total_Price, Payment_Card_Number, Card_Name, Expire_Date, Delivery_Name, Order_Date, Delivery_Date, Total_Item) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, orderDetail.getCustomerID());
+            statement.setString(2, orderDetail.getOrderCode());
+            statement.setInt(3, orderDetail.getShipmethodID());
+            statement.setString(4, orderDetail.getShipAddress());
+            statement.setBigDecimal(5, orderDetail.getTotalWeight());
+            statement.setBigDecimal(6, orderDetail.getTotalPrice());
+            statement.setInt(7, orderDetail.getPaymentCardNumber());
+            statement.setString(8, orderDetail.getCardName());
+            statement.setString(9, orderDetail.getExpireDate());
+            statement.setString(10, orderDetail.getDeliveryName());
+            statement.setString(11, orderDetail.getOrderDate());
+            statement.setString(12, orderDetail.getDeliveryDate());
+            statement.setInt(13, orderDetail.getTotalItem());
+            statement.executeUpdate();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public List<OrderDetail> getOrderDetailByCustomerId(int customerId, OrderPageFilter orderPageFilter) {
+        List<OrderDetail> orderDetails = new LinkedList<>();
+        try {
+            Connection connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+            String query = "SELECT * FROM OrderDetails WHERE Customer_ID=? AND Order_Code LIKE ? \n"
+            		+ "\n AND Order_Date >= ?"
+            		+ "\n AND Order_Date <= ?"
+            		+ "\n AND Delivery_Date >= ?"
+            		+ "\n AND Delivery_Date <= ?"
+            		+ "\n ORDER BY " + orderPageFilter.getSortBy();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, customerId);
+            statement.setString(2, orderPageFilter.getOrderNumber() + "%");
+            statement.setString(3, orderPageFilter.getFromOrderDay());
+            statement.setString(4, orderPageFilter.getToOrderDay());
+            statement.setString(5, orderPageFilter.getFromDeliveryDay());
+            statement.setString(6, orderPageFilter.getToDeliveryDay());
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                OrderDetail orderDetail = new OrderDetail();
+                orderDetail.setId(resultSet.getInt("Id"));
+                orderDetail.setCustomerID(resultSet.getInt("Customer_ID"));
+                orderDetail.setOrderCode(resultSet.getString("Order_Code"));
+                orderDetail.setShipmethodID(resultSet.getInt("Shipmethod_ID"));
+                orderDetail.setShipAddress(resultSet.getString("Ship_Address"));
+                orderDetail.setTotalWeight(resultSet.getBigDecimal("Total_Weight"));
+                orderDetail.setTotalPrice(resultSet.getBigDecimal("Total_Price"));
+                orderDetail.setPaymentCardNumber(resultSet.getInt("Payment_Card_Number"));
+                orderDetail.setCardName(resultSet.getString("Card_Name"));
+                orderDetail.setExpireDate(resultSet.getString("Expire_Date"));
+                orderDetail.setDeliveryName(resultSet.getString("Delivery_Name"));
+                orderDetail.setOrderDate(resultSet.getString("Order_Date"));
+                orderDetail.setDeliveryDate(resultSet.getString("Delivery_Date"));
+                orderDetail.setTotalItem(resultSet.getInt("Total_Item"));
+                orderDetails.add(orderDetail);
+            }
+            statement.close();
+            resultSet.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orderDetails;
+    }
+    
+    public List<OrderDetail> getAllOrderDetail(OrderPageFilter orderPageFilter) {
+        List<OrderDetail> orderDetails = new LinkedList<>();
+        try {
+            Connection connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+            String query = "SELECT * FROM OrderDetails WHERE Order_Code LIKE ? \n"
+            		+ "\n AND Order_Date >= ?"
+            		+ "\n AND Order_Date <= ?"
+            		+ "\n AND Delivery_Date >= ?"
+            		+ "\n AND Delivery_Date <= ?"
+            		+ "\n ORDER BY " + orderPageFilter.getSortBy();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, orderPageFilter.getOrderNumber() + "%");
+            statement.setString(2, orderPageFilter.getFromOrderDay());
+            statement.setString(3, orderPageFilter.getToOrderDay());
+            statement.setString(4, orderPageFilter.getFromDeliveryDay());
+            statement.setString(5, orderPageFilter.getToDeliveryDay());
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                OrderDetail orderDetail = new OrderDetail();
+                orderDetail.setId(resultSet.getInt("Id"));
+                orderDetail.setCustomerID(resultSet.getInt("Customer_ID"));
+                orderDetail.setOrderCode(resultSet.getString("Order_Code"));
+                orderDetail.setShipmethodID(resultSet.getInt("Shipmethod_ID"));
+                orderDetail.setShipAddress(resultSet.getString("Ship_Address"));
+                orderDetail.setTotalWeight(resultSet.getBigDecimal("Total_Weight"));
+                orderDetail.setTotalPrice(resultSet.getBigDecimal("Total_Price"));
+                orderDetail.setPaymentCardNumber(resultSet.getInt("Payment_Card_Number"));
+                orderDetail.setCardName(resultSet.getString("Card_Name"));
+                orderDetail.setExpireDate(resultSet.getString("Expire_Date"));
+                orderDetail.setDeliveryName(resultSet.getString("Delivery_Name"));
+                orderDetail.setOrderDate(resultSet.getString("Order_Date"));
+                orderDetail.setDeliveryDate(resultSet.getString("Delivery_Date"));
+                orderDetail.setTotalItem(resultSet.getInt("Total_Item"));
+                orderDetails.add(orderDetail);
+            }
+            statement.close();
+            resultSet.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orderDetails;
+    }
+    
+    
+    public OrderDetail getOrderDetailByOrderCode(String orderCode) {
+        OrderDetail orderDetail = null;
+        try {
+            Connection connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+            String query = "SELECT * FROM OrderDetails WHERE Order_Code=?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, orderCode);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                orderDetail = new OrderDetail();
+                orderDetail.setId(resultSet.getInt("Id"));
+                orderDetail.setCustomerID(resultSet.getInt("Customer_ID"));
+                orderDetail.setOrderCode(resultSet.getString("Order_Code"));
+                orderDetail.setShipmethodID(resultSet.getInt("Shipmethod_ID"));
+                orderDetail.setShipAddress(resultSet.getString("Ship_Address"));
+                orderDetail.setTotalWeight(resultSet.getBigDecimal("Total_Weight"));
+                orderDetail.setTotalPrice(resultSet.getBigDecimal("Total_Price"));
+                orderDetail.setPaymentCardNumber(resultSet.getInt("Payment_Card_Number"));
+                orderDetail.setCardName(resultSet.getString("Card_Name"));
+                orderDetail.setExpireDate(resultSet.getString("Expire_Date"));
+                orderDetail.setDeliveryName(resultSet.getString("Delivery_Name"));
+                orderDetail.setOrderDate(resultSet.getString("Order_Date"));
+                orderDetail.setDeliveryDate(resultSet.getString("Delivery_Date"));
+                orderDetail.setTotalItem(resultSet.getInt("Total_Item"));
+            }
+            statement.close();
+            resultSet.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orderDetail;
+    }
+
+    public OrderDetail getOrderDetailById(int orderId) {
+        OrderDetail orderDetail = null;
+        try {
+            Connection connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+            String query = "SELECT * FROM OrderDetails WHERE Id=?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, orderId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                orderDetail = new OrderDetail();
+                orderDetail.setId(resultSet.getInt("Id"));
+                orderDetail.setCustomerID(resultSet.getInt("Customer_ID"));
+                orderDetail.setOrderCode(resultSet.getString("Order_Code"));
+                orderDetail.setShipmethodID(resultSet.getInt("Shipmethod_ID"));
+                orderDetail.setShipAddress(resultSet.getString("Ship_Address"));
+                orderDetail.setTotalWeight(resultSet.getBigDecimal("Total_Weight"));
+                orderDetail.setTotalPrice(resultSet.getBigDecimal("Total_Price"));
+                orderDetail.setPaymentCardNumber(resultSet.getInt("Payment_Card_Number"));
+                orderDetail.setCardName(resultSet.getString("Card_Name"));
+                orderDetail.setExpireDate(resultSet.getString("Expire_Date"));
+                orderDetail.setDeliveryName(resultSet.getString("Delivery_Name"));
+                orderDetail.setOrderDate(resultSet.getString("Order_Date"));
+                orderDetail.setDeliveryDate(resultSet.getString("Delivery_Date"));
+                orderDetail.setTotalItem(resultSet.getInt("Total_Item"));
+            }
+            statement.close();
+            resultSet.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orderDetail;
+    }
+    
+    
+}
+
+package dao;
+
+import beans.Customer;
+import beans.OSDAdmin;
+
+import java.sql.*;
+import java.util.*;
+
+public class OSDAdminDAO {
+    
+    private String url ="";
+    private String mySQLUser = "";
+    private String mySQLPass = "";
+    
+    public OSDAdminDAO(String url, String user, String password) 
+    {
+    	this.url = url;
+    	this.mySQLUser = user;
+    	this.mySQLPass = password;
+    }
+    
+    public void addAdmin(OSDAdmin admin)  {
+    	Connection connection;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+			String query = "INSERT INTO OSDAdmins (AdminName, Username, Password, Email) VALUES (?, ?, ?, ?)";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setString(1, admin.getAdminName());
+	        statement.setString(2, admin.getUsername());
+	        statement.setString(3, admin.getPassword());
+	        statement.setString(4, admin.getEmail());
+	        statement.executeUpdate();
+	        statement.close();
+	        connection.close();
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+       
+    }
+    
+    public void deleteAdmin(int adminID) {
+    	
+    	Connection connection;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+		 	String query = "DELETE FROM OSDAdmins WHERE Id = ?";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setInt(1, adminID);
+	        statement.executeUpdate();
+	        statement.close();
+	        connection.close();
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+       
+    }
+    
+    public OSDAdmin getAdminById(int adminId) {
+    	Connection connection;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+			String query = "SELECT * FROM OSDAdmins WHERE Id = ?";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setInt(1, adminId);
+	        ResultSet resultSet = statement.executeQuery();
+	        OSDAdmin admin = null;
+	        if(resultSet.next()) {
+	        	admin = new OSDAdmin();
+	        	admin.setId(resultSet.getInt("Id"));
+	        	admin.setAdminName(resultSet.getString("AdminName"));
+	        	admin.setUsername(resultSet.getString("Username"));
+	            admin.setPassword(resultSet.getString("Password"));
+	            admin.setEmail(resultSet.getString("Email"));;
+	        }
+	        resultSet.close();
+	        statement.close();
+	        connection.close();
+	        return admin;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return null;
+    }
+    
+    public OSDAdmin getAdminByUsername(String username) {
+        Connection connection;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+            String query = "SELECT * FROM OSDAdmins WHERE Username = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+            OSDAdmin admin = null;
+            if (resultSet.next()) {
+            	admin = new OSDAdmin();
+            	admin.setId(resultSet.getInt("Id"));
+            	admin.setAdminName(resultSet.getString("AdminName"));
+            	admin.setUsername(resultSet.getString("Username"));
+            	admin.setPassword(resultSet.getString("Password"));
+            	admin.setEmail(resultSet.getString("Email"));
+            }
+            resultSet.close();
+            statement.close();
+            connection.close();
+            return admin;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void updateAdmin(OSDAdmin admin) {
+        
+    	Connection connection;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+			String query = "UPDATE OSDAdmins SET AdminName=?, Username=?, Password=?, Email=? WHERE Id=?";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setString(1, admin.getAdminName());
+	        statement.setString(2, admin.getUsername());
+	        statement.setString(3, admin.getPassword());
+	        statement.setString(4, admin.getEmail());
+	        statement.setInt(5, admin.getId());
+	        statement.executeUpdate();
+	        statement.close();
+	        connection.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    public List<OSDAdmin> getAllAdmins() {
+    	
+    	Connection connection;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+			String query = "SELECT * FROM OSDAdmins";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        ResultSet resultSet = statement.executeQuery();
+	        List<OSDAdmin> admins = new ArrayList<>();
+	        while(resultSet.next()) {
+	            OSDAdmin admin = new OSDAdmin();
+	            admin.setId(resultSet.getInt("id"));
+	            admin.setAdminName(resultSet.getString("AdminName"));
+	            admin.setUsername(resultSet.getString("Username"));
+	            admin.setPassword(resultSet.getString("Password"));
+	            admin.setEmail(resultSet.getString("Email"));
+	            admins.add(admin);
+	        }
+	        resultSet.close();
+	        statement.close();
+	        connection.close();
+	        return admins;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;     
+    }
+    
+}
+package dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import beans.PaymentAccount;
+
+public class PaymentAccountDAO {
+    
+    private String url ="";
+    private String mySQLUser = "";
+    private String mySQLPass = "";
+    
+    public PaymentAccountDAO(String url, String user, String password) 
+    {
+        this.url = url;
+        this.mySQLUser = user;
+        this.mySQLPass = password;
+    }
+    
+    public void addPaymentAccount(PaymentAccount account)  {
+        Connection connection;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+            String query = "INSERT INTO PaymentAccounts (Customer_ID, Name, Expire_Date, Card_Number) VALUES (?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, account.getCustomerId());
+            statement.setString(2, account.getName());
+            statement.setString(3, account.getExpireDate());
+            statement.setString(4, account.getCardNumber());
+            statement.executeUpdate();
+            statement.close();
+            connection.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public PaymentAccount searchById(int id) {
+        Connection connection;
+        PaymentAccount account = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+            String query = "SELECT * FROM PaymentAccounts WHERE Id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                int customerId = rs.getInt("Customer_ID");
+                String name = rs.getString("Name");
+                String expireDate = rs.getString("Expire_Date");
+                String cardNumber = rs.getString("Card_Number");
+                account = new PaymentAccount(id, customerId, name, expireDate, cardNumber);
+            }
+            rs.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return account;
+    }
+    
+    public PaymentAccount searchByCustomerId(int customerId) {
+        Connection connection;
+        PaymentAccount account = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+            String query = "SELECT * FROM PaymentAccounts WHERE Customer_ID = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, customerId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                int id = rs.getInt("Id");
+                String name = rs.getString("Name");
+                String expireDate = rs.getString("Expire_Date");
+                String cardNumber = rs.getString("Card_Number");
+                account = new PaymentAccount(id, customerId, name, expireDate, cardNumber);
+            }
+            rs.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return account;
+    }
+
+    public PaymentAccount searchByAccountNumber(String accountNumber) {
+        Connection connection;
+        PaymentAccount account = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+            String query = "SELECT * FROM PaymentAccounts WHERE Card_Number = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, accountNumber);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                int id = rs.getInt("Id");
+                int customerId = rs.getInt("Customer_ID");
+                String name = rs.getString("Name");
+                String expireDate = rs.getString("Expire_Date");
+                account = new PaymentAccount(id, customerId, name, expireDate, accountNumber);
+            }
+            rs.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return account;
+    }
+    
+    public void updatePaymentAccount(PaymentAccount account) {
+        Connection connection;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+            String query = "UPDATE PaymentAccounts SET Customer_ID = ?, Name = ?, Expire_Date = ?, Card_Number = ? WHERE Id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, account.getCustomerId());
+            statement.setString(2, account.getName());
+            statement.setString(3, account.getExpireDate());
+            statement.setString(4, account.getCardNumber());
+            statement.setInt(5, account.getId());
+            statement.executeUpdate();
+            statement.close();
+            connection.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    
+    public void deleteAccount(int id) {
+        Connection connection;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+            String query = "DELETE FROM PaymentAccounts WHERE Id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+            statement.close();
+            connection.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+}
+package dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import beans.Customer;
+
+
+public class CustomerDAO {
+    
+    private String url ="";
+    private String mySQLUser = "";
+    private String mySQLPass = "";
+    
+    public CustomerDAO(String url, String user, String password) 
+    {
+    	this.url = url;
+    	this.mySQLUser = user;
+    	this.mySQLPass = password;
+    }
+    
+    public void addCustomer(Customer customer)  {
+    	Connection connection;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+			String query = "INSERT INTO Customers (CustomerName, Username, Password, Email, Address) VALUES (?, ?, ?, ?, ?)";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setString(1, customer.getCustomerName());
+	        statement.setString(2, customer.getUsername());
+	        statement.setString(3, customer.getPassword());
+	        statement.setString(4, customer.getEmail());
+	        statement.setString(5, customer.getAddress());
+	        statement.executeUpdate();
+	        statement.close();
+	        connection.close();
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+       
+    }
+    
+    public void deleteCustomer(int customerId) {
+    	
+    	Connection connection;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+		 	String query = "DELETE FROM Customers WHERE Id = ?";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setInt(1, customerId);
+	        statement.executeUpdate();
+	        statement.close();
+	        connection.close();
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+       
+    }
+    
+    public void updateCustomer(Customer customer) {
+    
+    	Connection connection;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+			String query = "UPDATE Customers SET CustomerName=?, Username=?, Password=?, Email=?, Address=? WHERE Id=?";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setString(1, customer.getCustomerName());
+	        statement.setString(2, customer.getUsername());
+	        statement.setString(3, customer.getPassword());
+	        statement.setString(4, customer.getEmail());
+	        statement.setString(5, customer.getAddress());
+	        statement.setInt(6, customer.getId());
+	        statement.executeUpdate();
+	        statement.close();
+	        connection.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    public Customer getCustomerById(int customerId) {
+    	Connection connection;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+			String query = "SELECT * FROM Customers WHERE Id = ?";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setInt(1, customerId);
+	        ResultSet resultSet = statement.executeQuery();
+	        Customer customer = null;
+	        if(resultSet.next()) {
+	            customer = new Customer();
+	            customer.setId(resultSet.getInt("Id"));
+	            customer.setCustomerName(resultSet.getString("CustomerName"));
+	            customer.setUsername(resultSet.getString("Username"));
+	            customer.setPassword(resultSet.getString("Password"));
+	            customer.setEmail(resultSet.getString("Email"));
+	            customer.setAddress(resultSet.getString("Address"));
+	        }
+	        resultSet.close();
+	        statement.close();
+	        connection.close();
+	        return customer;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return null;
+    }
+    
+    public Customer getCustomerByUsername(String username) {
+        Connection connection;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+            String query = "SELECT * FROM Customers WHERE Username = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+            Customer customer = null;
+            if (resultSet.next()) {
+                customer = new Customer();
+                customer.setId(resultSet.getInt("Id"));
+                customer.setCustomerName(resultSet.getString("CustomerName"));
+                customer.setUsername(resultSet.getString("Username"));
+                customer.setPassword(resultSet.getString("Password"));
+                customer.setEmail(resultSet.getString("Email"));
+                customer.setAddress(resultSet.getString("Address"));
+            }
+            resultSet.close();
+            statement.close();
+            connection.close();
+            return customer;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public List<Customer> getAllCustomers() {
+    	
+    	Connection connection;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+			String query = "SELECT * FROM Customers";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        ResultSet resultSet = statement.executeQuery();
+	        List<Customer> customers = new ArrayList<>();
+	        while(resultSet.next()) {
+	            Customer customer = new Customer();
+	            customer.setId(resultSet.getInt("Id"));
+	            customer.setCustomerName(resultSet.getString("CustomerName"));
+	            customer.setUsername(resultSet.getString("Username"));
+	            customer.setPassword(resultSet.getString("Password"));
+	            customer.setEmail(resultSet.getString("Email"));
+	            customer.setAddress(resultSet.getString("Address"));
+	            customers.add(customer);
+	        }
+	        resultSet.close();
+	        statement.close();
+	        connection.close();
+	        return customers;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;     
+    }
+    
+}
+package dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
+
+import beans.CartItem;
+import beans.Product;
+
+	
+public class ProductDAO{
+    private String url = "";
+    private String mySQLUser = "";
+    private String mySQLPass = "";
+    
+	public ProductDAO(String url, String user, String password) 
+	{
+		this.url = url;
+    	this.mySQLUser = user;
+    	this.mySQLPass = password;
+	}
+		
+	
+	public void addProduct(Product product) {
+		Connection connection;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+			String query = "INSERT INTO Products (Name, Stock, Weight, Description, Price, ImageURL, Warehouse_ID, Category, Barcode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setString(1, product.getName());
+	        statement.setInt(2, product.getStock());
+	        statement.setBigDecimal(3, product.getWeight());
+	        statement.setString(4, product.getDescription());
+	        statement.setBigDecimal(5, product.getPrice());
+	        statement.setString(6, product.getImageURL());
+	        statement.setInt(7, product.getWarehouse_id());
+	        statement.setString(8, product.getCategory());
+	        statement.setString(9, product.getBarcode());
+	        statement.executeUpdate();
+	        statement.close();
+	        connection.close();
+		}
+		catch(SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}	
+	}
+	
+	public Product addProductAndReturnProduct(Product product) {
+		Product addedProduct = null;
+		Connection connection;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+			String query = "INSERT INTO Products (Name, Stock, Weight, Description, Price, ImageURL, Warehouse_ID, Category, Barcode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setString(1, product.getName());
+	        statement.setInt(2, product.getStock());
+	        statement.setBigDecimal(3, product.getWeight());
+	        statement.setString(4, product.getDescription());
+	        statement.setBigDecimal(5, product.getPrice());
+	        statement.setString(6, product.getImageURL());
+	        statement.setInt(7, product.getWarehouse_id());
+	        statement.setString(8, product.getCategory());
+	        statement.setString(9, product.getBarcode());
+	        statement.executeUpdate();
+	  
+	        
+	        String query2 = "SELECT * FROM Products WHERE Barcode = ?";
+	        PreparedStatement statement2 = connection.prepareStatement(query2);
+			statement2.setString(1, product.getBarcode());
+			ResultSet resultSet = statement2.executeQuery();
+			if (resultSet.next()) {
+				addedProduct = new Product();
+				addedProduct.setId(resultSet.getInt("Id"));
+				addedProduct.setName(resultSet.getString("Name"));
+				addedProduct.setStock(resultSet.getInt("Stock"));
+				addedProduct.setWeight(resultSet.getBigDecimal("Weight"));
+				addedProduct.setDescription(resultSet.getString("Description"));
+				addedProduct.setPrice(resultSet.getBigDecimal("Price"));
+				addedProduct.setImageURL(resultSet.getString("ImageURL"));
+				addedProduct.setWarehouse_id(resultSet.getInt("Warehouse_ID"));
+				addedProduct.setCategory(resultSet.getString("Category"));
+				addedProduct.setBarcode(resultSet.getString("Barcode"));
+			}
+			
+			statement.close();
+	        connection.close();
+	        
+		}
+		catch(SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}	
+		return addedProduct;
+	}
+	
+	public void deleteProduct(int productId) {
+    	Connection connection;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+		 	String query = "DELETE FROM Products WHERE Id = ?";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setInt(1, productId);
+	        statement.executeUpdate();
+	        statement.close();
+	        connection.close();
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+       
+		return;
+	}
+	
+	public void updateProduct(Product product) {
+		Connection connection;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+			String query = "UPDATE Products SET Name=?, Stock=?, Weight=?, Description=?, Price=?, ImageURL=?, Warehouse_ID = ?, Category = ?, Barcode = ? WHERE Id=?";
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setString(1, product.getName());
+	        statement.setInt(2, product.getStock());
+	        statement.setBigDecimal(3, product.getWeight());
+	        statement.setString(4, product.getDescription());
+	        statement.setBigDecimal(5, product.getPrice());
+	        statement.setString(6, product.getImageURL());
+	        statement.setInt(7, product.getWarehouse_id());
+	        statement.setString(8, product.getCategory());
+	        statement.setString(9, product.getBarcode());
+	        statement.setInt(10,product.getId());
+	        statement.executeUpdate();
+	        statement.close();
+	        connection.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return;
+	}
+	
+	public Product getProductByBarcode(String barcode) {
+		Connection connection;
+		Product product = null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+			String query = "SELECT * FROM Products WHERE Barcode = ?";
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setString(1, barcode);
+			ResultSet resultSet = statement.executeQuery();
+			if (resultSet.next()) {
+				product = new Product();
+				product.setId(resultSet.getInt("Id"));
+				product.setName(resultSet.getString("Name"));
+				product.setStock(resultSet.getInt("Stock"));
+				product.setWeight(resultSet.getBigDecimal("Weight"));
+				product.setDescription(resultSet.getString("Description"));
+				product.setPrice(resultSet.getBigDecimal("Price"));
+				product.setImageURL(resultSet.getString("ImageURL"));
+				product.setWarehouse_id(resultSet.getInt("Warehouse_ID"));
+				product.setCategory(resultSet.getString("Category"));
+				product.setBarcode(resultSet.getString("Barcode"));
+			}
+			statement.close();
+			connection.close();
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return product;
+	}
+	
+	public Product getProductById(int Id) {
+		Connection connection;
+		Product product = null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+			String query = "SELECT * FROM Products WHERE Id = ?";
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setInt(1, Id);
+			ResultSet resultSet = statement.executeQuery();
+			if (resultSet.next()) {
+				product = new Product();
+				product.setId(resultSet.getInt("Id"));
+				product.setName(resultSet.getString("Name"));
+				product.setStock(resultSet.getInt("Stock"));
+				product.setWeight(resultSet.getBigDecimal("Weight"));
+				product.setDescription(resultSet.getString("Description"));
+				product.setPrice(resultSet.getBigDecimal("Price"));
+				product.setImageURL(resultSet.getString("ImageURL"));
+				product.setWarehouse_id(resultSet.getInt("Warehouse_ID"));
+				product.setCategory(resultSet.getString("Category"));
+				product.setBarcode(resultSet.getString("Barcode"));
+			}
+			statement.close();
+			connection.close();
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return product;
+	}
+
+	public List<Product> searchProductsByName(String searchTerm, String sortBy) {
+	    List<Product> products = new LinkedList<>();
+	    Connection connection;
+	    try {
+	        Class.forName("com.mysql.cj.jdbc.Driver");
+	        connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+	        String query = "SELECT * FROM Products WHERE Name LIKE ? ORDER BY " + sortBy;
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setString(1, "%" + searchTerm + "%");
+	        ResultSet resultSet = statement.executeQuery();
+	        while (resultSet.next()) {
+	            Product product = new Product();
+	            product.setId(resultSet.getInt("Id"));
+	            product.setName(resultSet.getString("Name"));
+	            product.setStock(resultSet.getInt("Stock"));
+	            product.setWeight(resultSet.getBigDecimal("Weight"));
+	            product.setDescription(resultSet.getString("Description"));
+	            product.setPrice(resultSet.getBigDecimal("Price"));
+	            product.setImageURL(resultSet.getString("ImageURL"));
+	            product.setWarehouse_id(resultSet.getInt("Warehouse_ID"));
+	            product.setCategory(resultSet.getString("Category"));
+	            product.setBarcode(resultSet.getString("Barcode"));
+	            products.add(product);
+	        }
+	        resultSet.close();
+	        statement.close();
+	        connection.close();
+	        return products;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } catch (ClassNotFoundException e) {
+	        e.printStackTrace();
+	    }
+	    return null;
+	}
+	
+	public List<Product> searchProductsByNameAndCategory(String searchTerm, String category, String sortBy) {
+	    List<Product> products = new LinkedList<>();
+	    Connection connection;
+	    try {
+	        Class.forName("com.mysql.cj.jdbc.Driver");
+	        connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+	        String query = "SELECT * FROM Products WHERE Name LIKE ? AND Category = ? ORDER BY " + sortBy;
+	        PreparedStatement statement = connection.prepareStatement(query);
+	        statement.setString(1, "%" + searchTerm + "%");
+	        statement.setString(2, category);
+	        ResultSet resultSet = statement.executeQuery();
+	        while (resultSet.next()) {
+	            Product product = new Product();
+	            product.setId(resultSet.getInt("Id"));
+	            product.setName(resultSet.getString("Name"));
+	            product.setStock(resultSet.getInt("Stock"));
+	            product.setWeight(resultSet.getBigDecimal("Weight"));
+	            product.setDescription(resultSet.getString("Description"));
+	            product.setPrice(resultSet.getBigDecimal("Price"));
+	            product.setImageURL(resultSet.getString("ImageURL"));
+	            product.setWarehouse_id(resultSet.getInt("Warehouse_ID"));
+	            product.setCategory(resultSet.getString("Category"));
+	            product.setBarcode(resultSet.getString("Barcode"));
+	            products.add(product);
+	        }
+	        resultSet.close();
+	        statement.close();
+	        connection.close();
+	        return products;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } catch (ClassNotFoundException e) {
+	        e.printStackTrace();
+	    }
+	    return null;
+	}
+
+	public List<CartItem> updateProductStockAfterOrder(List<CartItem> cartItemList) {
+	    Connection connection;
+	    try {
+	        Class.forName("com.mysql.cj.jdbc.Driver");
+	        connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+	        connection.setAutoCommit(false);
+
+	        // Update stock for all products in the cartItemList
+	        for (CartItem cartItem : cartItemList) {
+	        	String query = "SELECT Stock FROM Products WHERE Barcode = ?";
+				PreparedStatement statement = connection.prepareStatement(query);
+				statement.setString(1, cartItem.getProduct().getBarcode());
+				ResultSet resultSet = statement.executeQuery();
+				if (resultSet.next()) 
+				{
+					int stock = resultSet.getInt("Stock");
+					cartItem.getProduct().setStock(stock);
+				}
+				statement.close();
+	        }
+	        
+	        for (CartItem cartItem : cartItemList) {
+	            Product product = cartItem.getProduct();
+	            int oldStock = product.getStock();
+	            int newStock = oldStock - cartItem.getQuantity();
+	            
+	            if( newStock < 0)
+	            {
+	            	connection.close();
+	            	return cartItemList;
+	            }
+	            
+	            String query = "UPDATE Products SET Stock=? WHERE Id=?";
+	            PreparedStatement statement = connection.prepareStatement(query);
+	            statement.setInt(1, newStock);
+	            statement.setInt(2, product.getId());
+	            statement.executeUpdate();
+	            statement.close();
+	        }
+	        connection.commit();
+	        connection.close();
+	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } catch (ClassNotFoundException e) {
+	        e.printStackTrace();
+	    }
+	    return null;
+	}
+
+
+}package dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import beans.BankAccount;
+
+public class BankAccountDAO {
+
+    private String url ="";
+    private String mySQLUser = "";
+    private String mySQLPass = "";
+
+    public BankAccountDAO(String url, String user, String password) 
+    {
+        this.url = url;
+        this.mySQLUser = user;
+        this.mySQLPass = password;
+    }
+
+    public void addBankAccount(BankAccount account)  {
+        Connection connection;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+            String query = "INSERT INTO BankAccounts (Store_ID, Name, Expire_Date, Bank_Account_Number) VALUES (?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, account.getStoreId());
+            statement.setString(2, account.getName());
+            statement.setString(3, account.getExpireDate());
+            statement.setInt(4, account.getBankAccountNumber());
+            statement.executeUpdate();
+            statement.close();
+            connection.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void updateBankAccount(BankAccount account) {
+        Connection connection;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+            String query = "UPDATE BankAccounts SET Store_ID = ?, Name = ?, Expire_Date = ?, Bank_Account_Number = ? WHERE Id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, account.getStoreId());
+            statement.setString(2, account.getName());
+            statement.setString(3, account.getExpireDate());
+            statement.setInt(4, account.getBankAccountNumber());
+            statement.setInt(5, account.getId());
+            statement.executeUpdate();
+            statement.close();
+            connection.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public BankAccount searchById(int id) {
+        Connection connection;
+        BankAccount account = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+            String query = "SELECT * FROM BankAccounts WHERE Id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                int storeId = rs.getInt("Store_ID");
+                String name = rs.getString("Name");
+                String expireDate = rs.getString("Expire_Date");
+                int bankAccountNumber = rs.getInt("Bank_Account_Number");
+                account = new BankAccount(id, storeId, name, expireDate, bankAccountNumber);
+            }
+            rs.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return account;
+    }
+    
+    public BankAccount searchByStoreId(int storeId) {
+        Connection connection;
+        BankAccount account = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+            String query = "SELECT * FROM BankAccounts WHERE Store_ID = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, storeId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                int id = rs.getInt("Id");
+                String name = rs.getString("Name");
+                String expireDate = rs.getString("Expire_Date");
+                int bankAccountNumber = rs.getInt("Bank_Account_Number");
+                account = new BankAccount(id, storeId, name, expireDate, bankAccountNumber);
+            }
+            rs.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return account;
+    }
+
+
+
+    public BankAccount searchByBankAccountNumber(int bankAccountNumber) {
+        Connection connection;
+        BankAccount account = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+            String query = "SELECT * FROM BankAccounts WHERE Bank_Account_Number = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, bankAccountNumber);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                int id = rs.getInt("Id");
+                int storeId = rs.getInt("Store_ID");
+                String name = rs.getString("Name");
+                String expireDate = rs.getString("Expire_Date");
+                account = new BankAccount(id, storeId, name, expireDate, bankAccountNumber);
+            }
+            rs.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return account;
+    }
+
+    public void deleteBankAccount(int id) {
+        Connection connection;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+            String query = "DELETE FROM BankAccounts WHERE Id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+            statement.close();
+            connection.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+}
