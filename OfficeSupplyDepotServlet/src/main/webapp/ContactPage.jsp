@@ -80,9 +80,9 @@
 			</div>
       <div class="team-member">
 				<h2>Khush Naidu</h2>
-				<p class="skills">Front-end, Back-end Developer</p>
-				<p class="email">Khush Email</p>
-				<a href="https://github.com/khushnaidu" target="_blank">LinkedIn Profile</a>
+				<p class="skills">Software Engineer</p>
+				<p class="email">khush.naidu@gmail.com</p>
+				<a href="https://www.linkedin.com/in/khush-naidu/" target="_blank">LinkedIn Profile</a>
 			</div>
       <div class="team-member">
 				<h2>David Warshawsky</h2>
