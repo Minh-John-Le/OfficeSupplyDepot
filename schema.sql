@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS OrderDetails (
   Ship_Address text,
   Total_Weight decimal(10,2) DEFAULT NULL,
   Total_Price decimal(10,2) DEFAULT NULL,
-  Payment_Card_Number int NOT NULL,
+  Payment_Card_Number varchar(20) NOT NULL,
   Card_Name varchar(255) NOT NULL,
   Expire_Date varchar(5) NOT NULL,
   Delivery_Name varchar(255) NOT NULL,

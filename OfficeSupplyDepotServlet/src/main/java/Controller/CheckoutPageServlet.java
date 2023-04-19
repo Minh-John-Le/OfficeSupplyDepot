@@ -136,6 +136,8 @@ public class CheckoutPageServlet extends HttpServlet {
 			if (newcartItem != null)
 			{
 				session.setAttribute("cartItemList", newcartItem);
+				errList.add("Some item in cart exceed stock limit. Please update your cart!");
+				request.setAttribute("errlist", errList);
 				RequestDispatcher requestDispatcher = request.getRequestDispatcher("CheckoutPage.jsp");
 				requestDispatcher.forward(request, response);
 				return;

@@ -81,7 +81,6 @@
 	String expDate = "";
 
 	
-	
 	if (orderDetail != null)
 	{
 		totalPrice = orderDetail.getTotalPrice();
@@ -100,7 +99,7 @@
 	%>
 
 	<div class="cart-container">
-		<h1>Shopping Cart</h1>
+		<h1>Order Items</h1>
 		
 		<table>
 			<tr>

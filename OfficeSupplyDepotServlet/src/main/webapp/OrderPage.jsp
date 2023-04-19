@@ -136,7 +136,7 @@
 
 	</div>
 	<%
-		if (orderDetailList == null || orderDetailList.size() <= 0)
+		if (orderDetailList == null)
 		{
 			%>
 			  	
@@ -157,6 +157,17 @@
 			</div>				
 			<%
 		}
+		else if (orderDetailList.size() <= 0) 
+		{
+			%>
+
+	  		<div class="card">
+			  <div class="card-body">
+			    <h4 class="card-title">There is no order matching your search.</h4>
+			  </div>
+			</div>
+			<%
+			}	
 		%>
 	
 	</form>

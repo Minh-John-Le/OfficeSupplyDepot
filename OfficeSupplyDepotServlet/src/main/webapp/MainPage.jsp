@@ -143,7 +143,7 @@
  
 	</div>
 	<%
-	  	if (searchProductList == null || searchProductList.size() <= 0)
+	  	if (searchProductList == null )
       	{
     %>
       		<div class="card">
@@ -162,6 +162,16 @@
 
      <% 		
       	}
+	  	else if (searchProductList.size() <= 0)
+	  	{
+	  		%>
+	  		<div class="card">
+			  <div class="card-body">
+			    <h4 class="card-title">There is no product matching your search.</h4>
+			  </div>
+			</div>
+			<%
+	  	}
      %>
 	</form>
 	
