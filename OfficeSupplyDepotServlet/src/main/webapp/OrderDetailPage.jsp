@@ -77,7 +77,7 @@
 	String shipName = "";
 	String address = "";
 	String accountName = "";
-	int accountNumber = 0;
+	String accountNumber = "";
 	String expDate = "";
 
 	
