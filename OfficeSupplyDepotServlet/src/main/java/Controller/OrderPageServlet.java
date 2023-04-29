@@ -141,6 +141,7 @@ public class OrderPageServlet extends HttpServlet {
 				
 				cartItem.setProduct(product);
 				cartItem.setQuantity(orderPackage.getQuantity());
+				cartItem.getProduct().setPrice(orderPackage.getPrice());
 				
 				packageItemList.add(cartItem);
 			}

@@ -84,6 +84,7 @@ CREATE TABLE IF NOT EXISTS OrderPackages (
   Order_ID int DEFAULT NULL,
   Product_ID int DEFAULT NULL,
   Quantity int NOT NULL,
+  Price decimal(10,2) DEFAULT NULL,
   FOREIGN KEY (Product_ID) REFERENCES Products (Id),
   FOREIGN KEY (Order_ID) REFERENCES OrderDetails (Id)
 );

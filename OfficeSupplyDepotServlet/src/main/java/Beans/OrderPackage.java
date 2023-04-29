@@ -1,9 +1,12 @@
 package Beans;
 
+import java.math.BigDecimal;
+
 public class OrderPackage {
     private int orderID;
     private int productID;
     private int quantity;
+    private BigDecimal price;
     
     public int getOrderID() {
         return orderID;
@@ -28,5 +31,13 @@ public class OrderPackage {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
 }
 

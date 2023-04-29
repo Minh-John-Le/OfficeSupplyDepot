@@ -26,11 +26,12 @@ public class OrderPackageDAO {
     public void addOrderPackage(OrderPackage pkg) {
         try {
             Connection connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-            String query = "INSERT INTO OrderPackages (Order_ID, Product_ID, Quantity) VALUES (?, ?, ?)";
+            String query = "INSERT INTO OrderPackages (Order_ID, Product_ID, Quantity, Price) VALUES (?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, pkg.getOrderID());
             statement.setInt(2, pkg.getProductID());
             statement.setInt(3, pkg.getQuantity());
+            statement.setBigDecimal(4, pkg.getPrice());
             statement.executeUpdate();
             statement.close();
             connection.close();
@@ -48,7 +49,7 @@ public class OrderPackageDAO {
             connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
 
             // Prepare statement
-            String query = "INSERT INTO OrderPackages (Order_ID, Product_ID, Quantity) VALUES (?, ?, ?)";
+            String query = "INSERT INTO OrderPackages (Order_ID, Product_ID, Quantity, Price) VALUES (?, ?, ?, ?)";
             statement = connection.prepareStatement(query);
 
             // Iterate through cart items and add to batch
@@ -57,6 +58,7 @@ public class OrderPackageDAO {
                 statement.setInt(1, orderId);
                 statement.setInt(2, cartItem.getProduct().getId());
                 statement.setInt(3, cartItem.getQuantity());
+                statement.setBigDecimal(4, cartItem.getProduct().getPrice());
 
                 // Add statement to batch
                 statement.addBatch();
@@ -86,6 +88,7 @@ public class OrderPackageDAO {
                 pkg.setOrderID(resultSet.getInt("Order_ID"));
                 pkg.setProductID(resultSet.getInt("Product_ID"));
                 pkg.setQuantity(resultSet.getInt("Quantity"));
+                pkg.setPrice(resultSet.getBigDecimal("Price"));
                 packages.add(pkg);
             }
             statement.close();
