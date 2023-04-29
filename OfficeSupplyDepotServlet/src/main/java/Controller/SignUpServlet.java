@@ -14,15 +14,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Beans.BankAccount;
 import Beans.Customer;
 import Beans.PaymentAccount;
-import Beans.OSDAdmin;
-import DAO.BankAccountDAO;
 import DAO.CustomerDAO;
 import DAO.PaymentAccountDAO;
-import DAO.OSDAdminDAO;
-import Utilities.Settings;
 import Utilities.ValidationUtil;
 
 @WebServlet("/signup")
