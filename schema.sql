@@ -97,6 +97,37 @@ CREATE TABLE IF NOT EXISTS PickupAreas (
   PRIMARY KEY (Id)
 );
 
+INSERT INTO PickupAreas VALUES(1,'SJSU', '1 Washington Sq, San Jose, CA 95192');
+
+INSERT INTO Warehouses VALUES(0, 'SJSU' , '1 Washington Sq, San Jose, CA 95192');
+INSERT INTO Warehouses VALUES(1, 'EVC' , '3095 Yerba Buena Rd, San Jose, CA 95135');
+INSERT INTO Warehouses VALUES(2, 'SJSU' , '1 Washington Sq, San Jose, CA 95192');
+
+INSERT INTO ShipMethods VALUES(1, 'Dron Free', 0.00, 0);
+INSERT INTO ShipMethods VALUES(2, 'Truck Free', 0.00, 2);
+INSERT INTO ShipMethods VALUES(3, 'Drone', 20.00, 0);
+INSERT INTO ShipMethods VALUES(4, 'Truck', 20.00, 2);
+INSERT INTO ShipMethods VALUES(5, 'Truck-Same Day', 25.00, 0);
+INSERT INTO ShipMethods VALUES(6, 'Pickup', 0.00, 0);
+
+INSERT INTO OSDAdmins(AdminName, UserName, Password, Email)
+VALUES('Cute Admin','Kaleigh123@gmail.com', 'Kaleigh123@gmail.com' , 'Kaleigh123@gmail.com');
+
+INSERT INTO OSDAdmins(AdminName, UserName, Password, Email)
+VALUES('Admin','Minh123@gmail.com', 'Minh123@gmail.com' , 'Minh123@gmail.com');
+
+INSERT INTO OSDAdmins(AdminName, UserName, Password, Email)
+VALUES('Admin','Nate123@gmail.com', 'Nate123@gmail.com' , 'Nate123@gmail.com');
+
+INSERT INTO OSDAdmins(AdminName, UserName, Password, Email)
+VALUES('Admin','Nathan123@gmail.com', 'Nathan123@gmail.com' , 'Nathan123@gmail.com');
+
+INSERT INTO OSDAdmins(AdminName, UserName, Password, Email)
+VALUES('Admin','David123@gmail.com', 'David123@gmail.com' , 'David123@gmail.com');
+
+INSERT INTO OSDAdmins(AdminName, UserName, Password, Email)
+VALUES('Admin','Kush123@gmail.com', 'Kush123@gmail.com' , 'Kush123@gmail.com');
+
 CREATE USER 'david'@'localhost' IDENTIFIED BY '!Changme123';
 CREATE USER 'nate'@'localhost' IDENTIFIED BY '!Changme123';
 CREATE USER 'nathan'@'%' IDENTIFIED BY '!Changme123';
