@@ -10,7 +10,7 @@ public class OrderDetail {
     private String shipAddress;
     private BigDecimal totalWeight;
     private BigDecimal totalPrice;
-    private int paymentCardNumber;
+    private String paymentCardNumber;
     private String cardName;
     private String expireDate;
     private String deliveryName;
@@ -69,11 +69,11 @@ public class OrderDetail {
         this.totalPrice = totalPrice;
     }
 
-    public int getPaymentCardNumber() {
+    public String getPaymentCardNumber() {
         return paymentCardNumber;
     }
 
-    public void setPaymentCardNumber(int paymentCardNumber) {
+    public void setPaymentCardNumber(String paymentCardNumber) {
         this.paymentCardNumber = paymentCardNumber;
     }
 

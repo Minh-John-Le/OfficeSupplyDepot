@@ -44,7 +44,7 @@ public class OrderDetailDAO {
             statement.setString(4, orderDetail.getShipAddress());
             statement.setBigDecimal(5, orderDetail.getTotalWeight());
             statement.setBigDecimal(6, orderDetail.getTotalPrice());
-            statement.setInt(7, orderDetail.getPaymentCardNumber());
+            statement.setString(7, orderDetail.getPaymentCardNumber());
             statement.setString(8, orderDetail.getCardName());
             statement.setString(9, orderDetail.getExpireDate());
             statement.setString(10, orderDetail.getDeliveryName());
@@ -86,7 +86,7 @@ public class OrderDetailDAO {
                 orderDetail.setShipAddress(resultSet.getString("Ship_Address"));
                 orderDetail.setTotalWeight(resultSet.getBigDecimal("Total_Weight"));
                 orderDetail.setTotalPrice(resultSet.getBigDecimal("Total_Price"));
-                orderDetail.setPaymentCardNumber(resultSet.getInt("Payment_Card_Number"));
+                orderDetail.setPaymentCardNumber(resultSet.getString("Payment_Card_Number"));
                 orderDetail.setCardName(resultSet.getString("Card_Name"));
                 orderDetail.setExpireDate(resultSet.getString("Expire_Date"));
                 orderDetail.setDeliveryName(resultSet.getString("Delivery_Name"));
@@ -130,7 +130,7 @@ public class OrderDetailDAO {
                 orderDetail.setShipAddress(resultSet.getString("Ship_Address"));
                 orderDetail.setTotalWeight(resultSet.getBigDecimal("Total_Weight"));
                 orderDetail.setTotalPrice(resultSet.getBigDecimal("Total_Price"));
-                orderDetail.setPaymentCardNumber(resultSet.getInt("Payment_Card_Number"));
+                orderDetail.setPaymentCardNumber(resultSet.getString("Payment_Card_Number"));
                 orderDetail.setCardName(resultSet.getString("Card_Name"));
                 orderDetail.setExpireDate(resultSet.getString("Expire_Date"));
                 orderDetail.setDeliveryName(resultSet.getString("Delivery_Name"));
@@ -166,7 +166,7 @@ public class OrderDetailDAO {
                 orderDetail.setShipAddress(resultSet.getString("Ship_Address"));
                 orderDetail.setTotalWeight(resultSet.getBigDecimal("Total_Weight"));
                 orderDetail.setTotalPrice(resultSet.getBigDecimal("Total_Price"));
-                orderDetail.setPaymentCardNumber(resultSet.getInt("Payment_Card_Number"));
+                orderDetail.setPaymentCardNumber(resultSet.getString("Payment_Card_Number"));
                 orderDetail.setCardName(resultSet.getString("Card_Name"));
                 orderDetail.setExpireDate(resultSet.getString("Expire_Date"));
                 orderDetail.setDeliveryName(resultSet.getString("Delivery_Name"));
@@ -200,7 +200,7 @@ public class OrderDetailDAO {
                 orderDetail.setShipAddress(resultSet.getString("Ship_Address"));
                 orderDetail.setTotalWeight(resultSet.getBigDecimal("Total_Weight"));
                 orderDetail.setTotalPrice(resultSet.getBigDecimal("Total_Price"));
-                orderDetail.setPaymentCardNumber(resultSet.getInt("Payment_Card_Number"));
+                orderDetail.setPaymentCardNumber(resultSet.getString("Payment_Card_Number"));
                 orderDetail.setCardName(resultSet.getString("Card_Name"));
                 orderDetail.setExpireDate(resultSet.getString("Expire_Date"));
                 orderDetail.setDeliveryName(resultSet.getString("Delivery_Name"));

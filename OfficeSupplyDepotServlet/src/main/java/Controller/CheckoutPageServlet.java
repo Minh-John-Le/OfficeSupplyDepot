@@ -159,7 +159,7 @@ public class CheckoutPageServlet extends HttpServlet {
 			orderDetail.setCustomerID(loginCustomer.getId());
 			orderDetail.setDeliveryName(shipName);
 			orderDetail.setExpireDate(expDate);
-			orderDetail.setPaymentCardNumber(Integer.parseInt(cardNumber));
+			orderDetail.setPaymentCardNumber(cardNumber);
 			orderDetail.setShipAddress(address);
 			orderDetail.setShipmethodID(shipMethod.getId());
 			orderDetail.setTotalPrice(totalPrice);
