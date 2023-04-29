@@ -96,8 +96,21 @@ CREATE TABLE IF NOT EXISTS PickupAreas (
   PRIMARY KEY (Id)
 );
 
-CREATE USER 'david'@'localhost' IDENTIFIED BY '!Changme123';
-CREATE USER 'nate'@'localhost' IDENTIFIED BY '!Changme123';
+CREATE USER 'minh'@'%' IDENTIFIED BY '!Changme123';
+GRANT ALL PRIVILEGES ON OfficeSupplyDepot.* TO 'minh'@'%';
+FLUSH PRIVILEGES;
+CREATE USER 'david'@'%' IDENTIFIED BY '!Changme123';
+GRANT ALL PRIVILEGES ON OfficeSupplyDepot.* TO 'david'@'%';
+FLUSH PRIVILEGES;
+CREATE USER 'nate'@'%' IDENTIFIED BY '!Changme123';
+GRANT ALL PRIVILEGES ON OfficeSupplyDepot.* TO 'nate'@'%';
+FLUSH PRIVILEGES;
 CREATE USER 'nathan'@'%' IDENTIFIED BY '!Changme123';
+GRANT ALL PRIVILEGES ON OfficeSupplyDepot.* TO 'nathan'@'%';
+FLUSH PRIVILEGES;
 CREATE USER 'kaleigh'@'%' IDENTIFIED BY '!Changme123';
-CREATE USER 'nathan'@'%' IDENTIFIED BY '!Changme123';
+GRANT ALL PRIVILEGES ON OfficeSupplyDepot.* TO 'kaleigh'@'%';
+FLUSH PRIVILEGES;
+CREATE USER 'khush'@'%' IDENTIFIED BY '!Changme123';
+GRANT ALL PRIVILEGES ON OfficeSupplyDepot.* TO 'khush'@'%';
+FLUSH PRIVILEGES;
