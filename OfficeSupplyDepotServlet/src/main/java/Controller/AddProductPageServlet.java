@@ -22,6 +22,7 @@ import javax.servlet.http.Part;
 
 import Beans.Product;
 import DAO.ProductDAO;
+import Utilities.Settings;
 import Utilities.ValidationUtil;
 
 @WebServlet("/addproduct")
@@ -42,9 +43,10 @@ public class AddProductPageServlet extends HttpServlet {
     	List<String> errList = new LinkedList<String>();
     	ServletContext context = getServletContext();
         
-        // Get the input stream for the properties file
-        InputStream input = context.getResourceAsStream("/WEB-INF/classes/db.properties");
-        
+    	// Get the input stream for the properties file
+    	InputStream input = null ;        
+    	String propertiesFile = Settings.getPropertyFile();
+        input = context.getResourceAsStream(propertiesFile);
         // Load the properties from the file
         Properties props = new Properties();
 		try {

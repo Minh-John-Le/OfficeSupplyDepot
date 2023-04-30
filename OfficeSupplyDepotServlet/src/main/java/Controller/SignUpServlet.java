@@ -18,37 +18,35 @@ import Beans.Customer;
 import Beans.PaymentAccount;
 import DAO.CustomerDAO;
 import DAO.PaymentAccountDAO;
+import Utilities.Settings;
 import Utilities.ValidationUtil;
 
 @WebServlet("/signup")
 public class SignUpServlet extends HttpServlet {    
     private static final long serialVersionUID = 1L;
+    private CustomerDAO customerDAO;
+    private PaymentAccountDAO paymentAccountDAO;
 
-	public void init() throws ServletException {
-    	
+    public void init() throws ServletException {
+        ServletContext context = getServletContext();
+
+        // Get the input stream for the properties file
+        try (InputStream input = context.getResourceAsStream(Settings.getPropertyFile())) {
+            // Load the properties from the file
+            Properties props = new Properties();
+            props.load(input);
+            String url = props.getProperty("db.url");
+            String mySQLuser = props.getProperty("db.username");
+            String mySQLpassword = props.getProperty("db.password");
+            customerDAO = new CustomerDAO(url, mySQLuser, mySQLpassword);
+            paymentAccountDAO = new PaymentAccountDAO(url, mySQLuser, mySQLpassword);
+        } catch (IOException e) {
+            throw new ServletException("Failed to read configuration", e);
+        }
     }
     
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	List<String> errList = new LinkedList<String>();
-    	ServletContext context = getServletContext();
-        
-        // Get the input stream for the properties file
-        InputStream input = context.getResourceAsStream("/WEB-INF/classes/db.properties");
-        
-        // Load the properties from the file
-        Properties props = new Properties();
-		try {
-			props.load(input);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-    	String url = props.getProperty("db.url");
-        String mySQLuser = props.getProperty("db.username");
-        String mySQLpassword = props.getProperty("db.password");
-        
-    	
-    	//=============================================
         // Front end input receive
     	String username = request.getParameter("username").trim();
         String password = request.getParameter("password").trim();
@@ -59,8 +57,6 @@ public class SignUpServlet extends HttpServlet {
         
         if (account_type.equals("customer"))
         {
-        	CustomerDAO customerDAO = new CustomerDAO(url,mySQLuser, mySQLpassword);
-        	PaymentAccountDAO paymentAccountDAO = new PaymentAccountDAO(url,mySQLuser, mySQLpassword);
 	        Customer customer = new Customer();
 	        customer.setUsername(username);
 	        customer.setPassword(password);
@@ -78,17 +74,17 @@ public class SignUpServlet extends HttpServlet {
 	        
 	        }
 	        
-	        if (username != null && username.equals(""))
+	        if (username.equals(""))
 	        {
 	        	errList.add("username cannot be empty");
 	        }
 	        
-	        if (name != null && !validationUtil.isValidDisplayName(name))
+	        if (!validationUtil.isValidDisplayName(name))
 	        {
 	        	errList.add("Display name cannot be empty and must be at max 20 characters!");
 	        }
 	        
-	        if(password != null && !validationUtil.isValidPassword(password))
+	        if(!validationUtil.isValidPassword(password))
         	{
 	        	errList.add("Invalid Password! Password must have at least 8 characters, 1 uppercase, 1 lowercase, and 1 special character" ); 
         	}

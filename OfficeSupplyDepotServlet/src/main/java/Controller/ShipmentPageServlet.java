@@ -41,9 +41,10 @@ public class ShipmentPageServlet extends HttpServlet {
     	
     	ServletContext context = getServletContext();
         
-        // Get the input stream for the properties file
-        InputStream input = context.getResourceAsStream("/WEB-INF/classes/db.properties");
-        
+    	// Get the input stream for the properties file
+    	InputStream input = null ;        
+    	String propertiesFile = Settings.getPropertyFile();
+        input = context.getResourceAsStream(propertiesFile);
         // Load the properties from the file
         Properties props = new Properties();
 		try {

@@ -5,9 +5,9 @@ public class BankAccount {
     private int storeId;
     private String name;
     private String expireDate;
-    private int bankAccountNumber;
+    private String bankAccountNumber;
     
-    public BankAccount(int id, int storeId, String name, String expireDate, int bankAccountNumber) {
+    public BankAccount(int id, int storeId, String name, String expireDate, String bankAccountNumber) {
         this.id = id;
         this.storeId = storeId;
         this.name = name;
@@ -47,11 +47,11 @@ public class BankAccount {
         this.expireDate = expireDate;
     }
     
-    public int getBankAccountNumber() {
+    public String getBankAccountNumber() {
         return bankAccountNumber;
     }
     
-    public void setBankAccountNumber(int bankAccountNumber) {
+    public void setBankAccountNumber(String bankAccountNumber) {
         this.bankAccountNumber = bankAccountNumber;
     }
 }

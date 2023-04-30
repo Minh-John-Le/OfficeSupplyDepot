@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -23,6 +22,7 @@ import javax.servlet.http.Part;
 
 import Beans.Product;
 import DAO.ProductDAO;
+import Utilities.Settings;
 import Utilities.ValidationUtil;
 
 @WebServlet("/updateproduct")
@@ -43,10 +43,11 @@ public class UpdateProductPageServlet extends HttpServlet {
     	HttpSession session = request.getSession();
     	List<String> errList = new LinkedList<String>();
     	ServletContext context = getServletContext();
-        
-        // Get the input stream for the properties file
-        InputStream input = context.getResourceAsStream("/WEB-INF/classes/db.properties");
-        
+    	
+    	// Get the input stream for the properties file
+    	InputStream input = null ;        
+    	String propertiesFile = Settings.getPropertyFile();
+        input = context.getResourceAsStream(propertiesFile);
         // Load the properties from the file
         Properties props = new Properties();
 		try {
