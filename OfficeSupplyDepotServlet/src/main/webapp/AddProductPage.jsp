@@ -85,19 +85,19 @@
             </div>
             <div class="form-group">
                 <label for="stock">Stock:</label>
-                <input type="number" id="stock" name="stock" required>
+                <input type="number" id="stock" name="stock" min="0" max = "1000000" required>
             </div>
             <div class="form-group">
                 <label for="weight">Weight:</label>
-                <input type="number" step="0.01" id="weight" name="weight" required>
+                <input type="number" step="0.01" id="weight" name="weight" min="0" max = "1000000" required>
             </div>
             <div class="form-group">
                 <label for="description">Description:</label>
-                <textarea id="description" name="description" required></textarea>
+                <textarea id="description" name="description" maxlength="200" placeholder="Maximum 200 characters" required></textarea>
             </div>
             <div class="form-group">
                 <label for="price">Price:</label>
-                <input type="number" step="0.01" id="price" name="price" required>
+                <input type="number" step="0.01" id="price" name="price" min="0" max = "1000000" required>
             </div>
             <div class="form-group">
                 <label for="image">Image:</label>

@@ -107,19 +107,19 @@
             </div>
             <div class="form-group">
                 <label for="stock">Stock:</label>
-                <input type="number" id="stock" name="stock" required value = <%=stock%> min = 0>
+                <input type="number" id="stock" name="stock" required value = <%=stock%> min="0" max = "1000000">
             </div>
             <div class="form-group">
                 <label for="weight">Weight:</label>
-                <input type="number" step="0.01" id="weight" name="weight" required value = <%=weight%> min = 0>
+                <input type="number" step="0.01" id="weight" name="weight" required value = <%=weight%> min="0" max = "1000000">
             </div>
             <div class="form-group">
                 <label for="description">Description:</label>
-                <textarea id="description" name="description" required><%=description%></textarea>
+                <textarea id="description" name="description"  maxlength="200" placeholder="Maximum 200 characters" required><%=description%></textarea>
             </div>
             <div class="form-group">
                 <label for="price">Price:</label>
-                <input type="number" step="0.01" id="price" name="price" required value =<%=price%> min = 0>
+                <input type="number" step="0.01" id="price" name="price" required value =<%=price%> min="0" max = "1000000">
             </div>
             <div class="form-group">
                 <label for="image">Image:</label>
