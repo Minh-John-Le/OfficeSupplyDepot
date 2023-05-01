@@ -1,45 +1,22 @@
 package DAO;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import Beans.Customer;
-import javax.sql.DataSource;
-import org.apache.commons.dbcp2.BasicDataSource;
 
 
-public class CustomerDAO {
-	
-	private DataSource dataSource;
-	private String url  = "";
-	private String mySQLUser  = "";
-	private String mySQLPass = "";
-	
-	
+public class CustomerDAO extends BaseDAO{
+		
     public CustomerDAO(String url, String user, String password) 
     {
-    	this.url = url;
-    	this.mySQLUser = user;
-    	this.mySQLPass = password;
-    	dataSource = getDataSource();
+    	super(url,user,password);
     }
     
-    private DataSource getDataSource() {
-        if (dataSource == null) {
-            BasicDataSource ds = new BasicDataSource();
-            ds.setUrl(url);
-            ds.setUsername(mySQLUser);
-            ds.setPassword(mySQLPass);
-            ds.setMinIdle(1);
-            ds.setMaxIdle(1);
-            ds.setMaxTotal(1);
-            dataSource = ds;
-        }
-        return dataSource;
-    }
     
     public void addCustomer(Customer customer)  {
     	try (Connection connection = dataSource.getConnection()) {
