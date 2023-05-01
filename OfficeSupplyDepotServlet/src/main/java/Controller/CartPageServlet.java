@@ -16,16 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import Beans.BankAccount;
 import Beans.CartItem;
-import Beans.Customer;
-import Beans.PaymentAccount;
 import Beans.ShipMethod;
-import Beans.OSDAdmin;
-import DAO.BankAccountDAO;
-import DAO.CustomerDAO;
-import DAO.PaymentAccountDAO;
-import DAO.*;
+import DAO.ShipMethodDAO;
 import Utilities.CheckoutUtil;
 import Utilities.Settings;
 
@@ -34,14 +27,10 @@ import Utilities.Settings;
 public class CartPageServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
+	private ShipMethodDAO shipMethodDAO;
 
-	@SuppressWarnings("unchecked")
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		List<String> errList = new LinkedList<String>();
-    
-    	
-    	ServletContext context = getServletContext();
+	public void init() throws ServletException {
+		ServletContext context = getServletContext();
         
     	// Get the input stream for the properties file
     	InputStream input = null ;        
@@ -59,6 +48,12 @@ public class CartPageServlet extends HttpServlet {
         String mySQLuser = props.getProperty("db.username");
         String mySQLpassword = props.getProperty("db.password");
         
+        shipMethodDAO = new ShipMethodDAO(url, mySQLuser, mySQLpassword);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
     	//=============================================
         // Front end input receive
       
@@ -98,7 +93,7 @@ public class CartPageServlet extends HttpServlet {
 			
 			
 			CheckoutUtil checkoutUtil = new CheckoutUtil();
-			ShipMethodDAO shipMethodDAO = new ShipMethodDAO(url, mySQLuser, mySQLpassword);
+			
 			
 			BigDecimal subtotal = checkoutUtil.getSubtotal(cartItemList);
 			BigDecimal weight = checkoutUtil.getWeight(cartItemList);

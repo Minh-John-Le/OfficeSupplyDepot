@@ -1,11 +1,6 @@
 package Utilities;
 
-import Beans.Customer;
-import Beans.OSDAdmin;
-import java.io.InputStreamReader;
 import java.util.Properties;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.servlet.ServletContext;

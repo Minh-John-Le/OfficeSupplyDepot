@@ -1,0 +1,34 @@
+version: '3.3'
+services:
+  mysql-osd-container:
+    image: mysql:8.0.32
+    container_name: mysql-osd-container
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=OfficeSupplyDepot
+    ports:
+      - 3306:3306
+    volumes:
+      - ${PWD}/mysql_data:/var/lib/mysql
+      - ${PWD}/mysql-database_init_files/:/docker-entrypoint-initdb.d/
+    networks:
+      - app-network
+
+  tomcat-osd-container:
+    image: tomcat:latest
+    container_name: tomcat-osd-container
+    ports:
+      - "8082:8080"
+    volumes:
+      - ${PWD}/OfficeSupplyDepotServlet/target/OfficeSupplyDepot.war:/usr/local/tomcat/webapps/OfficeSupplyDepot.war
+    environment:
+      - MYSQL_URL=jdbc:mysql://mysql-osd-container:3306/OfficeSupplyDepot?useSSL=false&useTimezone=true&serverTimezone=America/Los_Angeles
+      - MYSQL_USERNAME=david
+      - MYSQL_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    depends_on:
+      - mysql-osd-container
+    networks:
+      - app-network
+
+networks:
+  app-network:

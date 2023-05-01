@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -34,14 +33,12 @@ import Utilities.ValidationUtil;
 public class AddProductPageServlet extends HttpServlet {    
     private static final long serialVersionUID = 1L;
     private static final String SAVE_DIR = "Resources";
+    private ValidationUtil validationUtil;
+    
+    private ProductDAO productDAO;
     
 	public void init() throws ServletException {
-    	
-    }
-    
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	List<String> errList = new LinkedList<String>();
-    	ServletContext context = getServletContext();
+		ServletContext context = getServletContext();
         
     	// Get the input stream for the properties file
     	InputStream input = null ;        
@@ -58,8 +55,15 @@ public class AddProductPageServlet extends HttpServlet {
     	String url = props.getProperty("db.url");
         String mySQLuser = props.getProperty("db.username");
         String mySQLpassword = props.getProperty("db.password");
-        
-    	
+		
+        productDAO = new ProductDAO(url,mySQLuser, mySQLpassword);
+		
+        validationUtil = new ValidationUtil();
+
+    }
+    
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	List<String> errList = new LinkedList<String>();
     	//=============================================
         // Front end input receive
     	String productName = request.getParameter("name").trim();
@@ -72,11 +76,7 @@ public class AddProductPageServlet extends HttpServlet {
         String barcode = request.getParameter("barcode").trim();
         String category = request.getParameter("category");
         String imageUrl ="";
-        
-        //================================================
-        //Util package
-        ValidationUtil validationUtil = new ValidationUtil();
-        
+                
         //=============================================
         // Create a directory for saving the uploaded file
         //This path for deployment
@@ -99,7 +99,6 @@ public class AddProductPageServlet extends HttpServlet {
         		
         		
         		// Prepare Product info
-        		ProductDAO productDAO = new ProductDAO(url,mySQLuser, mySQLpassword);
         		Product product = new Product();
         		product.setName(productName);
         		product.setWarehouse_id(Integer.valueOf(warehouseId));

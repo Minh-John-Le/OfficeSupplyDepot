@@ -1,5 +1,6 @@
 Create database OfficeSupplyDepot;
 use OfficeSupplyDepot;
+  FOREIGN KEY (Product_ID) REFERENCES Products (Id),
 
 CREATE TABLE IF NOT EXISTS Customers (
   Id int NOT NULL AUTO_INCREMENT,
@@ -27,6 +28,7 @@ CREATE TABLE IF NOT EXISTS Warehouses (
   PRIMARY KEY (Id)
 );
 
+  FOREIGN KEY (Product_ID) REFERENCES Products (Id),
 CREATE TABLE IF NOT EXISTS PaymentAccounts (
   Id int NOT NULL AUTO_INCREMENT,
   Customer_ID int NOT NULL,
@@ -45,7 +47,9 @@ CREATE TABLE IF NOT EXISTS ShipMethods (
   PRIMARY KEY (Id)
 );
 
-CREATE TABLE IF NOT EXISTS OrderDetails (
+CREATE TAB  FOREIGN KEY (Product_ID) REFERENCES Products (Id),
+LE IF NOT EXISTS OrderDetails (
+  FOREIGN KEY (Product_ID) REFERENCES Products (Id),
   Id int NOT NULL AUTO_INCREMENT,
   Order_Code varchar(255) NOT NULL,
   Customer_ID int NOT NULL,
@@ -74,6 +78,7 @@ CREATE TABLE IF NOT EXISTS Products (
   Weight decimal(10,2) DEFAULT NULL,
   Description text,
   Price decimal(10,2) DEFAULT NULL,
+  FOREIGN KEY (Product_ID) REFERENCES Products (Id),
   ImageURL VARCHAR(255),
   Category varchar(255),
   Barcode varchar(255) UNIQUE NOT NULL,
@@ -87,6 +92,7 @@ CREATE TABLE IF NOT EXISTS OrderPackages (
   Quantity int NOT NULL,
   FOREIGN KEY (Product_ID) REFERENCES Products (Id),
   FOREIGN KEY (Order_ID) REFERENCES OrderDetails (Id)
+  FOREIGN KEY (Product_ID) REFERENCES Products (Id),
   FOREIGN KEY (Product_ID) REFERENCES Products (Id),
 );
 
@@ -109,19 +115,24 @@ CREATE TABLE IF NOT EXISTS BankAccounts (
 CREATE USER 'minh'@'%' IDENTIFIED BY '!Changme123';
 GRANT ALL PRIVILEGES ON OfficeSupplyDepot.* TO 'minh'@'%';
 FLUSH PRIVILEGES;
+
 CREATE USER 'david'@'%' IDENTIFIED BY '!Changme123';
 GRANT ALL PRIVILEGES ON OfficeSupplyDepot.* TO 'david'@'%';
 FLUSH PRIVILEGES;
+
 CREATE USER 'nate'@'%' IDENTIFIED BY '!Changme123';
-GRANT ALL NOT NULL AUTO_INCREMENT, PRIVILEGES ON OfficeSupplyDepot.* TO 'nate'@'%';
+GRANT ALL PRIVILEGES ON OfficeSupplyDepot.* TO 'nate'@'%';
 FLUSH PRIVILEGES;
+
 CREATE USER 'nathan'@'%' IDENTIFIED BY '!Changme123';
 GRANT ALL PRIVILEGES ON OfficeSupplyDepot.* TO 'nathan'@'%';
 FLUSH PRIVILEGES;
+
 CREATE USER 'kaleigh'@'%' IDENTIFIED BY '!Changme123';
 GRANT ALL PRIVILEGES ON OfficeSupplyDepot.* TO 'kaleigh'@'%';
 FLUSH PRIVILEGES;
   FOREIGN KEY (Product_ID) REFERENCES Products (Id),
+
 CREATE USER 'khush'@'%' IDENTIFIED BY '!Changme123';
 GRANT ALL PRIVILEGES ON OfficeSupplyDepot.* TO 'khush'@'%';
 FLUSH PRIVILEGES;

@@ -28,10 +28,43 @@ import Utilities.ValidationUtil;
 public class AccountServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
+	
+	private CustomerDAO customerDAO;;
+	private OSDAdminDAO adminDAO;
+	private PaymentAccountDAO paymentAccountDAO;
+	
+	private ValidationUtil validationUtil;
+	
+	public void init() throws ServletException{
+		ServletContext context = getServletContext();
+		
+		// Get the input stream for the properties file
+    	InputStream input = null ;        
+    	String propertiesFile = Settings.getPropertyFile();
+        input = context.getResourceAsStream(propertiesFile);
+        // Load the properties from the file
+        Properties props = new Properties();
+		try {
+			props.load(input);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+    	String url = props.getProperty("db.url");
+        String mySQLuser = props.getProperty("db.username");
+        String mySQLpassword = props.getProperty("db.password");
+        
+        // Util package
+        validationUtil = new ValidationUtil();
+        customerDAO = new CustomerDAO(url,mySQLuser, mySQLpassword);
+        adminDAO = new OSDAdminDAO(url,mySQLuser, mySQLpassword);
+        paymentAccountDAO = new PaymentAccountDAO(url,mySQLuser, mySQLpassword);
+		
+	}
 	 public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    	List<String> errList = new LinkedList<String>();
 	    	HttpSession session = request.getSession();
-	    	ServletContext context = getServletContext();
+	    	
 	    	String clickButton = request.getParameter("button");
 	    	
 	    	// DAO 
@@ -40,24 +73,7 @@ public class AccountServlet extends HttpServlet {
 	    	PaymentAccount paymentAccount = (PaymentAccount) session.getAttribute("paymentAccount");
 	    	
 	    	
-	    	// Get the input stream for the properties file
-	    	InputStream input = null ;        
-	    	String propertiesFile = Settings.getPropertyFile();
-	        input = context.getResourceAsStream(propertiesFile);
-	        // Load the properties from the file
-	        Properties props = new Properties();
-			try {
-				props.load(input);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-	    	String url = props.getProperty("db.url");
-	        String mySQLuser = props.getProperty("db.username");
-	        String mySQLpassword = props.getProperty("db.password");
-	        
-	        // Util package
-	        ValidationUtil validationUtil = new ValidationUtil();
+	    	
 	    	
 	    	//=============================================
 	        // Front end input receive
@@ -114,8 +130,6 @@ public class AccountServlet extends HttpServlet {
 	        	{
 			        if (loginCustomer != null)
 			        {
-			        	CustomerDAO customerDAO = new CustomerDAO(url,mySQLuser, mySQLpassword);
-			        	
 			        	loginCustomer.setUsername(username);
 			        	loginCustomer.setPassword(password);
 			        	loginCustomer.setCustomerName(name);
@@ -125,7 +139,6 @@ public class AccountServlet extends HttpServlet {
 			        }
 			        else  if (loginAdmin != null)
 			        {
-			        	OSDAdminDAO adminDAO = new OSDAdminDAO(url,mySQLuser, mySQLpassword);
 			        	loginAdmin.setUsername(username);
 			        	loginAdmin.setPassword(password);
 			        	loginAdmin.setAdminName(name);
@@ -135,7 +148,6 @@ public class AccountServlet extends HttpServlet {
 			        
 			        if (paymentAccount != null)
 			        {
-			        	PaymentAccountDAO paymentAccountDAO = new PaymentAccountDAO(url,mySQLuser, mySQLpassword);
 			        	paymentAccount.setName(accountName);
 			        	paymentAccount.setCardNumber(accountNumber);
 			        	paymentAccount.setExpireDate(expDate);

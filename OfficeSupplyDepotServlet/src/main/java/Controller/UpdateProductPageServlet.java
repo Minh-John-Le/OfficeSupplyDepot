@@ -34,32 +34,31 @@ import Utilities.ValidationUtil;
 public class UpdateProductPageServlet extends HttpServlet {    
     private static final long serialVersionUID = 1L;
     private static final String SAVE_DIR = "Resources";
-    
+    private ProductDAO productDAO;
+    private ValidationUtil validationUtil;
+
+	
 	public void init() throws ServletException {
-    	
+		validationUtil = new ValidationUtil();
+        ServletContext context = getServletContext();
+
+        // Get the input stream for the properties file
+        try (InputStream input = context.getResourceAsStream(Settings.getPropertyFile())) {
+            // Load the properties from the file
+            Properties props = new Properties();
+            props.load(input);
+            String url = props.getProperty("db.url");
+            String mySQLuser = props.getProperty("db.username");
+            String mySQLpassword = props.getProperty("db.password");
+            productDAO = new ProductDAO(url,mySQLuser, mySQLpassword);
+        } catch (IOException e) {
+            throw new ServletException("Failed to read configuration", e);
+        }
     }
     
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	HttpSession session = request.getSession();
     	List<String> errList = new LinkedList<String>();
-    	ServletContext context = getServletContext();
-    	
-    	// Get the input stream for the properties file
-    	InputStream input = null ;        
-    	String propertiesFile = Settings.getPropertyFile();
-        input = context.getResourceAsStream(propertiesFile);
-        // Load the properties from the file
-        Properties props = new Properties();
-		try {
-			props.load(input);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-    	String url = props.getProperty("db.url");
-        String mySQLuser = props.getProperty("db.username");
-        String mySQLpassword = props.getProperty("db.password");
-        
     	
     	//=============================================
         // Front end input receive
@@ -79,11 +78,6 @@ public class UpdateProductPageServlet extends HttpServlet {
         int id = updateProduct.getId();
         
         
-        // ================================================
-        //Util Package
-        ValidationUtil validationUtil = new ValidationUtil();
-        
-        
         //=============================================
         // Create a directory for saving the uploaded file
         //This path for deployment
@@ -100,88 +94,85 @@ public class UpdateProductPageServlet extends HttpServlet {
 	    
 	    
 	    
-	    if (clickButton != null)
+	    if (clickButton != null && clickButton.equals("Update Product"))
         {
-        	if (clickButton.equals("Update Product"))
-        	{
-        		// Prepare Product info
-        		ProductDAO productDAO = new ProductDAO(url,mySQLuser, mySQLpassword);
-        		Product product = new Product();
-        		product.setName(productName);
-        		product.setWarehouse_id(Integer.valueOf(warehouseId));
-        		product.setStock(Integer.valueOf(stock));
-        		product.setWeight(new BigDecimal(weight));
-        		product.setDescription(description);
-        		product.setPrice(new BigDecimal(price));
-        		product.setBarcode(barcode);
-        		product.setCategory(category);	
-        		product.setImageURL(imageUrl);
-        		product.setId(id);	
+			// Prepare Product info
+			
+			Product product = new Product();
+			product.setName(productName);
+			product.setWarehouse_id(Integer.valueOf(warehouseId));
+			product.setStock(Integer.valueOf(stock));
+			product.setWeight(new BigDecimal(weight));
+			product.setDescription(description);
+			product.setPrice(new BigDecimal(price));
+			product.setBarcode(barcode);
+			product.setCategory(category);	
+			product.setImageURL(imageUrl);
+			product.setId(id);	
 	
-        		if (myCheckbox != null)
-        		{
-	        		// Get the file part from the request
-	        	    Part myfilePart = request.getPart("file");
-	        	    
-	        	    if (!validationUtil.isPNG(myfilePart))
-	        	    {
-	        	    	errList.add("Image must be in PNG format!");
-	        	    }
-        		}
-        		
-        		if (productName.equals(""))
-        		{
-        			errList.add("Product Name cannot be empty!");
-        		}
-        		
-        		
-        		// Validation Error
-    	        if(!errList.isEmpty()) { //has some error
-    				request.setAttribute("errlist", errList);
-    				RequestDispatcher requestDispatcher = request.getRequestDispatcher("UpdateProductPage.jsp");
-    				requestDispatcher.forward(request, response);
-    				return;
-    			}
-    	        
-    	        
-        		//========================================================================
-        		//Update Image
-        		if (myCheckbox != null)
-        		{
-        			Part filePart = request.getPart("file"); 	    
-	        	    
-	        	    // Get the name of the uploaded file
-	        	    //String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-	        	    String fileName = "product_"+String.valueOf(product.getBarcode()) + ".png";
-	        	    
-	        	    
-	        	    // Create a file object for the uploaded file
-	        	    File file = new File(savePath + File.separator + fileName);
-	        	    
-	        	    //imageUrl = savePath + File.separator + fileName;
-	        	    imageUrl = SAVE_DIR + File.separator + fileName;
-	        	    product.setImageURL(imageUrl);
-	        	    
-	        	    
-	        	    // Delete the file if it already exists
-	        	    if (file.exists()) {
-	        	        Files.delete(file.toPath());
-	        	    }
+			if (myCheckbox != null)
+			{
+	    		// Get the file part from the request
+	    	    Part myfilePart = request.getPart("file");
+	    	    
+	    	    if (!validationUtil.isPNG(myfilePart))
+	    	    {
+	    	    	errList.add("Image must be in PNG format!");
+	    	    }
+			}
+			
+			if (productName.equals(""))
+			{
+				errList.add("Product Name cannot be empty!");
+			}
+			
+			
+			// Validation Error
+	        if(!errList.isEmpty()) { //has some error
+				request.setAttribute("errlist", errList);
+				RequestDispatcher requestDispatcher = request.getRequestDispatcher("UpdateProductPage.jsp");
+				requestDispatcher.forward(request, response);
+				return;
+			}
+	        
+	        
+			//========================================================================
+			//Update Image
+			if (myCheckbox != null)
+			{
+				Part filePart = request.getPart("file"); 	    
+	    	    
+	    	    // Get the name of the uploaded file
+	    	    //String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+	    	    String fileName = "product_"+String.valueOf(product.getBarcode()) + ".png";
+	    	    
+	    	    
+	    	    // Create a file object for the uploaded file
+	    	    File file = new File(savePath + File.separator + fileName);
+	    	    
+	    	    //imageUrl = savePath + File.separator + fileName;
+	    	    imageUrl = SAVE_DIR + File.separator + fileName;
+	    	    product.setImageURL(imageUrl);
+	    	    
+	    	    
+	    	    // Delete the file if it already exists
+	    	    if (file.exists()) {
+	    	        Files.delete(file.toPath());
+	    	    }
 	
-	        	    // Save the file to the file system
-	        	    filePart.write(file.getAbsolutePath());
-
-        		}
-        		
-        		// Update the product
-        		productDAO.updateProduct(product);
-        		product = productDAO.getProductByBarcode(product.getBarcode());
-        		   		
-        		session.setAttribute("updateProduct", product);
-        		RequestDispatcher requestDispatcher = request.getRequestDispatcher("UpdateProductPage.jsp");
-		        requestDispatcher.forward(request, response);
-        	    return;
-        	}	
+	    	    // Save the file to the file system
+	    	    filePart.write(file.getAbsolutePath());
+	
+			}
+			
+			// Update the product
+			productDAO.updateProduct(product);
+			product = productDAO.getProductByBarcode(product.getBarcode());
+			   		
+			session.setAttribute("updateProduct", product);
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("UpdateProductPage.jsp");
+	        requestDispatcher.forward(request, response);
+		    return;	
         }
         	
     }

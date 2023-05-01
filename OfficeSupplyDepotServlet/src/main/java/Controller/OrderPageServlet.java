@@ -25,8 +25,6 @@ import Beans.OrderPackage;
 import Beans.OrderPageFilter;
 import Beans.Product;
 import Beans.ShipMethod;
-import DAO.CustomerDAO;
-import DAO.OSDAdminDAO;
 import DAO.OrderDetailDAO;
 import DAO.OrderPackageDAO;
 import DAO.ProductDAO;
@@ -38,31 +36,33 @@ import Utilities.Settings;
 public class OrderPageServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
+	private ProductDAO productDAO;
+	private OrderDetailDAO orderDetailDAO; 
+	private ShipMethodDAO shipMethodDAO;
+	private OrderPackageDAO orderPackageDAO;
+	
+	public void init() throws ServletException {
+        ServletContext context = getServletContext();
+
+        // Get the input stream for the properties file
+        try (InputStream input = context.getResourceAsStream(Settings.getPropertyFile())) {
+            // Load the properties from the file
+            Properties props = new Properties();
+            props.load(input);
+            String url = props.getProperty("db.url");
+            String mySQLuser = props.getProperty("db.username");
+            String mySQLpassword = props.getProperty("db.password");
+            orderDetailDAO = new OrderDetailDAO(url, mySQLuser, mySQLpassword);
+            productDAO = new ProductDAO(url, mySQLuser, mySQLpassword);
+            shipMethodDAO = new ShipMethodDAO(url, mySQLuser, mySQLpassword);
+            orderPackageDAO = new OrderPackageDAO(url, mySQLuser, mySQLpassword);
+        } catch (IOException e) {
+            throw new ServletException("Failed to read configuration", e);
+        }
+    }
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		List<String> errList = new LinkedList<String>();
-
-
-    	
-    	ServletContext context = getServletContext();
-        
-    	// Get the input stream for the properties file
-    	InputStream input = null ;        
-    	String propertiesFile = Settings.getPropertyFile();
-        input = context.getResourceAsStream(propertiesFile);
-        // Load the properties from the file
-        Properties props = new Properties();
-		try {
-			props.load(input);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-    	String url = props.getProperty("db.url");
-        String mySQLuser = props.getProperty("db.username");
-        String mySQLpassword = props.getProperty("db.password");
-        
     	//=============================================
         // Front end input receive
     	String orderNumber = request.getParameter("order-number");
@@ -87,7 +87,6 @@ public class OrderPageServlet extends HttpServlet {
         if (searchButton != null)
         {
         	List<OrderDetail> orderDetailList = new LinkedList<OrderDetail>();
-        	OrderDetailDAO orderDetailDAO = new OrderDetailDAO(url, mySQLuser, mySQLpassword);
         	orderPageFilter.setOrderNumber(orderNumber);
         	orderPageFilter.setFromOrderDay(fromOrderDate);
         	orderPageFilter.setToOrderDay(toOrderDate);
@@ -124,15 +123,12 @@ public class OrderPageServlet extends HttpServlet {
         if (viewOrderDetail != null)
         {
 			LinkedList<CartItem> packageItemList =  new LinkedList<CartItem>();
-			OrderDetailDAO orderDetailDAO = new OrderDetailDAO(url, mySQLuser, mySQLpassword);
 			OrderDetail viewedOrderDetail = new OrderDetail();
 			List<OrderPackage> orderPackageList = new LinkedList<OrderPackage>();
 			viewedOrderDetail = orderDetailDAO.getOrderDetailById(Integer.parseInt(viewOrderDetail));
-			ProductDAO productDAO = new ProductDAO(url, mySQLuser, mySQLpassword);
-			ShipMethodDAO shipMethodDAO = new ShipMethodDAO(url, mySQLuser, mySQLpassword);
+			
 			ShipMethod viewedShipMethod = new ShipMethod();
 			
-			OrderPackageDAO orderPackageDAO = new OrderPackageDAO(url, mySQLuser, mySQLpassword);
 			orderPackageList = orderPackageDAO.getPackagesByOrderId(viewedOrderDetail.getId());
 			for (OrderPackage orderPackage: orderPackageList)
 			{

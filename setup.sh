@@ -19,12 +19,10 @@ if [ -f .env ]; then
   set +o allexport
 fi
 
-# Replace ${PWD} with the current directory in docker-compose.yml
-cp docker-compose-setup.yml docker-compose.yml
 
-envsubst < docker-compose.yml > docker-compose-updated.yml
+envsubst < docker-compose.yml > compose-updated.yml
 
-mv docker-compose-updated.yml docker-compose.yml
+mv compose-updated.yml docker-compose.yml
 
 
 

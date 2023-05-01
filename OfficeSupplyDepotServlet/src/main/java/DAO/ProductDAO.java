@@ -12,26 +12,21 @@ import Beans.CartItem;
 import Beans.Product;
 
 	
-public class ProductDAO{
+public class ProductDAO extends BaseDAO{
     private String url = "";
     private String mySQLUser = "";
     private String mySQLPass = "";
     
 	public ProductDAO(String url, String user, String password) 
 	{
-		this.url = url;
-    	this.mySQLUser = user;
-    	this.mySQLPass = password;
+		super(url,user,password);
 	}
 		
 	
 	public void addProduct(Product product) {
-		Connection connection;
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-			String query = "INSERT INTO Products (Name, Stock, Weight, Description, Price, ImageURL, Warehouse_ID, Category, Barcode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	        PreparedStatement statement = connection.prepareStatement(query);
+		String query = "INSERT INTO Products (Name, Stock, Weight, Description, Price, ImageURL, Warehouse_ID, Category, Barcode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		try (Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(query)) {
 	        statement.setString(1, product.getName());
 	        statement.setInt(2, product.getStock());
 	        statement.setBigDecimal(3, product.getWeight());
@@ -42,22 +37,19 @@ public class ProductDAO{
 	        statement.setString(8, product.getCategory());
 	        statement.setString(9, product.getBarcode());
 	        statement.executeUpdate();
-	        statement.close();
-	        connection.close();
 		}
-		catch(SQLException | ClassNotFoundException e) {
+		catch(SQLException e) {
 			e.printStackTrace();
 		}	
 	}
 	
 	public Product addProductAndReturnProduct(Product product) {
+		String query = "INSERT INTO Products (Name, Stock, Weight, Description, Price, ImageURL, Warehouse_ID, Category, Barcode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String query2 = "SELECT * FROM Products WHERE Barcode = ?";
 		Product addedProduct = null;
-		Connection connection;
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-			String query = "INSERT INTO Products (Name, Stock, Weight, Description, Price, ImageURL, Warehouse_ID, Category, Barcode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	        PreparedStatement statement = connection.prepareStatement(query);
+		try (Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(query);
+				PreparedStatement statement2 = connection.prepareStatement(query2);) {
 	        statement.setString(1, product.getName());
 	        statement.setInt(2, product.getStock());
 	        statement.setBigDecimal(3, product.getWeight());
@@ -68,48 +60,38 @@ public class ProductDAO{
 	        statement.setString(8, product.getCategory());
 	        statement.setString(9, product.getBarcode());
 	        statement.executeUpdate();
-	  
-	        
-	        String query2 = "SELECT * FROM Products WHERE Barcode = ?";
-	        PreparedStatement statement2 = connection.prepareStatement(query2);
+
 			statement2.setString(1, product.getBarcode());
-			ResultSet resultSet = statement2.executeQuery();
-			if (resultSet.next()) {
-				addedProduct = new Product();
-				addedProduct.setId(resultSet.getInt("Id"));
-				addedProduct.setName(resultSet.getString("Name"));
-				addedProduct.setStock(resultSet.getInt("Stock"));
-				addedProduct.setWeight(resultSet.getBigDecimal("Weight"));
-				addedProduct.setDescription(resultSet.getString("Description"));
-				addedProduct.setPrice(resultSet.getBigDecimal("Price"));
-				addedProduct.setImageURL(resultSet.getString("ImageURL"));
-				addedProduct.setWarehouse_id(resultSet.getInt("Warehouse_ID"));
-				addedProduct.setCategory(resultSet.getString("Category"));
-				addedProduct.setBarcode(resultSet.getString("Barcode"));
+			try(ResultSet resultSet = statement2.executeQuery()){
+				if (resultSet.next()) {
+					addedProduct = new Product();
+					addedProduct.setId(resultSet.getInt("Id"));
+					addedProduct.setName(resultSet.getString("Name"));
+					addedProduct.setStock(resultSet.getInt("Stock"));
+					addedProduct.setWeight(resultSet.getBigDecimal("Weight"));
+					addedProduct.setDescription(resultSet.getString("Description"));
+					addedProduct.setPrice(resultSet.getBigDecimal("Price"));
+					addedProduct.setImageURL(resultSet.getString("ImageURL"));
+					addedProduct.setWarehouse_id(resultSet.getInt("Warehouse_ID"));
+					addedProduct.setCategory(resultSet.getString("Category"));
+					addedProduct.setBarcode(resultSet.getString("Barcode"));
+				}
 			}
-			
-			statement.close();
-	        connection.close();
-	        
 		}
-		catch(SQLException | ClassNotFoundException e) {
+		catch(SQLException e) {
 			e.printStackTrace();
-		}	
+		}
 		return addedProduct;
 	}
 	
 	public void deleteProduct(int productId) {
-    	Connection connection;
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-		 	String query = "DELETE FROM Products WHERE Id = ?";
-	        PreparedStatement statement = connection.prepareStatement(query);
+		String query = "DELETE FROM Products WHERE Id = ?";
+    	try (Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(query)) {
 	        statement.setInt(1, productId);
 	        statement.executeUpdate();
-	        statement.close();
 	        connection.close();
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -118,12 +100,9 @@ public class ProductDAO{
 	}
 	
 	public void updateProduct(Product product) {
-		Connection connection;
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-			String query = "UPDATE Products SET Name=?, Stock=?, Weight=?, Description=?, Price=?, ImageURL=?, Warehouse_ID = ?, Category = ?, Barcode = ? WHERE Id=?";
-	        PreparedStatement statement = connection.prepareStatement(query);
+		String query = "UPDATE Products SET Name=?, Stock=?, Weight=?, Description=?, Price=?, ImageURL=?, Warehouse_ID = ?, Category = ?, Barcode = ? WHERE Id=?";
+		try (Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(query)) {
 	        statement.setString(1, product.getName());
 	        statement.setInt(2, product.getStock());
 	        statement.setBigDecimal(3, product.getWeight());
@@ -138,72 +117,60 @@ public class ProductDAO{
 	        statement.close();
 	        connection.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return;
 	}
 	
 	public Product getProductByBarcode(String barcode) {
-		Connection connection;
+		String query = "SELECT * FROM Products WHERE Barcode = ?";
 		Product product = null;
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-			String query = "SELECT * FROM Products WHERE Barcode = ?";
-			PreparedStatement statement = connection.prepareStatement(query);
+		try (Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setString(1, barcode);
-			ResultSet resultSet = statement.executeQuery();
-			if (resultSet.next()) {
-				product = new Product();
-				product.setId(resultSet.getInt("Id"));
-				product.setName(resultSet.getString("Name"));
-				product.setStock(resultSet.getInt("Stock"));
-				product.setWeight(resultSet.getBigDecimal("Weight"));
-				product.setDescription(resultSet.getString("Description"));
-				product.setPrice(resultSet.getBigDecimal("Price"));
-				product.setImageURL(resultSet.getString("ImageURL"));
-				product.setWarehouse_id(resultSet.getInt("Warehouse_ID"));
-				product.setCategory(resultSet.getString("Category"));
-				product.setBarcode(resultSet.getString("Barcode"));
+			try(ResultSet resultSet = statement.executeQuery()){
+				if (resultSet.next()) {
+					product = new Product();
+					product.setId(resultSet.getInt("Id"));
+					product.setName(resultSet.getString("Name"));
+					product.setStock(resultSet.getInt("Stock"));
+					product.setWeight(resultSet.getBigDecimal("Weight"));
+					product.setDescription(resultSet.getString("Description"));
+					product.setPrice(resultSet.getBigDecimal("Price"));
+					product.setImageURL(resultSet.getString("ImageURL"));
+					product.setWarehouse_id(resultSet.getInt("Warehouse_ID"));
+					product.setCategory(resultSet.getString("Category"));
+					product.setBarcode(resultSet.getString("Barcode"));
+				}
 			}
-			statement.close();
-			connection.close();
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return product;
 	}
 	
 	public Product getProductById(int Id) {
-		Connection connection;
+		String query = "SELECT * FROM Products WHERE Id = ?";
 		Product product = null;
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-			String query = "SELECT * FROM Products WHERE Id = ?";
-			PreparedStatement statement = connection.prepareStatement(query);
+		try (Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setInt(1, Id);
-			ResultSet resultSet = statement.executeQuery();
-			if (resultSet.next()) {
-				product = new Product();
-				product.setId(resultSet.getInt("Id"));
-				product.setName(resultSet.getString("Name"));
-				product.setStock(resultSet.getInt("Stock"));
-				product.setWeight(resultSet.getBigDecimal("Weight"));
-				product.setDescription(resultSet.getString("Description"));
-				product.setPrice(resultSet.getBigDecimal("Price"));
-				product.setImageURL(resultSet.getString("ImageURL"));
-				product.setWarehouse_id(resultSet.getInt("Warehouse_ID"));
-				product.setCategory(resultSet.getString("Category"));
-				product.setBarcode(resultSet.getString("Barcode"));
+			try(ResultSet resultSet = statement.executeQuery()) {
+				if (resultSet.next()) {
+					product = new Product();
+					product.setId(resultSet.getInt("Id"));
+					product.setName(resultSet.getString("Name"));
+					product.setStock(resultSet.getInt("Stock"));
+					product.setWeight(resultSet.getBigDecimal("Weight"));
+					product.setDescription(resultSet.getString("Description"));
+					product.setPrice(resultSet.getBigDecimal("Price"));
+					product.setImageURL(resultSet.getString("ImageURL"));
+					product.setWarehouse_id(resultSet.getInt("Warehouse_ID"));
+					product.setCategory(resultSet.getString("Category"));
+					product.setBarcode(resultSet.getString("Barcode"));
+				}
 			}
-			statement.close();
-			connection.close();
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return product;
@@ -211,35 +178,28 @@ public class ProductDAO{
 
 	public List<Product> searchProductsByName(String searchTerm, String sortBy) {
 	    List<Product> products = new LinkedList<>();
-	    Connection connection;
-	    try {
-	        Class.forName("com.mysql.cj.jdbc.Driver");
-	        connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-	        String query = "SELECT * FROM Products WHERE Name LIKE ? ORDER BY " + sortBy;
-	        PreparedStatement statement = connection.prepareStatement(query);
+	    String query = "SELECT * FROM Products WHERE Name LIKE ? ORDER BY " + sortBy;
+	    try (Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement(query)) {
 	        statement.setString(1, "%" + searchTerm + "%");
-	        ResultSet resultSet = statement.executeQuery();
-	        while (resultSet.next()) {
-	            Product product = new Product();
-	            product.setId(resultSet.getInt("Id"));
-	            product.setName(resultSet.getString("Name"));
-	            product.setStock(resultSet.getInt("Stock"));
-	            product.setWeight(resultSet.getBigDecimal("Weight"));
-	            product.setDescription(resultSet.getString("Description"));
-	            product.setPrice(resultSet.getBigDecimal("Price"));
-	            product.setImageURL(resultSet.getString("ImageURL"));
-	            product.setWarehouse_id(resultSet.getInt("Warehouse_ID"));
-	            product.setCategory(resultSet.getString("Category"));
-	            product.setBarcode(resultSet.getString("Barcode"));
-	            products.add(product);
+	        try(ResultSet resultSet = statement.executeQuery()) {
+	        	while (resultSet.next()) {
+		            Product product = new Product();
+		            product.setId(resultSet.getInt("Id"));
+		            product.setName(resultSet.getString("Name"));
+		            product.setStock(resultSet.getInt("Stock"));
+		            product.setWeight(resultSet.getBigDecimal("Weight"));
+		            product.setDescription(resultSet.getString("Description"));
+		            product.setPrice(resultSet.getBigDecimal("Price"));
+		            product.setImageURL(resultSet.getString("ImageURL"));
+		            product.setWarehouse_id(resultSet.getInt("Warehouse_ID"));
+		            product.setCategory(resultSet.getString("Category"));
+		            product.setBarcode(resultSet.getString("Barcode"));
+		            products.add(product);
+		        }
 	        }
-	        resultSet.close();
-	        statement.close();
-	        connection.close();
 	        return products;
 	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    } catch (ClassNotFoundException e) {
 	        e.printStackTrace();
 	    }
 	    return null;
@@ -247,60 +207,51 @@ public class ProductDAO{
 	
 	public List<Product> searchProductsByNameAndCategory(String searchTerm, String category, String sortBy) {
 	    List<Product> products = new LinkedList<>();
-	    Connection connection;
-	    try {
-	        Class.forName("com.mysql.cj.jdbc.Driver");
-	        connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
-	        String query = "SELECT * FROM Products WHERE Name LIKE ? AND Category = ? ORDER BY " + sortBy;
-	        PreparedStatement statement = connection.prepareStatement(query);
+	    String query = "SELECT * FROM Products WHERE Name LIKE ? AND Category = ? ORDER BY " + sortBy;
+	    try (Connection connection = dataSource.getConnection(); 
+                PreparedStatement statement = connection.prepareStatement(query)) {
 	        statement.setString(1, "%" + searchTerm + "%");
 	        statement.setString(2, category);
-	        ResultSet resultSet = statement.executeQuery();
-	        while (resultSet.next()) {
-	            Product product = new Product();
-	            product.setId(resultSet.getInt("Id"));
-	            product.setName(resultSet.getString("Name"));
-	            product.setStock(resultSet.getInt("Stock"));
-	            product.setWeight(resultSet.getBigDecimal("Weight"));
-	            product.setDescription(resultSet.getString("Description"));
-	            product.setPrice(resultSet.getBigDecimal("Price"));
-	            product.setImageURL(resultSet.getString("ImageURL"));
-	            product.setWarehouse_id(resultSet.getInt("Warehouse_ID"));
-	            product.setCategory(resultSet.getString("Category"));
-	            product.setBarcode(resultSet.getString("Barcode"));
-	            products.add(product);
+	        try(ResultSet resultSet = statement.executeQuery()){
+		        while (resultSet.next()) {
+		            Product product = new Product();
+		            product.setId(resultSet.getInt("Id"));
+		            product.setName(resultSet.getString("Name"));
+		            product.setStock(resultSet.getInt("Stock"));
+		            product.setWeight(resultSet.getBigDecimal("Weight"));
+		            product.setDescription(resultSet.getString("Description"));
+		            product.setPrice(resultSet.getBigDecimal("Price"));
+		            product.setImageURL(resultSet.getString("ImageURL"));
+		            product.setWarehouse_id(resultSet.getInt("Warehouse_ID"));
+		            product.setCategory(resultSet.getString("Category"));
+		            product.setBarcode(resultSet.getString("Barcode"));
+		            products.add(product);
+		        }
 	        }
-	        resultSet.close();
-	        statement.close();
-	        connection.close();
 	        return products;
 	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    } catch (ClassNotFoundException e) {
 	        e.printStackTrace();
 	    }
 	    return null;
 	}
 
 	public List<CartItem> updateProductStockAfterOrder(List<CartItem> cartItemList) {
-	    Connection connection;
-	    try {
-	        Class.forName("com.mysql.cj.jdbc.Driver");
-	        connection = DriverManager.getConnection(url, mySQLUser, mySQLPass);
+		String query = "SELECT Stock FROM Products WHERE Barcode = ?";
+		try (Connection connection = dataSource.getConnection()) {
 	        connection.setAutoCommit(false);
 
 	        // Update stock for all products in the cartItemList
 	        for (CartItem cartItem : cartItemList) {
-	        	String query = "SELECT Stock FROM Products WHERE Barcode = ?";
-				PreparedStatement statement = connection.prepareStatement(query);
-				statement.setString(1, cartItem.getProduct().getBarcode());
-				ResultSet resultSet = statement.executeQuery();
-				if (resultSet.next()) 
-				{
-					int stock = resultSet.getInt("Stock");
-					cartItem.getProduct().setStock(stock);
-				}
-				statement.close();
+	        	try(PreparedStatement statement = connection.prepareStatement(query)) {
+	        		statement.setString(1, cartItem.getProduct().getBarcode());
+					try(ResultSet resultSet = statement.executeQuery()){
+						if (resultSet.next()) 
+						{
+							int stock = resultSet.getInt("Stock");
+							cartItem.getProduct().setStock(stock);
+						}
+					}
+	        	}
 	        }
 	        
 	        for (CartItem cartItem : cartItemList) {
@@ -310,23 +261,20 @@ public class ProductDAO{
 	            
 	            if( newStock < 0)
 	            {
-	            	connection.close();
 	            	return cartItemList;
 	            }
 	            
-	            String query = "UPDATE Products SET Stock=? WHERE Id=?";
-	            PreparedStatement statement = connection.prepareStatement(query);
-	            statement.setInt(1, newStock);
-	            statement.setInt(2, product.getId());
-	            statement.executeUpdate();
-	            statement.close();
+	            String query2 = "UPDATE Products SET Stock=? WHERE Id=?";
+	            try(PreparedStatement statement = connection.prepareStatement(query2);){
+	            	statement.setInt(1, newStock);
+		            statement.setInt(2, product.getId());
+		            statement.executeUpdate();
+		            statement.close();
+	            }
 	        }
 	        connection.commit();
-	        connection.close();
 	        
 	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    } catch (ClassNotFoundException e) {
 	        e.printStackTrace();
 	    }
 	    return null;

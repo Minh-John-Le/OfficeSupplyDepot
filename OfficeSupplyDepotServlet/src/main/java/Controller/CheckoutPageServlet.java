@@ -16,38 +16,30 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import Beans.BankAccount;
 import Beans.CartItem;
 import Beans.Customer;
-import Beans.PaymentAccount;
 import Beans.ShipMethod;
-import Beans.OSDAdmin;
 import Beans.OrderDetail;
-import DAO.BankAccountDAO;
-import DAO.CustomerDAO;
-import DAO.PaymentAccountDAO;
-import DAO.*;
-import Utilities.CheckoutUtil;
+import DAO.OrderPackageDAO;
+import DAO.ProductDAO;
+import DAO.OrderDetailDAO;
 import Utilities.Settings;
 import Utilities.ValidationUtil;
 
 import java.util.UUID;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @WebServlet("/checkoutPage")
 public class CheckoutPageServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
+	
+	private ProductDAO productDAO;
+	private OrderDetailDAO orderDetailDAO ;
+	private OrderPackageDAO orderPackageDAO;
 
-	@SuppressWarnings("unchecked")
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		List<String> errList = new LinkedList<String>();
-    
-    	
-    	ServletContext context = getServletContext();
+	public void init() throws ServletException{
+		ServletContext context = getServletContext();
         
     	// Get the input stream for the properties file
     	InputStream input = null ;        
@@ -65,6 +57,20 @@ public class CheckoutPageServlet extends HttpServlet {
         String mySQLuser = props.getProperty("db.username");
         String mySQLpassword = props.getProperty("db.password");
         
+        productDAO = new ProductDAO(url, mySQLuser, mySQLpassword);
+        orderDetailDAO = new OrderDetailDAO(url, mySQLuser, mySQLpassword);
+		orderPackageDAO = new OrderPackageDAO(url, mySQLuser, mySQLpassword);
+        
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		List<String> errList = new LinkedList<String>();
+    
+    	
+    	
     	//=============================================
         // Front end input receive
 		
@@ -130,8 +136,6 @@ public class CheckoutPageServlet extends HttpServlet {
 		if(checkoutButton != null)
 		{
 			
-			ProductDAO productDAO = new ProductDAO(url, mySQLuser, mySQLpassword);
-			
 			LinkedList<CartItem> newcartItem = (LinkedList<CartItem>) productDAO.updateProductStockAfterOrder(cartItemList);
 			
 			if (newcartItem != null)
@@ -143,8 +147,7 @@ public class CheckoutPageServlet extends HttpServlet {
 				requestDispatcher.forward(request, response);
 				return;
 			}
-			OrderDetailDAO orderDetailDAO = new OrderDetailDAO(url, mySQLuser, mySQLpassword);
-			OrderPackageDAO orderPackageDAO = new OrderPackageDAO(url, mySQLuser, mySQLpassword);
+			
 			String orderCode = UUID.randomUUID().toString();
 			
 			// Calculate order speed

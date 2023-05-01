@@ -16,13 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import Beans.BankAccount;
 import Beans.Customer;
 import Beans.PaymentAccount;
 import Beans.SearchProductFilter;
 import Beans.OSDAdmin;
 import Beans.OrderPageFilter;
-import DAO.BankAccountDAO;
 import DAO.CustomerDAO;
 import DAO.PaymentAccountDAO;
 import DAO.*;
@@ -33,17 +31,13 @@ import Utilities.Settings;
 public class LoginServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
-
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		List<String> errList = new LinkedList<String>();
-    	boolean isCustomer = false;
-    	Customer loginCustomer = null;
-    	OSDAdmin loginAdmin = null;
-    	PaymentAccount paymentAccount = null;
-    	BankAccount bankAccount = null;
-    	
-    	ServletContext context = getServletContext();
+	
+	private CustomerDAO customerDAO;
+	private PaymentAccountDAO paymentAccountDAO;
+	private OSDAdminDAO adminDAO;
+	
+	public void init() throws ServletException{
+		ServletContext context = getServletContext();
         
     	// Get the input stream for the properties file
     	InputStream input = null ;        
@@ -61,6 +55,21 @@ public class LoginServlet extends HttpServlet {
         String mySQLuser = props.getProperty("db.username");
         String mySQLpassword = props.getProperty("db.password");
         
+        customerDAO = new CustomerDAO(url,mySQLuser, mySQLpassword);
+    	paymentAccountDAO = new PaymentAccountDAO(url,mySQLuser, mySQLpassword);
+    	adminDAO = new OSDAdminDAO(url,mySQLuser, mySQLpassword);
+	}
+	
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		List<String> errList = new LinkedList<String>();
+    	boolean isCustomer = false;
+    	Customer loginCustomer = null;
+    	OSDAdmin loginAdmin = null;
+    	PaymentAccount paymentAccount = null;
+    	
+    	
+        
     	//=============================================
         // Front end input receive
     	String username = request.getParameter("username");
@@ -70,8 +79,7 @@ public class LoginServlet extends HttpServlet {
         
         if (account_type.equals("customer"))
         {
-        	CustomerDAO customerDAO = new CustomerDAO(url,mySQLuser, mySQLpassword);
-        	PaymentAccountDAO paymentAccountDAO = new PaymentAccountDAO(url,mySQLuser, mySQLpassword);
+        	
         	loginCustomer = customerDAO.getCustomerByUsername(username);
         	
         	
@@ -92,7 +100,7 @@ public class LoginServlet extends HttpServlet {
         }
         else if (account_type.equals("admin")) // Sign Up by store
         {
-        	OSDAdminDAO adminDAO = new OSDAdminDAO(url,mySQLuser, mySQLpassword);
+        	
 
         	loginAdmin = adminDAO.getAdminByUsername(username);
         	if(loginAdmin == null)

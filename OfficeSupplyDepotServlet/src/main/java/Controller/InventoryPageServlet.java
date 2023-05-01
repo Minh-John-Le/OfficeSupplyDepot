@@ -18,12 +18,8 @@ import javax.servlet.http.HttpSession;
 
 
 import Beans.CartItem;
-import Beans.Customer;
-import Beans.OSDAdmin;
 import Beans.Product;
 import Beans.SearchProductFilter;
-import DAO.CustomerDAO;
-import DAO.OSDAdminDAO;
 import DAO.ProductDAO;
 import Utilities.Settings;
 
@@ -33,18 +29,10 @@ public class InventoryPageServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		List<String> errList = new LinkedList<String>();
-		List<Product> searchProductList = new LinkedList<Product>();
-		List<CartItem> cartItemList = (List<CartItem>) session.getAttribute("cartItemList");
-		
-    	if (cartItemList == null)
-    	{
-    		cartItemList = new LinkedList<CartItem>();
-    	}
-    	
-    	ServletContext context = getServletContext();
+	private ProductDAO productDAO;
+	
+	public void init() throws ServletException{
+		ServletContext context = getServletContext();
         
     	// Get the input stream for the properties file
     	InputStream input = null ;        
@@ -62,6 +50,22 @@ public class InventoryPageServlet extends HttpServlet {
         String mySQLuser = props.getProperty("db.username");
         String mySQLpassword = props.getProperty("db.password");
         
+        productDAO = new ProductDAO(url, mySQLuser, mySQLpassword);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		List<Product> searchProductList = new LinkedList<Product>();
+		List<CartItem> cartItemList = (List<CartItem>) session.getAttribute("cartItemList");
+		
+    	if (cartItemList == null)
+    	{
+    		cartItemList = new LinkedList<CartItem>();
+    	}
+    	
+    	
+        
     	//=============================================
         // Front end input receive
     	String button = request.getParameter("button");
@@ -75,7 +79,6 @@ public class InventoryPageServlet extends HttpServlet {
         {
         	if (button.equals("search"))
         	{
-        		ProductDAO productDAO = new ProductDAO(url, mySQLuser, mySQLpassword);
         		
         		if (category.equals("All"))
         		{
@@ -111,7 +114,6 @@ public class InventoryPageServlet extends HttpServlet {
         // Update button
         if (updateButton != null)
         {
-        	ProductDAO productDAO = new ProductDAO(url, mySQLuser, mySQLpassword);
         	
         	Product updateProduct = productDAO.getProductByBarcode(updateButton);
         	session.setAttribute("updateProduct", updateProduct);

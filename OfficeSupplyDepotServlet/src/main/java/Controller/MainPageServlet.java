@@ -32,11 +32,38 @@ import Utilities.Settings;
 public class MainPageServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
-
+	private ProductDAO productDAO;
+	
+	public void init() throws ServletException {
+	
+		ServletContext context = getServletContext();
+	    
+		// Get the input stream for the properties file
+		InputStream input = null ;        
+		String propertiesFile = Settings.getPropertyFile();
+	    input = context.getResourceAsStream(propertiesFile);
+	    // Load the properties from the file
+	    Properties props = new Properties();
+		try {
+			props.load(input);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		String url = props.getProperty("db.url");
+	    String mySQLuser = props.getProperty("db.username");
+	    String mySQLpassword = props.getProperty("db.password");
+	    
+	    productDAO = new ProductDAO(url, mySQLuser, mySQLpassword);
+	}
+	
+	
+	
+	@SuppressWarnings("unchecked")
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		List<String> errList = new LinkedList<String>();
 		List<Product> searchProductList = new LinkedList<Product>();
+		
 		List<CartItem> cartItemList = (List<CartItem>) session.getAttribute("cartItemList");
 		
     	if (cartItemList == null)
@@ -44,23 +71,7 @@ public class MainPageServlet extends HttpServlet {
     		cartItemList = new LinkedList<CartItem>();
     	}
     	
-    	ServletContext context = getServletContext();
-        
-    	// Get the input stream for the properties file
-    	InputStream input = null ;        
-    	String propertiesFile = Settings.getPropertyFile();
-        input = context.getResourceAsStream(propertiesFile);
-        // Load the properties from the file
-        Properties props = new Properties();
-		try {
-			props.load(input);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-    	String url = props.getProperty("db.url");
-        String mySQLuser = props.getProperty("db.username");
-        String mySQLpassword = props.getProperty("db.password");
+    	
         
     	//=============================================
         // Front end input receive
@@ -71,43 +82,36 @@ public class MainPageServlet extends HttpServlet {
         String sortBy = request.getParameter("sortBy");
         
         
-        if (button != null)
-        {
-        	if (button.equals("search"))
-        	{
-        		ProductDAO productDAO = new ProductDAO(url, mySQLuser, mySQLpassword);
-        		
-        		if (category.equals("All"))
-        		{
-        			searchProductList = productDAO.searchProductsByName(searchText, sortBy);
-        		}
-        		else 
-        		{
-        			searchProductList = productDAO.searchProductsByNameAndCategory(searchText, category, sortBy);
-        		}
-        		
-        		// update the filter so that it update the search information
-        		SearchProductFilter searchProductFilter = (SearchProductFilter) session.getAttribute("searchProductFilter");
-        		if (searchProductFilter == null)
-        		{
-        			searchProductFilter = new SearchProductFilter();
-        		}
-        		searchProductFilter.setCategory(category);
-        		searchProductFilter.setSearchTerm(searchText);
-        		searchProductFilter.setSortBy(sortBy);
-        		
-        		session.setAttribute("searchProductFilter", searchProductFilter);
-        		session.setAttribute("searchProductList", searchProductList);
-        		
-        		RequestDispatcher requestDispatcher = request.getRequestDispatcher("MainPage.jsp");
-        		requestDispatcher.forward(request, response);
-        		return;
+        if (button != null) {
+			if (button.equals("search") && category.equals("All"))
+			{
+				searchProductList = productDAO.searchProductsByName(searchText, sortBy);
+			}
+			else 
+			{
+				searchProductList = productDAO.searchProductsByNameAndCategory(searchText, category, sortBy);
+			}
+			
+			// update the filter so that it update the search information
+			SearchProductFilter searchProductFilter = (SearchProductFilter) session.getAttribute("searchProductFilter");
+			if (searchProductFilter == null)
+			{
+				searchProductFilter = new SearchProductFilter();
+			}
+			searchProductFilter.setCategory(category);
+			searchProductFilter.setSearchTerm(searchText);
+			searchProductFilter.setSortBy(sortBy);
+			
+			session.setAttribute("searchProductFilter", searchProductFilter);
+			session.setAttribute("searchProductList", searchProductList);
+			
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("MainPage.jsp");
+			requestDispatcher.forward(request, response);
+			return;
         	}
-        }
   
         if (addToCartButton != null)
         {
-        	ProductDAO productDAO = new ProductDAO(url, mySQLuser, mySQLpassword);
         	CartItem ci = new CartItem();
         	ci.setQuantity(1);
         	//I got the product using barcode instead of ID because I didn't know
