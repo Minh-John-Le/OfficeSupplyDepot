@@ -1,9 +1,0 @@
-docker pull hungle0614/osdimage:23.04
-
-docker run -d --name tomcatproject -p 8082:8090 hungle0614/osdimage:23.04
-
-docker exec -it tomcatproject /bin/bash
-
- service mysql start
-
-http://localhost:8082/OfficeSupplyDepotServlet/
