@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CreditCardNumberValidation implements validation {
+public class CreditCardNumberValidation{
 
-	@Override
-	public boolean isValid(Object value) {
+	public static boolean isValid(Object value) {
 		if(!(value instanceof String) || value == null) {
 			return false;
 		}
@@ -39,10 +38,10 @@ public class CreditCardNumberValidation implements validation {
             }
             sum += digit;
         }
-        return sum % 10 == 0;	}
+        return sum % 10 == 0;	
+    }
 
-	@Override
-	public ArrayList<String> getIssues(Object value) {
+	public static ArrayList<String> getIssues(Object value) {
 		ArrayList<String> issues = new ArrayList<String>();
 		if (!(value instanceof String) || value == null) {
 			issues.add("Credit card number is empty");

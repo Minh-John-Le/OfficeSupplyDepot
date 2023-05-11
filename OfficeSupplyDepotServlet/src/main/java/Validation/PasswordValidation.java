@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PasswordValidation implements validation {
+public class PasswordValidation{
 	public static final String PASSWORD_REGEX = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,20}$";
-	@Override
-	public boolean isValid(Object value) {
+	public static boolean isValid(Object value) {
 		
 		if(!(value instanceof String) || value == null) {
 			return false;
@@ -19,8 +18,7 @@ public class PasswordValidation implements validation {
         return matcher.matches();
 	}
 
-	@Override
-	public ArrayList<String> getIssues(Object value) {
+	public static ArrayList<String> getIssues(Object value) {
 		ArrayList<String> issues = new ArrayList<String>();
 		
 		if(!(value instanceof String) || value == null) {
