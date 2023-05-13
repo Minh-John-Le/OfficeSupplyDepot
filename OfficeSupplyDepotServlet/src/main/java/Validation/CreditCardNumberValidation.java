@@ -41,6 +41,7 @@ public class CreditCardNumberValidation{
         return sum % 10 == 0;	
     }
 
+	// ONLY TO BE CALLED ON INVALID CREDIT CARD NUMBERS
 	public static ArrayList<String> getIssues(Object value) {
 		ArrayList<String> issues = new ArrayList<String>();
 		if (!(value instanceof String) || value == null) {

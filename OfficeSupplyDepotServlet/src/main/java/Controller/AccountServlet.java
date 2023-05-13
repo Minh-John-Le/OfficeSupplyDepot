@@ -22,7 +22,7 @@ import DAO.CustomerDAO;
 import DAO.PaymentAccountDAO;
 import DAO.OSDAdminDAO;
 import Utilities.Settings;
-import Utilities.ValidationUtil;
+import Validation.*;
 
 @WebServlet("/account")
 public class AccountServlet extends HttpServlet {
@@ -32,8 +32,6 @@ public class AccountServlet extends HttpServlet {
 	private CustomerDAO customerDAO;;
 	private OSDAdminDAO adminDAO;
 	private PaymentAccountDAO paymentAccountDAO;
-	
-	private ValidationUtil validationUtil;
 	
 	public void init() throws ServletException{
 		ServletContext context = getServletContext();
@@ -55,7 +53,6 @@ public class AccountServlet extends HttpServlet {
         String mySQLpassword = props.getProperty("db.password");
         
         // Util package
-        validationUtil = new ValidationUtil();
         customerDAO = new CustomerDAO(url,mySQLuser, mySQLpassword);
         adminDAO = new OSDAdminDAO(url,mySQLuser, mySQLpassword);
         paymentAccountDAO = new PaymentAccountDAO(url,mySQLuser, mySQLpassword);
@@ -89,19 +86,19 @@ public class AccountServlet extends HttpServlet {
 	        
 	        
 	        // Validation
-	        if (name != null && !validationUtil.isValidDisplayName(name))
+	        if (name != null && !DisplayNameValidation.isValid(name))
 	        {
 	        	errList.add("Display Name cannot be empty and must be at max 20 characters!");
 	        }
 	        
-	        if (password != null && !validationUtil.isValidPassword(password))
+	        if (password != null && !PasswordValidation.isValid(password))
 	        {
 	        	errList.add("Invalid Password! Password must have at least 8 characters, 1 uppercase, 1 lowercase, 1 digit, and 1 special character" ); 
 	        }
 	        
 	        if (expDate != null && !expDate.equals(""))
 	        {
-	        	if(!validationUtil.isValidExpDate(expDate))
+	        	if(!ExpirationDateCreditCardValidation.isValid(expDate))
 	        	{
 	        		errList.add("Expire Date should be in format MM/YY");
 	        	}

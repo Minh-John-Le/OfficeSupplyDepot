@@ -18,6 +18,7 @@ public class PasswordValidation{
         return matcher.matches();
 	}
 
+	// ONLY TO BE CALLED ON INVALID PASSWORDS
 	public static ArrayList<String> getIssues(Object value) {
 		ArrayList<String> issues = new ArrayList<String>();
 		

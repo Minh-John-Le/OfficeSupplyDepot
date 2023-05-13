@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import javax.servlet.http.Part;
 
-import javax.servlet.http.Part;
-
 public class PNGValidation {
 	public static boolean isValid(Object value) {
 		Part filePart = (Part) value;
@@ -17,7 +15,8 @@ public class PNGValidation {
 	}
 	
 	
-	
+	// 	// ONLY TO BE CALLED ON INVALID PNGs
+
 	public static ArrayList<String> getIssues(Object value) {
 		ArrayList<String> issues = new ArrayList<String>();
 		
@@ -25,5 +24,6 @@ public class PNGValidation {
 			issues.add("Password cannot be null.");
 			return issues;
 		}
-
+		return issues;
+	}
 }
