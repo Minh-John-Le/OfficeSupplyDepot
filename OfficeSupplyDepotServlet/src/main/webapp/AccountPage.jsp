@@ -119,12 +119,12 @@
 	      <!-- Changeable  -->
 	      <div class="form-row">
 	        <label for="display-name">Display Name:</label>
-	        <input type="text" id="display-name" name="display-name" value="<%=displayName%>">
+	        <input type="text" id="display-name" name="display-name" value="<%=displayName%>" maxlength="20">
 	      </div>
 	      <!-- Changeable  -->
 	      <div class="form-row">
 	        <label for="password">Password:</label>
-	        <input type="password" id="password" name="password" value="<%=password%>">
+	        <input type="password" id="password" name="password" value="<%=password%>" maxlength="20">
 	      </div>
 	      <!-- Changeable  -->
 	      <% if (loginCustomer != null) {%>
@@ -141,15 +141,15 @@
 	      <h2>Credit Card Information</h2>
 	      <div class="form-row">
 	        <label for="name">Name on Credit Card:</label>
-	        <input type="text" id="account-name" name="account-name" value="<%=creditCardName%>">
+	        <input type="text" id="account-name" name="account-name" value="<%=creditCardName%>" maxlength="255">
 	      </div>
 	      <div class="form-row">
 	        <label for="account-number">Credit Card Number:</label>
-	        <input type="text" id="account-number" name="account-number" value="<%=creditCardNumber%>">
+	        <input type="text" id="account-number" name="account-number" value="<%=creditCardNumber%>" maxlength="19">
 	      </div>
 	      <div class="form-row">
 	        <label for="exp">Expiration Date:</label>
-	        <input type="text" id="exp" name="exp" value="<%=creditCardExpDate%>" placeholder="MM/YY">
+	        <input type="text" id="exp" name="exp" value="<%=creditCardExpDate%>" placeholder="MM/YY" maxlength="5">
 	      </div>
 	    </div>
 	    <%} %>
