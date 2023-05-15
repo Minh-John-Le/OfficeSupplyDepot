@@ -7,6 +7,42 @@
   <meta charset="UTF-8">
   <title>Account Information</title>
   <link rel="stylesheet" href="AccountPage.css">
+  <script type="text/javascript">
+	  function validateNameInput() {
+	    var inputField = document.getElementById("account-name");
+	    var value = inputField.value;
+	    
+	    // Remove any numbers from the value
+	    var sanitizedValue = value.replace(/\d/g, '');
+	    
+	    // Update the input field value with the sanitized value
+	    inputField.value = sanitizedValue;
+	  }
+	  function validateExpirationDate() {
+	      var expInput = document.getElementById('exp');
+	      var expValue = expInput.value.trim();
+	      
+	      // Remove any non-digit characters from the input
+	      var cleanValue = expValue.replace(/\D/g, '');
+	      
+	      // Format the input as MM/YY
+	      var formattedValue = cleanValue.replace(/^(\d{2})/, '$1/');
+	      
+	      // Update the input value
+	      expInput.value = formattedValue;
+	      
+	      // Regular expression to match the "MM/YY" format
+	      var regex = /^(0[1-9]|1[0-2])\/\d{2}$/;
+	      
+	      if (!regex.test(formattedValue)) {
+	        // Invalid format
+	        expInput.setCustomValidity('Please enter a valid expiration date in the MM/YY format.');
+	      } else {
+	        // Valid format
+	        expInput.setCustomValidity('');
+	      }
+     }
+  </script>
 </head>
 <body>
 	<%
@@ -14,17 +50,18 @@
 			OSDAdmin loginAdmin = (OSDAdmin) session.getAttribute("loginAdmin");
 			PaymentAccount paymentAccount = (PaymentAccount) session.getAttribute("paymentAccount");
 			
-			// information
+			// customer information
 			String username = "";
 			String email = "";
 			String password = "";
 			String displayName = "";
 			String address = "";
 			
-			// account
-			String accountName = "";
-			String accountNumber = "";
-			String expDate = "";
+			// credit card info
+			String creditCardName = "";
+			String creditCardNumber = "";
+			String creditCardExpDate = "";
+			// Customer not logged in
 			if (loginCustomer == null && loginAdmin == null)
 			{
 				%>
@@ -34,6 +71,7 @@
 					<p>If you are not redirected automatically, please click <a href="MainPage.jsp">here</a></p>
 				<%
 			}
+			/* Customer logged in  */
 			if (loginCustomer != null)
 			{
 				username = loginCustomer.getUsername();
@@ -42,6 +80,7 @@
 				displayName = loginCustomer.getCustomerName();
 				address = loginCustomer.getAddress();
 			}
+			/* Admin logged in  */
 			else if (loginAdmin != null)
 			{
 				username = loginAdmin.getUsername();
@@ -49,12 +88,12 @@
 				password = loginAdmin.getPassword();
 				displayName = loginAdmin.getAdminName();
 			}
-		
+			/* Payment Account Exists  */
 			if (paymentAccount != null)
 			{
-				accountName = paymentAccount.getName();
-				accountNumber = paymentAccount.getCardNumber();
-				expDate = paymentAccount.getExpireDate();
+				creditCardName = paymentAccount.getName();
+				creditCardNumber = paymentAccount.getCardNumber();
+				creditCardExpDate = paymentAccount.getExpireDate();
 			}
 	%>
 	<form action = "account" method="post"> 
@@ -63,6 +102,7 @@
 			<a href="MainPage.jsp"> Office Supply Depot </a>	
 		</div>
 		<%
+		/* User not logged in, show Login or SignUp redirect link button  */
 			if (loginCustomer == null && loginAdmin == null)
 			{
 		%>
@@ -71,21 +111,25 @@
 			</div>
 		<%
 			}
+		/* Customer logged in.  */
 			else if (loginCustomer != null)
 			{
 	
 				displayName = loginCustomer.getCustomerName();
 		%>
+		<!-- Show the user's display-name and provide a link to orders and cart.  -->
 			<div class="info-section">
 				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="OrderPage.jsp">Order</a> | <a href="CartPage.jsp#">Cart</a>
 			</div>
 		<%
 			}
+		/*  Admin account */
 			else if (loginAdmin != null)
 			{
+				/* Set display-name to admin name.  */
 				displayName = loginAdmin.getAdminName();
 		%>
-		
+			<!-- Show Admin Orders and Inventory page.  -->
 			<div class="info-section">
 				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="OrderPage.jsp">Order</a> | <a href="InventoryPage.jsp">Inventory</a>
 			</div>
@@ -109,15 +153,17 @@
 	      <br>
 	      <hr>
 	      <br>
+	      <!-- Changeable  -->
 	      <div class="form-row">
 	        <label for="display-name">Display Name:</label>
 	        <input type="text" id="display-name" name="display-name" value="<%=displayName%>" maxlength="50">
 	      </div>
+	      <!-- Changeable  -->
 	      <div class="form-row">
 	        <label for="password">Password:</label>
 	        <input type="password" id="password" name="password" value="<%=password%>" maxlength="50">
 	      </div>
-	      
+	      <!-- Changeable  -->
 	      <% if (loginCustomer != null) {%>
 	      <div class="form-row">
 	        <label for="address">Address:</label>
@@ -126,20 +172,22 @@
 	      <%} %>
 	    </div>
 	    <!----------------------------------------->
+	    <!-- Customer logged in show credit card elements.  -->
 	    <% if (loginCustomer != null) {%>
-	    <div class="bank-account">
-	      <h2>Bank Account Information</h2>
+	    <div class="credit-card">
+	      <h2>Credit Card Information</h2>
 	      <div class="form-row">
-	        <label for="name">Name on Account:</label>
-	        <input type="text" id="account-name" name="account-name" value="<%=accountName%>" maxlength="50">
+	        <label for="name">Name on Credit Card:</label>
+	        <input type="text" id="account-name" name="account-name" value="<%=creditCardName%>" maxlength="255" oninput="validateNameInput()">
 	      </div>
 	      <div class="form-row">
-	        <label for="account-number">Account Number:</label>
-	        <input type="text" id="account-number" name="account-number" value="<%=accountNumber%>" maxlength="20">
+	        <label for="account-number">Credit Card Number:</label>
+	        <input type="text" id="account-number" name="account-number" value="<%=creditCardNumber%>" maxlength="19">
+	        
 	      </div>
 	      <div class="form-row">
 	        <label for="exp">Expiration Date:</label>
-	        <input type="text" id="exp" name="exp" value="<%=expDate%>" placeholder="MM/YY" maxlength ="5">
+	        <input type="text" id="exp" name="exp" value="<%=creditCardExpDate%>" placeholder="MM/YY" maxlength="5" oninput="validateExpirationDate()">
 	      </div>
 	    </div>
 	    <%} %>

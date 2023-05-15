@@ -1,6 +1,7 @@
 package Controller;
 
 import java.io.IOException;
+import Validation.*;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,6 +26,8 @@ import DAO.PaymentAccountDAO;
 import DAO.OSDAdminDAO;
 import Utilities.Settings;
 import Utilities.ValidationUtil;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 @WebServlet("/account")
 public class AccountServlet extends HttpServlet {
@@ -53,54 +56,48 @@ public class AccountServlet extends HttpServlet {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			
 	    	String url = props.getProperty("db.url");
 	        String mySQLuser = props.getProperty("db.username");
 	        String mySQLpassword = props.getProperty("db.password");
 	        
-	        // Util package
-	        ValidationUtil validationUtil = new ValidationUtil();
 	    	
 	    	//=============================================
-	        // Front end input receive
-	    	String username = request.getParameter("username").trim();
+	        // Front end input receive  
+	        // Changable
+	        // ACCOUNT INFO
 	        String password = request.getParameter("password").trim();
-	        String name = request.getParameter("display-name").trim();
+	        if(!PasswordValidation.isValid(password)) {
+	        	errList.addAll(PasswordValidation.getIssues(password));
+	        }
+
+	        String displayName = request.getParameter("display-name").trim();
+	        if (!DisplayNameValidation.isValid(displayName)) {
+        		errList.addAll(DisplayNameValidation.getIssues(displayName));
+	        }
 	        String email = request.getParameter("email").trim();
+	        if (!EmailValidation.isValid(email)) {
+        		errList.addAll(EmailValidation.getIssues(email));
+	        }
 	        String address = request.getParameter("address");
-	        String accountName = request.getParameter("account-name");
-	        String accountNumber = request.getParameter("account-number");
+	        if(!DatabaseStringValidation.isValid(address, 65_535)) {
+	        	errList.addAll(DatabaseStringValidation.getIssues(address, 65_535, "address"));
+	        }
+	        // CREDIT CARD -ACCOUNT INFO
+	        String creditCardName = request.getParameter("account-name");
+	        if(!DatabaseStringValidation.isValid(creditCardName, 255)) {
+	        	errList.addAll(DatabaseStringValidation.getIssues(creditCardName, 255, "Credit Card Name"));
+	        }
+	        String creditCardNumber = request.getParameter("account-number");
+	        if(!CreditCardNumberValidation.isValid(creditCardNumber)) {
+	        	errList.addAll(CreditCardNumberValidation.getIssues(creditCardNumber));
+	        }
 	        String expDate = request.getParameter("exp");
-	        
-	        
-	        
-	        // Validation
-	        if (name != null && !validationUtil.isValidDisplayName(name))
-	        {
-	        	errList.add("Display Name cannot be empty and must be at max 20 characters (a-Z)!");
+	        if (!ExpirationDateCreditCardValidation.isValid(expDate)) {
+	        	errList.addAll(ExpirationDateCreditCardValidation.getIssues(expDate));
 	        }
-	        
-	        if (password != null && !validationUtil.isValidPassword(password))
-	        {
-	        	errList.add("Invalid Password! Password must have at least 8 characters, 1 uppercase, 1 lowercase, 1 digit, and 1 special character" ); 
-	        }
-	        
-	        if (expDate != null && !expDate.equals(""))
-	        {
-	        	if(!validationUtil.isValidExpDate(expDate))
-	        	{
-	        		errList.add("Expire Date should be in format MM/YY, and not an expired day!");
-	        	}
-	        }
-	        
-	        if (accountNumber != null && !accountNumber.equals(""))
-	        {
-	        	
-	        	if(!validationUtil.isNumeric(accountNumber))
-	        	{
-	        		errList.add("Invalid Account Number!");
-	        	}
-	        }
-	        
+	     // Non-changeable ACCOUNT INFO
+	        String username = request.getParameter("username").trim();
 	        // Validation Error
 	        if(!errList.isEmpty()) { //has some error
 				request.setAttribute("errlist", errList);
@@ -108,7 +105,7 @@ public class AccountServlet extends HttpServlet {
 				requestDispatcher.forward(request, response);
 				return;
 			}
-	        
+	        // NO ERRORS AND SUBMIT
 	        if (clickButton != null)
 	        {
 	        	if (clickButton.equals("update-btn"))
@@ -116,10 +113,10 @@ public class AccountServlet extends HttpServlet {
 			        if (loginCustomer != null)
 			        {
 			        	CustomerDAO customerDAO = new CustomerDAO(url,mySQLuser, mySQLpassword);
-			        	
+			        	// TODO: WE CAN'T change the username once the signup is complete.
 			        	loginCustomer.setUsername(username);
 			        	loginCustomer.setPassword(password);
-			        	loginCustomer.setCustomerName(name);
+			        	loginCustomer.setCustomerName(displayName);
 			        	loginCustomer.setEmail(email);
 			        	loginCustomer.setAddress(address);
 				        customerDAO.updateCustomer(loginCustomer);	      
@@ -127,9 +124,10 @@ public class AccountServlet extends HttpServlet {
 			        else  if (loginAdmin != null)
 			        {
 			        	OSDAdminDAO adminDAO = new OSDAdminDAO(url,mySQLuser, mySQLpassword);
+			        	// ALLOWED to change username of admin.
 			        	loginAdmin.setUsername(username);
 			        	loginAdmin.setPassword(password);
-			        	loginAdmin.setAdminName(name);
+			        	loginAdmin.setAdminName(displayName);
 			        	loginAdmin.setEmail(email);   			  
 			            adminDAO.updateAdmin(loginAdmin);
 			        }
@@ -137,8 +135,8 @@ public class AccountServlet extends HttpServlet {
 			        if (paymentAccount != null)
 			        {
 			        	PaymentAccountDAO paymentAccountDAO = new PaymentAccountDAO(url,mySQLuser, mySQLpassword);
-			        	paymentAccount.setName(accountName);
-			        	paymentAccount.setCardNumber(accountNumber);
+			        	paymentAccount.setName(creditCardName);
+			        	paymentAccount.setCardNumber(creditCardNumber);
 			        	paymentAccount.setExpireDate(expDate);
 			        	paymentAccountDAO.updatePaymentAccount(paymentAccount);
 			        }		    
