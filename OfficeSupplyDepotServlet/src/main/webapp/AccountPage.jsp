@@ -14,17 +14,17 @@
 			OSDAdmin loginAdmin = (OSDAdmin) session.getAttribute("loginAdmin");
 			PaymentAccount paymentAccount = (PaymentAccount) session.getAttribute("paymentAccount");
 			
-			// information
+			// customer information
 			String username = "";
 			String email = "";
 			String password = "";
 			String displayName = "";
 			String address = "";
 			
-			// account
-			String accountName = "";
-			String accountNumber = "";
-			String expDate = "";
+			// credit card info
+			String creditCardName = "";
+			String creditCardNumber = "";
+			String creditCardExpDate = "";
 			if (loginCustomer == null && loginAdmin == null)
 			{
 				%>
@@ -34,6 +34,7 @@
 					<p>If you are not redirected automatically, please click <a href="MainPage.jsp">here</a></p>
 				<%
 			}
+			/* Customer logged in  */
 			if (loginCustomer != null)
 			{
 				username = loginCustomer.getUsername();
@@ -42,6 +43,7 @@
 				displayName = loginCustomer.getCustomerName();
 				address = loginCustomer.getAddress();
 			}
+			/* Admin logged in  */
 			else if (loginAdmin != null)
 			{
 				username = loginAdmin.getUsername();
@@ -49,12 +51,12 @@
 				password = loginAdmin.getPassword();
 				displayName = loginAdmin.getAdminName();
 			}
-		
+			/* Payment Account Exists  */
 			if (paymentAccount != null)
 			{
-				accountName = paymentAccount.getName();
-				accountNumber = paymentAccount.getCardNumber();
-				expDate = paymentAccount.getExpireDate();
+				creditCardName = paymentAccount.getName();
+				creditCardNumber = paymentAccount.getCardNumber();
+				creditCardExpDate = paymentAccount.getExpireDate();
 			}
 	%>
 	<form action = "account" method="post"> 
@@ -63,6 +65,7 @@
 			<a href="MainPage.jsp"> Office Supply Depot </a>	
 		</div>
 		<%
+		/* User not logged in, show Login or SignUp redirect link button  */
 			if (loginCustomer == null && loginAdmin == null)
 			{
 		%>
@@ -71,21 +74,25 @@
 			</div>
 		<%
 			}
+		/* Customer logged in.  */
 			else if (loginCustomer != null)
 			{
 	
 				displayName = loginCustomer.getCustomerName();
 		%>
+		<!-- Show the user's display-name and provide a link to orders and cart.  -->
 			<div class="info-section">
 				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="OrderPage.jsp">Order</a> | <a href="CartPage.jsp#">Cart</a>
 			</div>
 		<%
 			}
+		/*  Admin account */
 			else if (loginAdmin != null)
 			{
+				/* Set display-name to admin name.  */
 				displayName = loginAdmin.getAdminName();
 		%>
-		
+			<!-- Show Admin Orders and Inventory page.  -->
 			<div class="info-section">
 				<a href="AccountPage.jsp"><%=displayName%></a> | <a href="OrderPage.jsp">Order</a> | <a href="InventoryPage.jsp">Inventory</a>
 			</div>
@@ -109,15 +116,17 @@
 	      <br>
 	      <hr>
 	      <br>
+	      <!-- Changeable  -->
 	      <div class="form-row">
 	        <label for="display-name">Display Name:</label>
 	        <input type="text" id="display-name" name="display-name" value="<%=displayName%>">
 	      </div>
+	      <!-- Changeable  -->
 	      <div class="form-row">
 	        <label for="password">Password:</label>
 	        <input type="password" id="password" name="password" value="<%=password%>">
 	      </div>
-	      
+	      <!-- Changeable  -->
 	      <% if (loginCustomer != null) {%>
 	      <div class="form-row">
 	        <label for="address">Address:</label>
@@ -126,20 +135,21 @@
 	      <%} %>
 	    </div>
 	    <!----------------------------------------->
+	    <!-- Customer logged in show credit card elements.  -->
 	    <% if (loginCustomer != null) {%>
-	    <div class="bank-account">
-	      <h2>Bank Account Information</h2>
+	    <div class="credit-card">
+	      <h2>Credit Card Information</h2>
 	      <div class="form-row">
-	        <label for="name">Name on Account:</label>
-	        <input type="text" id="account-name" name="account-name" value="<%=accountName%>">
+	        <label for="name">Name on Credit Card:</label>
+	        <input type="text" id="account-name" name="account-name" value="<%=creditCardName%>">
 	      </div>
 	      <div class="form-row">
-	        <label for="account-number">Account Number:</label>
-	        <input type="text" id="account-number" name="account-number" value="<%=accountNumber%>">
+	        <label for="account-number">Credit Card Number:</label>
+	        <input type="text" id="account-number" name="account-number" value="<%=creditCardNumber%>">
 	      </div>
 	      <div class="form-row">
 	        <label for="exp">Expiration Date:</label>
-	        <input type="text" id="exp" name="exp" value="<%=expDate%>" placeholder="MM/YY">
+	        <input type="text" id="exp" name="exp" value="<%=creditCardExpDate%>" placeholder="MM/YY">
 	      </div>
 	    </div>
 	    <%} %>
