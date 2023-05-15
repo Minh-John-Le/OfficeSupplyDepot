@@ -23,13 +23,13 @@
 		<h1>Sign Up</h1>
 		<form id="Sign-up-form" action = "signup" method="post">
 			<label for="username">Username:</label>
-			<input type="text" id="username" name="username"><br>
+			<input type="text" id="username" name="username" required maxlength="20"><br>
 			<label for="username">Name:</label>
-			<input type="text" id="name" name="name"><br>
+			<input type="text" id="name" name="name" required maxlength="50"><br>
 			<label for="email">Email:</label>
-			<input type="email" id="email" name="email"><br>
+			<input type="email" id="email" name="email" required maxlength="50"><br>
 			<label for="password">Password:</label>
-			<input type="password" id="password" name="password"><br>
+			<input type="password" id="password" name="password" required maxlength="50"><br>
 			<label for="account-type">Account Type:</label>
 			<select id="account-type" name="account-type">
 				<option value="customer">Customer</option>		

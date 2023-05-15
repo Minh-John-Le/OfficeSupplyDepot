@@ -88,7 +88,7 @@ public class AccountServlet extends HttpServlet {
 	        {
 	        	if(!validationUtil.isValidExpDate(expDate))
 	        	{
-	        		errList.add("Expire Date should be in format MM/YY");
+	        		errList.add("Expire Date should be in format MM/YY, and not an expired day!");
 	        	}
 	        }
 	        

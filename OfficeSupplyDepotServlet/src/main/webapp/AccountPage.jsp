@@ -100,7 +100,7 @@
 	      <h2>Account Information</h2>
 	      <div class="form-row">
 	        <label for="username">Username:</label>
-	        <input type="text" id="username" name="username" readonly value= <%=username%>>
+	        <input type="text" id="username" name="username" readonly value= <%=username%> >
 	      </div>
 	      <div class="form-row">
 	        <label for="email">Email:</label>
@@ -111,17 +111,17 @@
 	      <br>
 	      <div class="form-row">
 	        <label for="display-name">Display Name:</label>
-	        <input type="text" id="display-name" name="display-name" value="<%=displayName%>">
+	        <input type="text" id="display-name" name="display-name" value="<%=displayName%>" maxlength="50">
 	      </div>
 	      <div class="form-row">
 	        <label for="password">Password:</label>
-	        <input type="password" id="password" name="password" value="<%=password%>">
+	        <input type="password" id="password" name="password" value="<%=password%>" maxlength="50">
 	      </div>
 	      
 	      <% if (loginCustomer != null) {%>
 	      <div class="form-row">
 	        <label for="address">Address:</label>
-	        <textarea id="address" name="address"><%=address%></textarea>
+	        <textarea id="address" name="address" maxlength="200"><%=address%></textarea>
 	      </div>
 	      <%} %>
 	    </div>
@@ -131,15 +131,15 @@
 	      <h2>Bank Account Information</h2>
 	      <div class="form-row">
 	        <label for="name">Name on Account:</label>
-	        <input type="text" id="account-name" name="account-name" value="<%=accountName%>">
+	        <input type="text" id="account-name" name="account-name" value="<%=accountName%>" maxlength="50">
 	      </div>
 	      <div class="form-row">
 	        <label for="account-number">Account Number:</label>
-	        <input type="text" id="account-number" name="account-number" value="<%=accountNumber%>">
+	        <input type="text" id="account-number" name="account-number" value="<%=accountNumber%>" maxlength="20">
 	      </div>
 	      <div class="form-row">
 	        <label for="exp">Expiration Date:</label>
-	        <input type="text" id="exp" name="exp" value="<%=expDate%>" placeholder="MM/YY">
+	        <input type="text" id="exp" name="exp" value="<%=expDate%>" placeholder="MM/YY" maxlength ="5">
 	      </div>
 	    </div>
 	    <%} %>

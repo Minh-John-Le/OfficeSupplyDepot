@@ -20,9 +20,9 @@
 		<h1>Login</h1>
 		<form action="login" method="post">
 			<label for="username">Username:</label>
-			<input type="text" id="username" name="username" placeholder="Enter your username">
+			<input type="text" id="username" name="username" placeholder="Enter your username" required maxlength="50">
 			<label for="password">Password:</label>
-			<input type="password" id="password" name="password" placeholder="Enter your password">
+			<input type="password" id="password" name="password" placeholder="Enter your password" required maxlength="50">
 			<label for="type">Login as:</label>
 			<select id="account-type" name="account-type">
 				<option value="customer">Customer</option>
