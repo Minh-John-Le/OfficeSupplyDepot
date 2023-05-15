@@ -80,13 +80,13 @@ public class AccountServlet extends HttpServlet {
         		errList.addAll(EmailValidation.getIssues(email));
 	        }
 	        String address = request.getParameter("address");
-	        if(!DatabaseStringValidation.isValid(address, 65_535)) {
-	        	errList.addAll(DatabaseStringValidation.getIssues(address, 65_535, "address"));
+	        if(!DatabaseStringValidation.isValid(address, 200)) {
+	        	errList.addAll(DatabaseStringValidation.getIssues(address, 200, "address"));
 	        }
 	        // CREDIT CARD -ACCOUNT INFO
 	        String creditCardName = request.getParameter("account-name");
-	        if(!DatabaseStringValidation.isValid(creditCardName, 255)) {
-	        	errList.addAll(DatabaseStringValidation.getIssues(creditCardName, 255, "Credit Card Name"));
+	        if(!DatabaseStringValidation.isValid(creditCardName, 50)) {
+	        	errList.addAll(DatabaseStringValidation.getIssues(creditCardName, 50, "Credit Card Name"));
 	        }
 	        String creditCardNumber = request.getParameter("account-number");
 	        if(!CreditCardNumberValidation.isValid(creditCardNumber)) {
