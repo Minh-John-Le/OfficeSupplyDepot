@@ -90,12 +90,12 @@ public class SignUpServlet extends HttpServlet {
 	        
 	        if (name != null && !validationUtil.isValidDisplayName(name))
 	        {
-	        	errList.add("Display name cannot be empty and must be at max 20 characters!");
+	        	errList.add("Display name cannot be empty and must be at max 20 characters (a-Z)!");
 	        }
 	        
 	        if(password != null && !validationUtil.isValidPassword(password))
         	{
-	        	errList.add("Invalid Password! Password must have at least 8 characters, 1 uppercase, 1 lowercase, and 1 special character" ); 
+	        	errList.add("Invalid Password! Password must have at least 8 characters, 1 uppercase, 1 lowercase, 1 digit, and 1 special character" ); 
         	}
 	        
 	        

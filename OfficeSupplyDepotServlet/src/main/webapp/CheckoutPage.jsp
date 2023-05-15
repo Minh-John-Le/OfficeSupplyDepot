@@ -87,24 +87,24 @@
 			<h2>Shipping Information</h2>
 			  <div class="form-row">
 		        <label for="ship-name">Name:</label>
-		        <input type="text" id="ship-name" name="ship-name" value="<%=displayName%>">
+		        <input type="text" id="ship-name" name="ship-name" value="<%=displayName%>" required maxlength="20">
 		      </div>
 		      <div class="form-row">
 		        <label for="ship-address">Shipping Address:</label>
-		        <input type="text" id="ship-address" name="ship-address" value="<%=address%>">
+		        <input type="text" id="ship-address" name="ship-address" value="<%=address%>" required maxlength="200">
 		      </div>
 		      <h2>Payment Information</h2>
 		      <div class="form-row">
 		        <label for="name">Name On Card:</label>
-		        <input type="text" id="account-name" name="account-name" value="<%=accountName%>">
+		        <input type="text" id="account-name" name="account-name" value="<%=accountName%>" required maxlength="50">
 		      </div>
 		      <div class="form-row">
 		        <label for="account-number">Card Number:</label>
-		        <input type="text" id="account-number" name="account-number" value="<%=accountNumber%>">
+		        <input type="text" id="account-number" name="account-number" value="<%=accountNumber%>" required maxlength="20">
 		      </div>
 		      <div class="form-row">
 		        <label for="exp">Expiration Date:</label>
-		        <input type="text" id="exp" name="exp" value="<%=expDate%>" placeholder="MM/YY">
+		        <input type="text" id="exp" name="exp" value="<%=expDate%>" placeholder="MM/YY" required maxlength ="5">
 		      </div>
 		  </div>
 		  

@@ -76,7 +76,7 @@ public class AccountServlet extends HttpServlet {
 	        // Validation
 	        if (name != null && !validationUtil.isValidDisplayName(name))
 	        {
-	        	errList.add("Display Name cannot be empty and must be at max 20 characters!");
+	        	errList.add("Display Name cannot be empty and must be at max 20 characters (a-Z)!");
 	        }
 	        
 	        if (password != null && !validationUtil.isValidPassword(password))
