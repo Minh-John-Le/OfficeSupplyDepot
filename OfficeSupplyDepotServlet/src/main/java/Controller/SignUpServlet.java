@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.jdt.internal.compiler.util.Util.Displayable;
+
 import Beans.BankAccount;
 import Beans.Customer;
 import Beans.PaymentAccount;
@@ -24,6 +26,10 @@ import DAO.PaymentAccountDAO;
 import DAO.OSDAdminDAO;
 import Utilities.Settings;
 import Utilities.ValidationUtil;
+import Validation.DatabaseStringValidation;
+import Validation.DisplayNameValidation;
+import Validation.EmailValidation;
+import Validation.PasswordValidation;
 
 @WebServlet("/signup")
 public class SignUpServlet extends HttpServlet {    
@@ -57,56 +63,55 @@ public class SignUpServlet extends HttpServlet {
         // Front end input receive
     	String username = request.getParameter("username").trim();
         String password = request.getParameter("password").trim();
-        String name = request.getParameter("name").trim();
+        String displayName = request.getParameter("name").trim();
         String email = request.getParameter("email").trim();
         String account_type = request.getParameter("account-type");
-
         
-        if (account_type.equals("customer"))
-        {
-        	CustomerDAO customerDAO = new CustomerDAO(url,mySQLuser, mySQLpassword);
-        	PaymentAccountDAO paymentAccountDAO = new PaymentAccountDAO(url,mySQLuser, mySQLpassword);
-	        Customer customer = new Customer();
-	        customer.setUsername(username);
-	        customer.setPassword(password);
-	        customer.setCustomerName(name);
-	        customer.setEmail(email);
-	        
-	        PaymentAccount paymentAccount = new PaymentAccount(-1, -1, "","", "");
-	        
-	        // checking for existing customer
-	        Customer existingCustomer = customerDAO.getCustomerByUsername(customer.getUsername());
-	        ValidationUtil validationUtil = new ValidationUtil();
-	        if(existingCustomer != null)
-	        {
-	        	errList.add("Username: " + customer.getUsername() + " already exist!");  	
-	        
-	        }
-	        
-	        if (username != null && username.equals(""))
-	        {
-	        	errList.add("username cannot be empty");
-	        }
-	        
-	        if (name != null && !validationUtil.isValidDisplayName(name))
-	        {
-	        	errList.add("Display name cannot be empty and must be at max 20 characters!");
-	        }
-	        
-	        if(password != null && !validationUtil.isValidPassword(password))
-        	{
-	        	errList.add("Invalid Password! Password must have at least 8 characters, 1 uppercase, 1 lowercase, and 1 special character" ); 
-        	}
-	        
-	        
-	        if(errList.isEmpty())
-	        {
-	        	customerDAO.addCustomer(customer);	
-	        	customer = customerDAO.getCustomerByUsername(customer.getUsername());
-	        	// add customer account as well
-	        	paymentAccount.setCustomerId(customer.getId());
-	        	paymentAccountDAO.addPaymentAccount(paymentAccount);
-	        }
+        if (account_type.equals("Customer")) {
+            // VERIFY LOCAL FIRST.
+            if(!DatabaseStringValidation.isValid(username, 20)) {
+            	errList.addAll(DatabaseStringValidation.getIssues(username, 20, "username"));
+            }
+            if(!PasswordValidation.isValid(password)) {
+            	errList.addAll(PasswordValidation.getIssues(password));
+            }
+            if(!DisplayNameValidation.isValid(displayName)) {
+            	errList.addAll(DisplayNameValidation.getIssues(displayName));
+            }
+            
+            if(!EmailValidation.isValid(email)) {
+            	errList.addAll(EmailValidation.getIssues(email));
+            }
+            
+            // VERIFY new username for customer ONLY after local information checked.
+            if (errList.isEmpty()) {
+            	CustomerDAO customerDAO = new CustomerDAO(url,mySQLuser, mySQLpassword);
+            	// checking for existing customer
+            	Customer customer = new Customer();
+    	        customer.setUsername(username);
+    	        customer.setPassword(password);
+    	        customer.setCustomerName(displayName);
+    	        customer.setEmail(email);
+    	        Customer existingCustomer = customerDAO.getCustomerByUsername(customer.getUsername());
+    	        if(existingCustomer != null)
+    	        {
+    	        	errList.add("Username: " + customer.getUsername() + " already exist!");  	
+    	        
+    	        }
+    	        PaymentAccountDAO paymentAccountDAO = new PaymentAccountDAO(url,mySQLuser, mySQLpassword);   
+    	        PaymentAccount paymentAccount = new PaymentAccount(-1, -1, "","", "");
+        
+                //  NO INPUT ISSUES
+    	        if(errList.isEmpty())
+    	        {
+    	        	customerDAO.addCustomer(customer);	
+    	        	customer = customerDAO.getCustomerByUsername(customer.getUsername());
+    	        	// add customer account as well
+    	        	paymentAccount.setCustomerId(customer.getId());
+    	        	paymentAccountDAO.addPaymentAccount(paymentAccount);
+    	        }
+            }
+
         }
         
         
