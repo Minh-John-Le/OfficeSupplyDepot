@@ -7,6 +7,42 @@
   <meta charset="UTF-8">
   <title>Account Information</title>
   <link rel="stylesheet" href="AccountPage.css">
+  <script type="text/javascript">
+	  function validateNameInput() {
+	    var inputField = document.getElementById("account-name");
+	    var value = inputField.value;
+	    
+	    // Remove any numbers from the value
+	    var sanitizedValue = value.replace(/\d/g, '');
+	    
+	    // Update the input field value with the sanitized value
+	    inputField.value = sanitizedValue;
+	  }
+	  function validateExpirationDate() {
+	      var expInput = document.getElementById('exp');
+	      var expValue = expInput.value.trim();
+	      
+	      // Remove any non-digit characters from the input
+	      var cleanValue = expValue.replace(/\D/g, '');
+	      
+	      // Format the input as MM/YY
+	      var formattedValue = cleanValue.replace(/^(\d{2})/, '$1/');
+	      
+	      // Update the input value
+	      expInput.value = formattedValue;
+	      
+	      // Regular expression to match the "MM/YY" format
+	      var regex = /^(0[1-9]|1[0-2])\/\d{2}$/;
+	      
+	      if (!regex.test(formattedValue)) {
+	        // Invalid format
+	        expInput.setCustomValidity('Please enter a valid expiration date in the MM/YY format.');
+	      } else {
+	        // Valid format
+	        expInput.setCustomValidity('');
+	      }
+     }
+  </script>
 </head>
 <body>
 	<%
@@ -25,6 +61,7 @@
 			String creditCardName = "";
 			String creditCardNumber = "";
 			String creditCardExpDate = "";
+			// Customer not logged in
 			if (loginCustomer == null && loginAdmin == null)
 			{
 				%>
@@ -141,15 +178,16 @@
 	      <h2>Credit Card Information</h2>
 	      <div class="form-row">
 	        <label for="name">Name on Credit Card:</label>
-	        <input type="text" id="account-name" name="account-name" value="<%=creditCardName%>" maxlength="255">
+	        <input type="text" id="account-name" name="account-name" value="<%=creditCardName%>" maxlength="255" oninput="validateNameInput()">
 	      </div>
 	      <div class="form-row">
 	        <label for="account-number">Credit Card Number:</label>
 	        <input type="text" id="account-number" name="account-number" value="<%=creditCardNumber%>" maxlength="19">
+	        
 	      </div>
 	      <div class="form-row">
 	        <label for="exp">Expiration Date:</label>
-	        <input type="text" id="exp" name="exp" value="<%=creditCardExpDate%>" placeholder="MM/YY" maxlength="5">
+	        <input type="text" id="exp" name="exp" value="<%=creditCardExpDate%>" placeholder="MM/YY" maxlength="5" oninput="validateExpirationDate()">
 	      </div>
 	    </div>
 	    <%} %>
