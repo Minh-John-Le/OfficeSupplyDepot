@@ -3,10 +3,13 @@
 
 # Log file
 *.log
-
+**/.project
+**/.settings/
+**/.metadata/
 # BlueJ files
 *.ctxt
-
+**/.classpath
+**/build/
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
