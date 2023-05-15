@@ -6,6 +6,8 @@ import java.util.regex.Pattern;
 
 public class PasswordValidation{
 	public static final String PASSWORD_REGEX = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,20}$";
+	private static final Pattern QUOTES_PATTERN = Pattern.compile("['\"]");
+	
 	public static boolean isValid(Object value) {
 		
 		if(!(value instanceof String) || value == null) {
@@ -13,6 +15,9 @@ public class PasswordValidation{
 		}
 		
 		String password = (String) value; 
+		if (QUOTES_PATTERN.matcher(password).find()) {
+			return false;
+	    }
         Pattern pattern = Pattern.compile(PASSWORD_REGEX);
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();
@@ -24,9 +29,11 @@ public class PasswordValidation{
 		
 		if(!(value instanceof String) || value == null) {
 			issues.add("Password cannot be null.");
-			return issues;
 		}
 		String password = (String) value;
+		if (QUOTES_PATTERN.matcher(password).find()) {
+			issues.add("Password contains quotes.");
+	    }
 		
         Pattern pattern = Pattern.compile(PASSWORD_REGEX);
         Matcher matcher = pattern.matcher(password);

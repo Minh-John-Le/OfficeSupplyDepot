@@ -1,14 +1,21 @@
 package Validation;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class DatabaseStringValidation {
+	private static final Pattern QUOTES_PATTERN = Pattern.compile("['\"]");
+	
 	public static boolean isValid(Object value, int maxLength) {
         if (value == null || !(value instanceof String)) {
             return false;
         }
-
         String strValue = (String) value;
+        // Check if the value contains any quotes
+        if (QUOTES_PATTERN.matcher(strValue).find()) {
+            return false;
+        }
+
         return !strValue.isEmpty() && strValue.length() <= maxLength;
     }
 	
@@ -21,7 +28,9 @@ public class DatabaseStringValidation {
 	        issues.add(stringName + " is not a string");
 	    } else {
 	        String strValue = (String) value;
-	
+	        if (QUOTES_PATTERN.matcher(strValue).find()) {
+	        	issues.add(stringName + " contains invalid characters");
+	        }
 	        if (strValue.isEmpty()) {
 	            issues.add(stringName + " cannot be empty");
 	        }
