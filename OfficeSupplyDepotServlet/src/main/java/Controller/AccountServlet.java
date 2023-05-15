@@ -103,7 +103,7 @@ public class AccountServlet extends HttpServlet {
 				requestDispatcher.forward(request, response);
 				return;
 			}
-	        
+	        // NO ERRORS AND SUBMIT
 	        if (clickButton != null)
 	        {
 	        	if (clickButton.equals("update-btn"))
@@ -111,7 +111,7 @@ public class AccountServlet extends HttpServlet {
 			        if (loginCustomer != null)
 			        {
 			        	CustomerDAO customerDAO = new CustomerDAO(url,mySQLuser, mySQLpassword);
-			        	
+			        	// TODO: WE CAN'T change the username once the signup is complete.
 			        	loginCustomer.setUsername(username);
 			        	loginCustomer.setPassword(password);
 			        	loginCustomer.setCustomerName(displayName);
@@ -122,6 +122,7 @@ public class AccountServlet extends HttpServlet {
 			        else  if (loginAdmin != null)
 			        {
 			        	OSDAdminDAO adminDAO = new OSDAdminDAO(url,mySQLuser, mySQLpassword);
+			        	// ALLOWED to change username of admin.
 			        	loginAdmin.setUsername(username);
 			        	loginAdmin.setPassword(password);
 			        	loginAdmin.setAdminName(displayName);
