@@ -39,8 +39,8 @@ public class DisplayNameValidation{
 	    if (displayName.isEmpty()) {
 	        issues.add("Display name cannot be empty.");
 	    }
-	    if (displayName.length() > 20) {
-	        issues.add("Display name length must be less than or equal to 20 characters.");
+	    if (displayName.length() > 50) {
+	        issues.add("Display name length must be less than or equal to 50 characters.");
 	    }
 	    if (displayName.contains(" ")) {
 	        issues.add("Display name cannot contain spaces.");
